@@ -1,0 +1,10 @@
+/bin/
+build.fxbuild
+build/build
+build/build.xml
+build/dist
+build/externalLibs
+build/project
+build/projectRefs
+build/deploy/NSC*
+
