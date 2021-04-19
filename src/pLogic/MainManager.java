@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	11.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pLogic
  * 	  MainManager
@@ -68,6 +68,23 @@ public class MainManager extends Application {
 		primaryStage.close();
 	}
 
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	19.04.2021
+	 * 
+	 * @return
+	 */
+	public static Stage getMainStage() {
+		return mainStage;
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 * @return
+	 */
+	public static Stage  getPrimaryStage() {
+		return primaryStage;
+	}
+	
 //--------------------------------------------------------------------------------------------------------
 	
 	/**	Dh	08.03.2021

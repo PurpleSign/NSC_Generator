@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	11.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -18,12 +18,15 @@
 
 package pGUI.pController;
 
+import java.io.File;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.stage.FileChooser;
 import pGUI.PackEditorStage;
 import pGUI.pTableElement.NameElement;
 import pLogic.MainManager;
@@ -81,7 +84,7 @@ public class PackManagerController extends ManagerController {
 				lvRaces.setItems(liRaces);
 				
 				btExport.setDisable(true);
-				btImport.setDisable(true);
+				//btImport.setDisable(true);
 				btDirectory.setDisable(true);
 				
 				if (!pIsEdit) btCancel.setVisible(false);
@@ -117,14 +120,47 @@ public class PackManagerController extends ManagerController {
 		}catch(Exception ex) {MainManager.handleException(ex);}
 	}
 	
+	/**	Dh	19.04.2021
+	 * 
+	 */
 	@FXML
 	protected void importNameElement() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
 		
+		configureFileChooser(vFileChooser, 0);
+		
+		vFileChooser.setTitle("Wähle Pack Datei");
+		
+		vFile = vFileChooser.showOpenDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{
+				packManager.importPack(vFile);
+				
+				updateNameElementList();
+				updateNameElementInfos();
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
 	}
-	
+	/**	Dh	19.04.2021
+	 * 
+	 */
 	@FXML
 	protected void exportNameElement() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
 		
+		configureFileChooser(vFileChooser, 0);
+		
+		vFileChooser.setTitle("Wähle Ziel Pack Datei");
+		
+		vFile = vFileChooser.showSaveDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{packManager.exportPack(vFile);
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
 	}
 	
 	//----------------------------------------------------------------------------------------------------

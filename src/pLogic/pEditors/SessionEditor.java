@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	13.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pLogic.pEditors
  * 	  Editor
@@ -16,6 +16,8 @@
  */
 
 package pLogic.pEditors;
+
+import java.io.File;
 
 import pDataStructures.List;
 import pLogic.DatabaseConnector;
@@ -55,12 +57,17 @@ public class SessionEditor extends Editor {
 	public String getSessionName() {
 		return session.getName();
 	}
-	/**	Dh	08.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 * @return
 	 */
 	public String getPackName() {
-		return session.getUsedPack().getName();
+		String vRet;
+		
+		if (session.getUsedPack() != null) vRet = session.getUsedPack().getName();
+		else vRet = "";
+		
+		return vRet;
 	}
 	
 	/**	Dh	09.03.2021
@@ -336,6 +343,73 @@ public class SessionEditor extends Editor {
 		return new PackEditor(session.getUsedPack());
 	}
 	
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pFile
+	 * @throws Exception
+	 */
+	public void importSession(File pFile) throws Exception{
+ 		Session vNewSession;
+ 		
+ 		vNewSession = DatabaseConnector.importSession(pFile);
+ 		
+ 		if (vNewSession != null) session = vNewSession;
+ 	}
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pSaveFile
+ 	 * @throws Exception
+ 	 */
+ 	public void exportSession(File pSaveFile) throws Exception{
+ 		if (session != null) DatabaseConnector.exportSession(session.getId(), pSaveFile);
+ 	}
+	
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pFile
+ 	 * @throws Exception
+ 	 */
+ 	public void importPack(File pFile) throws Exception{
+ 		Pack vNewPack;
+ 		
+ 		vNewPack = DatabaseConnector.importPack(pFile);
+ 		
+ 		if (vNewPack != null) session.setUsedPack(vNewPack);
+ 	}
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pSaveFile
+ 	 * @throws Exception
+ 	 */
+ 	public void exportPack(File pSaveFile) throws Exception{
+ 		if ((session != null) && (session.getUsedPack() != null)) DatabaseConnector.exportPack(session.getUsedPack().getId(), pSaveFile);
+ 	}
+ 	
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pFile
+ 	 * @throws Exception
+ 	 */
+ 	public void importNPC(File pFile) throws Exception{
+ 		NPC vNewNPC;
+ 		
+ 		vNewNPC = DatabaseConnector.importNPC(pFile);
+ 		
+ 		if (vNewNPC != null) {
+ 			vNewNPC.setId(genNewIDFromIDElementList(session.getNpcList()));
+ 			session.addNPC(vNewNPC);
+ 			session.setCurrentNPC(vNewNPC.getId());
+ 		}
+ 	}
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pSaveFile
+ 	 * @throws Exception
+ 	 */
+ 	public void exportNPC(File pSaveFile) throws Exception{
+ 		if ((session != null) && (session.getCurrentNPC() != null)) DatabaseConnector.exportNPC(session.getCurrentNPC(), pSaveFile);
+ 	}
+ 	
 	//----------------------------------------------------------------------------------------------------
 	
 	/**	Dh	09.03.2021

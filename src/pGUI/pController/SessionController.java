@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	13.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -17,6 +17,8 @@
 
 package pGUI.pController;
 
+import java.io.File;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,6 +27,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import pGUI.EditorStage;
 import pGUI.NPCEditorStage;
 import pGUI.PackEditorStage;
@@ -40,7 +43,7 @@ import pLogic.pEditors.SessionManager;
 
 public class SessionController extends ParentStageController {
 	@FXML
-	private MenuItem miNewSession, miDeleteSession, miSaveSession, miImportSession, miExportSession,
+	private MenuItem miNewSession, miLoadSession, miSaveSession, miImportSession, miExportSession,
 		miPreferences, miClose, miNewPack, miEditPack, miImportPack, miExportPack, miOpenPackManager,
 		miNewNPC, miEditNPC, miRemoveNPC, miImportNPC, miExportNPC;
 	
@@ -153,11 +156,53 @@ public class SessionController extends ParentStageController {
 		} catch(Exception ex) {MainManager.handleException(ex);}
 	}
 	
+	/**	Dh	19.04.2021
+	 * 
+	 */
+	@FXML
+	protected void importSession() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
+		
+		configureFileChooser(vFileChooser, 1);
+		
+		vFileChooser.setTitle("Wähle Session Datei");
+		
+		vFile = vFileChooser.showOpenDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{
+				sessionEditor.importSession(vFile);
+				
+				updateAll();
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 */
+	@FXML
+	protected void exportSession() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
+		
+		configureFileChooser(vFileChooser, 1);
+		
+		vFileChooser.setTitle("Wähle Session Datei");
+		
+		vFile = vFileChooser.showSaveDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{sessionEditor.exportSession(vFile);
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
+	}
+	
 	/**	Dh	08.03.2021
 	 * 
 	 */
 	@FXML
-	protected void close() {
+ 	protected void close() {
 		MainManager.closeApp();
 	}
 	
@@ -182,6 +227,48 @@ public class SessionController extends ParentStageController {
 			childStage = new PackEditorStage(true, this, sessionEditor.editPack());
 			setDisabled();
 		}catch(Exception ex) {MainManager.handleException(ex);}
+	}
+	
+	/**	Dh	19.04.2021
+	 * 
+	 */
+	@FXML
+	protected void importPack() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
+		
+		configureFileChooser(vFileChooser, 0);
+		
+		vFileChooser.setTitle("Wähle Pack Datei");
+		
+		vFile = vFileChooser.showOpenDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{
+				sessionEditor.importPack(vFile);
+				
+				updatePackName();
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 */
+	@FXML
+	protected void exportPack() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
+		
+		configureFileChooser(vFileChooser, 0);
+		
+		vFileChooser.setTitle("Wähle Ziel Pack Datei");
+		
+		vFile = vFileChooser.showSaveDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{sessionEditor.exportPack(vFile);
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
 	}
 	
 	/**	Dh	09.03.2021
@@ -231,6 +318,49 @@ public class SessionController extends ParentStageController {
 		}catch(Exception ex) {MainManager.handleException(ex);}
 	}
 	
+	/**	Dh	19.04.2021
+	 * 
+	 */
+	@FXML
+	protected void importNPC() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
+		
+		configureFileChooser(vFileChooser, 2);
+		
+		vFileChooser.setTitle("Wähle NSC Datei");
+		
+		vFile = vFileChooser.showOpenDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{
+				sessionEditor.importNPC(vFile);
+				
+				updateNPCList();
+				updateCurrentNPCInfo();
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 */
+	@FXML
+	protected void exportNPC() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
+		
+		configureFileChooser(vFileChooser, 2);
+		
+		vFileChooser.setTitle("Wähle Ziel NSC Datei");
+		
+		vFile = vFileChooser.showSaveDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{sessionEditor.exportNPC(vFile);
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
+	}
+	
 	/**	Dh	08.03.2021
 	 * 
 	 */
@@ -272,7 +402,7 @@ public class SessionController extends ParentStageController {
 
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	09.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 * @param pEnabled
 	 */
@@ -280,9 +410,13 @@ public class SessionController extends ParentStageController {
 		if (lvNPC.getSelectionModel().isEmpty() == true) {
 			miEditNPC.setDisable(true);
 			miRemoveNPC.setDisable(true);
+			//-----
+			miExportNPC.setDisable(true);
 		} else {
 			miEditNPC.setDisable(!pEnabled);
 			miRemoveNPC.setDisable(!pEnabled);
+			//-----
+			miExportNPC.setDisable(!pEnabled);
 		}
 	}
 	/**	Dh	08.03.2021
@@ -333,6 +467,33 @@ public class SessionController extends ParentStageController {
 		
 		taNote.setDisable(!pEnabled);
 	}
+	//-----
+	/** Dh	19.04.2021
+	 * 	
+	 * @param pEnabled
+	 */
+	private void setEnabledSelectedMenuItem(boolean pEnabled) {
+		miNewSession.setDisable(!pEnabled);
+		miLoadSession.setDisable(!pEnabled);
+		miSaveSession.setDisable(!pEnabled);
+		//-----
+		miImportSession.setDisable(!pEnabled);
+		miExportSession.setDisable(!pEnabled);
+		//-----
+		miClose.setDisable(!pEnabled);
+		
+		miNewPack.setDisable(!pEnabled);
+		miEditPack.setDisable(!pEnabled);
+		//-----
+		miImportPack.setDisable(!pEnabled);
+		miExportPack.setDisable(!pEnabled);
+		//-----
+		miOpenPackManager.setDisable(!pEnabled);
+		
+		miNewNPC.setDisable(!pEnabled);
+		//----
+		miImportNPC.setDisable(!pEnabled);
+	}
 	
 	/**	Dh	09.03.2021
 	 * 
@@ -345,7 +506,7 @@ public class SessionController extends ParentStageController {
 		setEnabledNPCInfoFields(pEnabled);
 	}
 	
-	/**	Dh	08.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 * @param pEnabled
 	 */
@@ -353,6 +514,7 @@ public class SessionController extends ParentStageController {
 		tfSessionName.setDisable(!pEnabled);
 		
 		setEnabledNPCInfoElements(pEnabled);
+		setEnabledSelectedMenuItem(pEnabled);
 		
 		btAdd.setDisable(!pEnabled);
 	}

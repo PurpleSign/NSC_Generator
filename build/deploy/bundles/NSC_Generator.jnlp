@@ -8,8 +8,8 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="NSC_Generator.jar" size="110813" download="eager" />
+    <jar href="NSC_Generator.jar" size="113786" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="0" height="0" main-class="pLogic.MainManager"  name="NSC Generator" />
+  <jfx:javafx-desc  width="0" height="0" main-class="pLogic.Starter"  name="NSC Generator" />
   <update check="background"/>
 </jnlp>

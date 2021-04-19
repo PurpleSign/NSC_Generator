@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	11.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pLogic
  * 	  DatabaseController
@@ -198,25 +198,33 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 * @param pPack
 	 * @throws Exception
 	 */
 	public static void addPack(Pack pPack) throws Exception{
 		if (pPack != null) {
-			if (!checkIfIDIsInList(pPack.getId(), packList)) packList.append(pPack);
+			if (!checkIfIDIsInList(pPack.getId(), packList)) {
+				packList.append(pPack);
+				
+				sortListByID(packList);
+			}
 			else throw new Exception("02; aPa,DaCon");
 		} else throw new Exception("04; aPa,DaCon");
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 * @param pSession
 	 * @throws Exception
 	 */
 	public static void addSession(Session pSession) throws Exception{
 		if (pSession != null) {
-			if (!checkIfIDIsInList(pSession.getId(), sessionList)) sessionList.append(pSession);
+			if (!checkIfIDIsInList(pSession.getId(), sessionList)) {
+				sessionList.append(pSession);
+				
+				sortListByID(sessionList);
+			}
 			else throw new Exception("02; aSe,DaCon");
 		} else throw new Exception("04; aSe,DaCon");
 	}
@@ -363,7 +371,7 @@ public abstract class DatabaseConnector {
 			if (!pPack.getName().equals("")) {
 				deletePack(pPack.getId());
 				
-				vFile = new File(systemFile+packPath+pPack.getName()+"_"+pPack.getId()+".xml");
+				vFile = new File(systemFile+packPath+pPack.getName()+"_"+pPack.getId()+".pac");
 				jc = JAXBContext.newInstance(Pack.class);
 				marschaller = jc.createMarshaller();
 				
@@ -392,7 +400,7 @@ public abstract class DatabaseConnector {
 			if (!pSession.getName().equals("")) {
 				deleteSession(pSession.getId());
 				
-				vFile = new File(systemFile+sessionPath+pSession.getName()+"_"+pSession.getId()+".xml");
+				vFile = new File(systemFile+sessionPath+pSession.getName()+"_"+pSession.getId()+".ses");
 				jc = JAXBContext.newInstance(Session.class);
 				marschaller = jc.createMarshaller();
 				
@@ -420,7 +428,7 @@ public abstract class DatabaseConnector {
 		Pack vRet;
 		File vFile;
 		
-		vFile = new File(systemFile+packPath+getPack(pID).getName()+"_"+pID+".xml");
+		vFile = new File(systemFile+packPath+getPack(pID).getName()+"_"+pID+".pac");
 		
 		if (vFile.exists()) vRet = JAXB.unmarshal(vFile, Pack.class);
 		else throw new Exception("21; lPa,DaCon");
@@ -437,7 +445,7 @@ public abstract class DatabaseConnector {
 		Session vRet;
 		File vFile;
 		
-		vFile = new File(systemFile+sessionPath+getSession(pID)+"_"+pID+".xml");
+		vFile = new File(systemFile+sessionPath+getSession(pID)+"_"+pID+".ses");
 		
 		if (vFile.exists()) vRet = JAXB.unmarshal(vFile, Session.class);
 		else throw new Exception("21; lSe,DaCon");
@@ -544,6 +552,150 @@ public abstract class DatabaseConnector {
 				}
 			}
 		}
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pStage
+	 * @return
+	 * @throws Exception
+	 */
+	public static Pack importPack(File pFile) throws Exception{
+		Pack vRet;
+		
+		if (pFile.exists()) {
+			vRet = JAXB.unmarshal(pFile, Pack.class);
+			
+			vRet.setId(genNewIDFromIDElementList(packList));
+			addPack(vRet);
+		}
+		else throw new Exception("21; iPa,DaCon");
+		
+		return vRet;
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pStage
+	 * @return
+	 * @throws Exception
+	 */
+	public static Session importSession(File pFile) throws Exception{
+		Session vRet;
+		
+		if (pFile.exists()) {
+			vRet = JAXB.unmarshal(pFile, Session.class);
+			
+			vRet.setId(genNewIDFromIDElementList(sessionList));
+			addSession(vRet);
+		}
+		else throw new Exception("21; iSe,DaCon");
+		
+		return vRet;
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pFile
+	 * @return
+	 * @throws Exception
+	 */
+	public static NPC importNPC(File pFile) throws Exception{
+		NPC vRet;
+		
+		if (pFile.exists()) vRet = JAXB.unmarshal(pFile, NPC.class);
+		else throw new Exception("21; iNPC,DaCon");
+		
+		return vRet;
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pPackID
+	 * @param pSaveFile
+	 * @throws Exception
+	 */
+	public static void exportPack(int pPackID, File pSaveFile) throws Exception {
+		JAXBContext jc;
+		Marshaller marschaller;
+		
+		Pack vPack = getPack(pPackID);
+		
+		if ((vPack != null) && (pSaveFile != null)) {
+			if (!vPack.getName().equals("")) {	
+				jc = JAXBContext.newInstance(Pack.class);
+				marschaller = jc.createMarshaller();
+				
+				marschaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				
+				if (!pSaveFile.exists()) {
+					try{ pSaveFile.createNewFile();}
+					catch(Exception ex) {throw ex;}
+				}
+				
+			    marschaller.marshal(vPack, pSaveFile);
+			} else throw new Exception("02; ePa,DaCon");
+		} else throw new Exception("04; ePa,DaCon");
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pPackID
+	 * @param pSaveFile
+	 * @throws Exception
+	 */
+	public static void exportSession(int pSessionID, File pSaveFile) throws Exception {
+		int vCurPackID;
+		JAXBContext jc;
+		Marshaller marschaller;
+		
+		Session vSession = getSession(pSessionID);
+		
+		if ((vSession != null) && (pSaveFile != null)) {
+			if (!vSession.getName().equals("")) {	
+				jc = JAXBContext.newInstance(Session.class);
+				marschaller = jc.createMarshaller();
+				
+				marschaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				
+				if (!pSaveFile.exists()) {
+					try{ pSaveFile.createNewFile();}
+					catch(Exception ex) {throw ex;}
+				}
+				
+				vCurPackID = vSession.getPackID();
+				vSession.setPackID(-1);
+			    marschaller.marshal(vSession, pSaveFile);
+			    vSession.setPackID(vCurPackID);
+			} else throw new Exception("02; eSe,DaCon");
+		} else throw new Exception("04; eSe,DaCon");
+	}
+	/**	Dh	19.04.2021
+	 * 
+	 * @param pNPC
+	 * @param pSaveFile
+	 * @throws Exception
+	 */
+	public static void exportNPC(NPC pNPC, File pSaveFile) throws Exception {
+		JAXBContext jc;
+		Marshaller marschaller;
+		
+		if ((pNPC != null) && (pSaveFile != null)) {
+			if (!pNPC.getName().equals("")) {	
+				jc = JAXBContext.newInstance(NPC.class);
+				marschaller = jc.createMarshaller();
+				
+				marschaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				
+				if (!pSaveFile.exists()) {
+					try{ pSaveFile.createNewFile();}
+					catch(Exception ex) {throw ex;}
+				}
+				
+				marschaller.marshal(pNPC, pSaveFile);
+			} else throw new Exception("02; eNPC,DaCon");
+		} else throw new Exception("04; eNPC,DaCon");
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -709,4 +861,5 @@ public abstract class DatabaseConnector {
 			}
 		}
 	}
+	
 }

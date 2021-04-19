@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	11.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pLogic.pEditors
  * 	  Editor
@@ -17,6 +17,7 @@
  */
 
 package pLogic.pEditors;
+
 
 import pDataStructures.List;
 import pLogic.DatabaseConnector;
@@ -100,7 +101,6 @@ public class SessionManager extends SessionEditor {
 	}
 	
 //--------------------------------------------------------------------------------------------------------
-
 	
 	/**	Dh	11.03.2021
 	 * 

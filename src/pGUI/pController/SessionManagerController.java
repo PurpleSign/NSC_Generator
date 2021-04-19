@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	14.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -18,11 +18,14 @@
 
 package pGUI.pController;
 
+import java.io.File;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import pGUI.PackManagerStage;
 import pGUI.pTableElement.NameElement;
 import pLogic.MainManager;
@@ -127,14 +130,47 @@ public class SessionManagerController extends ManagerController {
 		}catch(Exception ex) {MainManager.handleException(ex);}
 	}
 	
+	/**	Dh	19.04.2021
+	 * 
+	 */
 	@FXML
 	protected void importNameElement() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
 		
+		configureFileChooser(vFileChooser, 1);
+		
+		vFileChooser.setTitle("Wähle Session Datei");
+		
+		vFile = vFileChooser.showOpenDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{
+				sessionManager.importSession(vFile);
+				
+				updateNameElementList();
+				updateNameElementInfos();
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
 	}
-	
+	/**	Dh	19.04.2021
+	 * 
+	 */
 	@FXML
 	protected void exportNameElement() {
+		File vFile;
+		FileChooser vFileChooser = new FileChooser();
 		
+		configureFileChooser(vFileChooser, 1);
+		
+		vFileChooser.setTitle("Wähle Session Datei");
+		
+		vFile = vFileChooser.showSaveDialog(MainManager.getPrimaryStage());
+		
+		if (vFile != null) {
+			try{sessionManager.exportSession(vFile);
+			} catch(Exception ex) {MainManager.handleException(ex);}
+		}
 	}
 	
 	//----------------------------------------------------------------------------------------------------

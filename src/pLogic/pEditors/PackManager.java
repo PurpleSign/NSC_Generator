@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	11.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pLogic.pEditors
  * 	  Editor
@@ -17,6 +17,8 @@
  */
 
 package pLogic.pEditors;
+
+import java.io.File;
 
 import pDataStructures.List;
 import pLogic.DatabaseConnector;
@@ -85,6 +87,27 @@ public class PackManager extends PackEditor {
  	public PackEditor editPack() throws Exception{
  		if (pack != null) return new PackEditor(pack);
  		else throw new Exception("04; ePa,PaMa");
+ 	}
+ 	
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pFile
+ 	 * @throws Exception
+ 	 */
+ 	public void importPack(File pFile) throws Exception{
+ 		Pack vNewPack;
+ 		
+ 		vNewPack = DatabaseConnector.importPack(pFile);
+ 		
+ 		if (vNewPack != null) pack = vNewPack;
+ 	}
+ 	/**	Dh	19.04.2021
+ 	 * 
+ 	 * @param pSaveFile
+ 	 * @throws Exception
+ 	 */
+ 	public void exportPack(File pSaveFile) throws Exception{
+ 		if (pack != null) DatabaseConnector.exportPack(pack.getId(), pSaveFile);
  	}
  	
 	/**	Dh	09.03.2021

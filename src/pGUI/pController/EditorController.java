@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	18.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -16,6 +16,8 @@
 
 package pGUI.pController;
 
+import java.io.File;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import pDataStructures.List;
 import pGUI.pTableElement.NameElement;
 import pGUI.pTableElement.PrioElementTableElement;
@@ -455,5 +458,28 @@ public abstract class EditorController {
  		
  		return vRet;
  	}
+ 	
+ 	//----------------------------------------------------------------------------------------------------
+ 	
+ 	/**	Dh	19.04.2021
+ 	 * 	
+ 	 * 	pType:
+ 	 * 		0: Pack
+ 	 * 		1: Session
+ 	 * 		3: NPC
+ 	 * @param pFileChooser
+ 	 */
+ 	protected static void configureFileChooser(FileChooser pFileChooser, int pType) {
+		pFileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		switch(pType) {
+			case 0:
+				pFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Pack", "*.pac"));
+			case 1:
+				pFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Session", "*.ses"));
+			case 2:
+				pFileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("NSC", "*.nsc"));
+			default:
+		}
+	}
  	
 }

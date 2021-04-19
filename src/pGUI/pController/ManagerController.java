@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	09.03.2021
+/**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -57,7 +57,7 @@ public abstract class ManagerController extends ParentStageController {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 * @param pEnabled
 	 */
@@ -65,9 +65,13 @@ public abstract class ManagerController extends ParentStageController {
 		if (lvNameElements.getSelectionModel().isEmpty() == true) {
 			btNameElement_Remove.setDisable(true);
 			btApply.setDisable(true);
+			
+			btExport.setDisable(true);
 		} else {
 			btNameElement_Remove.setDisable(!pEnabled);
 			btApply.setDisable(!pEnabled);
+			
+			btExport.setDisable(!pEnabled);
 		}
 	}
 	/**	Dh	09.03.2021
@@ -85,7 +89,7 @@ public abstract class ManagerController extends ParentStageController {
 		setEnabledSelectetNameElementFields(pEnabled);
 	}
 	
-	/**	Dh	09.03.2021
+	/**	Dh	19.04.2021
 	 * 
 	 */
 	protected void setEnabledAll(boolean pEnabled) {
@@ -94,7 +98,7 @@ public abstract class ManagerController extends ParentStageController {
 		//btDirectory.setDisable(!pEnabled);
 		
 		btNameElement_Add.setDisable(!pEnabled);
-		//btImport.setDisable(!pEnabled);
+		btImport.setDisable(!pEnabled);
 		//btExport.setDisable(!pEnabled);
 		btCancel.setDisable(!pEnabled);
 	}

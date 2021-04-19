@@ -29,8 +29,8 @@
 						<MenuItem fx:id="miLoadSession" mnemonicParsing="false" onAction="#loadSession" text="Öffne Session" />
 						<MenuItem fx:id="miSaveSession" mnemonicParsing="false" onAction="#saveSession" text="Speichere Session" />
 						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem fx:id="miImportSession" disable="true" mnemonicParsing="false" text="Importiere Session" />
-						<MenuItem fx:id="miExportSession" disable="true" mnemonicParsing="false" text="Exportiere Ession" />
+						<MenuItem fx:id="miImportSession" disable="true" mnemonicParsing="false" onAction="#importSession" text="Importiere Session" />
+						<MenuItem fx:id="miExportSession" disable="true" mnemonicParsing="false" onAction="#exportSession" text="Exportiere Ession" />
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem fx:id="miPreferences" disable="true" mnemonicParsing="false" text="Einstellung" />
 						<MenuItem fx:id="miClose" mnemonicParsing="false" onAction="#close" text="Beenden" />
@@ -41,8 +41,8 @@
 						<MenuItem fx:id="miNewPack" mnemonicParsing="false" onAction="#newPack" text="Neues Pack" />
 						<MenuItem fx:id="miEditPack" mnemonicParsing="false" onAction="#editPack" text="Bearbeite Pack" />
 						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem fx:id="miImportPack" disable="true" mnemonicParsing="false" text="Importiere Pack" />
-						<MenuItem fx:id="miExportPack" disable="true" mnemonicParsing="false" text="Exportiere Pack" />
+						<MenuItem fx:id="miImportPack" disable="true" mnemonicParsing="false" onAction="#importPack" text="Importiere Pack" />
+						<MenuItem fx:id="miExportPack" disable="true" mnemonicParsing="false" onAction="#exportPack" text="Exportiere Pack" />
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem fx:id="miOpenPackManager" mnemonicParsing="false" onAction="#openPackManager" text="Öffne Packverwaltung" />
 					</items>
@@ -53,8 +53,8 @@
 						<MenuItem fx:id="miEditNPC" mnemonicParsing="false" onAction="#editNPC" text="Bearbeite NSC" />
 						<MenuItem fx:id="miRemoveNPC" mnemonicParsing="false" onAction="#removeNPC" text="Lösche NSC" />
 						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem fx:id="miImportNPC" disable="true" mnemonicParsing="false" text="Importiere NSC" />
-						<MenuItem fx:id="miExportNPC" disable="true" mnemonicParsing="false" text="Exportiere NSC" />
+						<MenuItem fx:id="miImportNPC" disable="true" mnemonicParsing="false" onAction="#importNPC" text="Importiere NSC" />
+						<MenuItem fx:id="miExportNPC" disable="true" mnemonicParsing="false" onAction="#exportNPC" text="Exportiere NSC" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Help">
