@@ -12,9 +12,6 @@ on:
 
 jobs:
   build:
-    - name: Build with Gradle
-      run: ./gradlew build
-    
     runs-on: windows-latest
     steps:
       # Checkout your code
