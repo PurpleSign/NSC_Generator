@@ -41,8 +41,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Create a staging directory where the binary will be copied into
-      #- name: Make staging directory
-      #  run: mkdir staging
+      - name: Make depl directory
+        run: mkdir depl
 
       # Install the Gluon License (optional)
       # Using this step requires you to set a GLUON_LICENSE secret in the secret configuration of your repo. Have a look at https://gluonhq.com/products/mobile/buy for more information about obtaining a license.
@@ -57,12 +57,12 @@ jobs:
         run: ./gradlew clean nativeBuild
 
       # Copy the native binary to the staging directory
-      #- name: Copy native client to staging
-      #  run: cp -r target/client/x86_64-windows/HelloGluon.exe staging
+      - name: Copy native client to depl
+        run: cp -r target/client/x86_64-windows/NSC_Generator.exe depl
 
       # Upload the staging directory as a build artifact. You will be able to download this after the build finishes.
-      #- name: Upload
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: Package
-      #    path: staging
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Package
+          path: depl
