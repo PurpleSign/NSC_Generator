@@ -8,3 +8,5 @@ build/project
 build/projectRefs
 build/deploy/NSC*
 
+/.gradle/
+/build/
