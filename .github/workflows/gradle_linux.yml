@@ -54,7 +54,7 @@ jobs:
 
     # Copy the native binary to the staging directory
     - name: Copy native client to depl
-      run: cp -r target/client/x86_64-linux/NSC_Generator depl
+      run: cp -r build/client/x86_64-linux/NSC_Generator depl
 
     # Upload the staging directory as a build artifact. You will be able to download this after the build finishes.
     - name: Upload
