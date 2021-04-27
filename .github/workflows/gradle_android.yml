@@ -66,7 +66,7 @@ jobs:
 
       # Copy the apk to the staging directory
       - name: Copy native clients to staging
-        run: cp -r build/client/aarch64-android/gvm/NSC_Generator.apk staging
+        run: cp -r build/client/aarch64-android/gvm/*.apk staging
 
       # Upload the staging directoy as a build artifact
       - name: Upload
