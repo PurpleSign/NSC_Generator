@@ -58,7 +58,7 @@ jobs:
       # The android profile is used, which means a native build will be created for the client target android.
       # This step also uses some env variables taken from the repo secrets. See the section 'Setup Android Keystore' below.
       - name: Android Build with Gradle
-        run: ./gradlew clean nativeBuild nativePackage
+        run: ./gradlew clean nativeBuild nativePackage --stacktrace
 
       # Create staging directory in which the apk will be copied
       - name: Make staging directory
