@@ -65,17 +65,18 @@ public abstract class DatabaseConnector {
 	 * @throws Exception
 	 */
 	private static File getFileSystem() throws Exception {
-		String vOS, vHome;
+		String vOS, vArch, vHome;
 		File vHomeFile;
 		
 		vOS = System.getProperty("os.name");
+		vArch = System.getProperty("os.arch");
 		vHome = System.getProperty("user.home");
 		
 		if (vOS.contains("Windows")) vHome = vHome+ "/AppData/Roaming"+gamePath;
 		else if (vOS.contains("Linux")) {
-			vHome = vHome+"/.local"+gamePath;
+			if (!vArch.contains("aarch64")) vHome = vHome+"/.local"+gamePath;
 			
-		} else throw new Exception("20; gFS,DaCon");
+		} else throw new Exception("20; gFS,DaCon: " + vOS + "; "+vHome);
 		
 		vHomeFile = new File(vHome);
 		if (!vHomeFile.exists()) {
@@ -175,7 +176,9 @@ public abstract class DatabaseConnector {
 	 */
  	public static Pack newPack() throws Exception{
 		Pack vRet = new Pack(genNewIDFromIDElementList(packList), "");
+
 		addPack(vRet);
+		
 		return vRet;
 	}
  	/**	Dh	11.03.2021
@@ -209,8 +212,7 @@ public abstract class DatabaseConnector {
 				packList.append(pPack);
 				
 				sortListByID(packList);
-			}
-			else throw new Exception("02; aPa,DaCon");
+			} else throw new Exception("02; aPa,DaCon:"+pPack.getId());
 		} else throw new Exception("04; aPa,DaCon");
 	}
 	/**	Dh	19.04.2021

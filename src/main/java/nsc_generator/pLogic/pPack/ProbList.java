@@ -1,7 +1,8 @@
-/**	NSC_Generator v0.0		Dh	25.02.2021
+/**	NSC_Generator v0.0		Dh	17.10.2021
  * 	
  * 	pLogic.pPack
- * 	  ProbList
+ *    IDElement
+ * 	    ProbList
  * 
  * Exceptions:
  * 	  01 Wrong length
@@ -17,6 +18,7 @@
 package nsc_generator.pLogic.pPack;
 
 import pDataStructures.List;
+import nsc_generator.pLogic.IDElement;
 import nsc_generator.pLogic.MainManager;
 
 import java.util.Random;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlRootElement(name = "problist")
 @XmlSeeAlso({ProbElement.class})
 
-public class ProbList {
+public class ProbList extends IDElement {
 	private List probElementList;
 	
 	/**	Dh	24.02.2021

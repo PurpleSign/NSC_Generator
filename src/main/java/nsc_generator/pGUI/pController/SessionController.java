@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.1		Dh	22.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -36,6 +36,7 @@ import nsc_generator.pGUI.PackManagerStage;
 import nsc_generator.pGUI.SessionManagerStage;
 import nsc_generator.pGUI.pTableElement.NameElement;
 import nsc_generator.pLogic.MainManager;
+import nsc_generator.pLogic.MainManagerInterface;
 import nsc_generator.pLogic.pEditors.Editor;
 import nsc_generator.pLogic.pEditors.NPCEditor;
 import nsc_generator.pLogic.pEditors.PackManager;
@@ -71,11 +72,18 @@ public class SessionController extends ParentStageController {
 		super();
 	}
 	
-	/**	Dh	09.03.2021
+	/**	Dh	22.05.2021
+	 * 
+	 * 	Old, please don't use anymore.
+	 */
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
+		setUp(pIsEdit, pIsMobile, pParentController, pPackEditor, null);
+	}
+	/**	Dh	22.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
-		super.setUp(pIsEdit, pParentController, pPackEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackEditor, MainManagerInterface pMainManager) throws Exception {
+		super.setUp(pIsEdit, pIsMobile,pParentController, pPackEditor, pMainManager);
 		
 		if (pPackEditor != null) {
 			if (pPackEditor instanceof SessionEditor) {

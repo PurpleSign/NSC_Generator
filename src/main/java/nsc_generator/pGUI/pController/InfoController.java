@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	08.03.2021
+/**	NSC_Generator v0.1		Dh	22.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -18,11 +18,14 @@
 
 package nsc_generator.pGUI.pController;
 
+import com.gluonhq.charm.glisten.application.MobileApplication;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import nsc_generator.pGUI.InfoStage;
+import nsc_generator.pLogic.MainManagerMobile;
 
 public class InfoController extends EditorController {
 	@FXML
@@ -63,12 +66,13 @@ public class InfoController extends EditorController {
 	@FXML
 	protected void delete() {}
 	
-	/**	Dh	08.03.2021
+	/**	Dh	22.05.2021
 	 * 
 	 */
 	@FXML
 	public void back() {
-		infoStage.close();
+		if (infoStage != null) infoStage.close();
+		else ((MainManagerMobile)MobileApplication.getInstance()).closeMessage();		
 	}
 	
 //--------------------------------------------------------------------------------------------------------

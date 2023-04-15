@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	09.03.2021
+/**	NSC_Generator v0.1		Dh	22.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -19,6 +19,7 @@ package nsc_generator.pGUI.pController;
 
 import nsc_generator.pGUI.EditorStage;
 import nsc_generator.pLogic.MainManager;
+import nsc_generator.pLogic.MainManagerInterface;
 import nsc_generator.pLogic.pEditors.Editor;
 
 public abstract class ParentStageController extends EditorController implements ParentStageControllerInterface {
@@ -31,11 +32,17 @@ public abstract class ParentStageController extends EditorController implements 
 		super();
 	}
 	
-	/**	Dh	09.03.2021
+	/**	Dh	20.05.2021
 	 * 	
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception{
-		super.setUp(pIsEdit, pParentController, pEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception{
+		super.setUp(pIsEdit, pIsMobile, pParentController, pEditor);
+	}
+	/**	Dh	22.05.2021
+	 * 
+	 */
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pEditor, MainManagerInterface pMainManager) throws Exception{
+		super.setUp(pIsEdit, pIsMobile, pParentController, pEditor, pMainManager);
 	}
 	
 //--------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.1		Dh	22.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -33,11 +33,14 @@ import nsc_generator.pGUI.pTableElement.NameElement;
 import nsc_generator.pGUI.pTableElement.PrioElementTableElement;
 import nsc_generator.pGUI.pTableElement.ProbElementTableElement;
 import nsc_generator.pGUI.pTableElement.TableRowModel;
+import nsc_generator.pLogic.MainManagerInterface;
 import nsc_generator.pLogic.pEditors.Editor;
 
 public abstract class EditorController {
 	protected boolean isEdit;
+	protected boolean isMobile;
 	protected ParentStageControllerInterface parentController;
+	protected MainManagerInterface mainManager;
 	
 	/**	Dh	02.03.2021
 	 * 
@@ -46,14 +49,33 @@ public abstract class EditorController {
 		super();
 	}
 	
-	/**	Dh	04.03.2021
+	/**	Dh	22.05.2021
 	 * 
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception{
+	public void setUp(boolean pIsEdit, boolean pIsMobile,  ParentStageControllerInterface pParentController, Editor pEditor) throws Exception{
 		isEdit = pIsEdit;
+		isMobile = pIsMobile;
 		
 		parentController = pParentController;
+		mainManager = null;
+	}
+	
+	/**	Dh	22.05.2021
+	 * 
+	 * @param pIsEdit
+	 * @param pIsMobile
+	 * @param pParentController
+	 * @param pEditor
+	 * @param pMainManager
+	 * @throws Exception
+	 */
+	public void setUp(boolean pIsEdit, boolean pIsMobile,  ParentStageControllerInterface pParentController, Editor pEditor, MainManagerInterface pMainManager) throws Exception{
+		isEdit = pIsEdit;
+		isMobile = pIsMobile;
+		
+		parentController = pParentController;
+		mainManager = pMainManager;
 	}
 	
 //--------------------------------------------------------------------------------------------------------

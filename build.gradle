@@ -1,7 +1,7 @@
 plugins {
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.9'
-    id 'com.gluonhq.client-gradle-plugin' version '0.1.39'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'com.gluonhq.gluonfx-gradle-plugin' version '1.0.18'
 }
 
 version = '0.0'
@@ -13,28 +13,35 @@ repositories {
     }
 }
 
+//mainClassName = 'nsc_generator.pLogic.Starter'
 mainClassName = 'nsc_generator.pLogic.MainManager'
+//mainClassName = 'nsc_generator.pLogic.MainManagerMobile'
 
 dependencies {
-    compile 'com.gluonhq:charm:6.0.6'
+   	implementation 'com.gluonhq:charm:6.2.2'
+   	
+   	//implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.4'
+	//implementation 'javax.xml.stream:stax-api:1.0-2'
     implementation 'com.sun.xml.bind:jaxb-impl:2.3.4'
     implementation files('libs/DataStructure_v0.4.jar')
     
-    runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
-	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
+    //runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
+	//runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
 }
 
 javafx {
-    version = '16'
+    version = '18'
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-gluonClient {
-    target = 'android' // Uncomment to enable Android
+gluonfx {
+    //target = 'android' // Uncomment to enable Android
     attachConfig {
-        version = "4.0.11"
+        version = "4.0.13"
         services 'display', 'lifecycle', 'statusbar', 'storage'
     }
+    
+     //reflectionList = ["org.stattool.client.gui.controller.viewController.BottomLineController"]
 }
 
 jar {

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.0		Dh	20.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -50,15 +50,15 @@ public class PackManagerController extends ManagerController {
 		super();
 	}
 
-	/**	Dh	10.03.2021
+	/**	Dh	20.05.2021
 	 * 
 	 * @param pIsEdit
 	 * @param pParentController
 	 * @param pPackEditor
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pPackManager) throws Exception {
-		super.setUp(pIsEdit, pParentController, pPackManager);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackManager) throws Exception {
+		super.setUp(pIsEdit, pIsMobile, pParentController, pPackManager);
 		
 		if (pPackManager != null) {
 			if (pPackManager instanceof PackManager) {

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	14.03.2021
+/**	NSC_Generator v0.0		Dh	27.08.2022
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -72,11 +72,11 @@ public class CultureEditorController extends ParentStageController implements Pa
 		super();
 	}
 
-	/**	Dh	12.03.2021
+	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pCultureEditor) throws Exception{
-		super.setUp(pIsEdit, pParentController, pCultureEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pCultureEditor) throws Exception{
+		super.setUp(pIsEdit, pIsMobile,pParentController, pCultureEditor);
 		
 		if (pCultureEditor != null) {
 			if (pCultureEditor instanceof CultureEditor) {
@@ -308,7 +308,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 			setDisabled();
 		}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	27.08.2022
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -317,7 +317,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 	 */
 	@FXML
 	protected void editSo() {
-		ProbElementTableElement vCur = tHair.getSelectionModel().getSelectedItem();
+		ProbElementTableElement vCur = tSo.getSelectionModel().getSelectedItem();
 		
 		if (vCur != null) {
 			childStage = new ProbElementEditorStage("Editiere Sozialstatus", true, null, 2, vCur.getId(), this);
@@ -364,7 +364,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 			}catch(Exception ex) {MainManager.handleException(ex);}
 		}
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	27.08.2022
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -373,7 +373,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 	 */
 	@FXML
 	protected void removeSo() {
-		ProbElementTableElement vCur = tHair.getSelectionModel().getSelectedItem();
+		ProbElementTableElement vCur = tSo.getSelectionModel().getSelectedItem();
 		
 		if (vCur != null) {
 			try {

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	14.03.2021
+/**	NSC_Generator v0.0		Dh	20.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -75,11 +75,11 @@ public class RaceEditorController extends ParentStageController implements Paren
 		super();
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	20.05.2021
 	 * 	
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pRaceEditor) throws Exception{
-		super.setUp(pIsEdit, pParentController, pRaceEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pRaceEditor) throws Exception{
+		super.setUp(pIsEdit, pIsMobile, pParentController, pRaceEditor);
 		
 		if (pRaceEditor != null) {
 			if (pRaceEditor instanceof RaceEditor) {

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.1		Dh	22.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -20,6 +20,8 @@ package nsc_generator.pGUI.pController;
 
 import java.io.File;
 
+import com.gluonhq.charm.glisten.application.MobileApplication;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,6 +32,8 @@ import javafx.stage.FileChooser;
 import nsc_generator.pGUI.PackManagerStage;
 import nsc_generator.pGUI.pTableElement.NameElement;
 import nsc_generator.pLogic.MainManager;
+import nsc_generator.pLogic.MainManagerInterface;
+import nsc_generator.pLogic.MainManagerMobile;
 import nsc_generator.pLogic.pEditors.Editor;
 import nsc_generator.pLogic.pEditors.PackManager;
 import nsc_generator.pLogic.pEditors.SessionManager;
@@ -52,11 +56,18 @@ public class SessionManagerController extends ManagerController {
 		super();
 	}
 	
-	/**	Dh	14.03.2021
+	/**	Dh	22.05.2021
+	 * 
+	 * 	Old, please don't use anymore.
+	 */
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pSessionManager) throws Exception {
+		setUp(pIsEdit, pIsMobile, pParentController, pSessionManager, null);
+	}
+	/**	Dh	22.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pSessionManager) throws Exception {
-		super.setUp(pIsEdit, pParentController, pSessionManager);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pSessionManager, MainManagerInterface pMainManager) throws Exception {
+		super.setUp(pIsEdit, pIsMobile, pParentController, pSessionManager, pMainManager);
 		
 		if (pSessionManager != null) {
 			if (pSessionManager instanceof SessionManager) {
@@ -201,13 +212,20 @@ public class SessionManagerController extends ManagerController {
 			updateAll();
 		}catch(Exception ex) {MainManager.handleException(ex);}
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	22.05.2021
 	 * 
 	 */
 	@FXML
 	public void back() {
-		if (isEdit) parentController.closeChildStage();
-		else MainManager.closeApp();
+		if (!isMobile) {
+			if (isEdit) parentController.closeChildStage();
+			else MainManager.closeApp();
+		}else {
+			((MainManagerMobile)MobileApplication.getInstance()).handleMessage("Hello. :)");
+			//if (isEdit) ;
+			//else mainManager.closeApp();
+			tfName.setText("Hallo, :)");
+		}
 	}
 	
 //--------------------------------------------------------------------------------------------------------

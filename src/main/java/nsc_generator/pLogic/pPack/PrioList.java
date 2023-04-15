@@ -1,7 +1,8 @@
-/**	NSC_Generator v0.0		Dh	18.03.2021
+/**	NSC_Generator v0.0		Dh	23.08.2022
  * 	
  * 	pLogic.pPack
- * 	  PrioList
+ * 	  IDElement
+ * 	    PrioList
  * 
  * Exceptions:
  * 	  01 Wrong length
@@ -23,29 +24,52 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
 import pDataStructures.List;
+import nsc_generator.pLogic.IDElement;
 import nsc_generator.pLogic.MainManager;
 
 @XmlRootElement(name = "priolist")
 @XmlSeeAlso({PrioElement.class})
 
-public class PrioList {
+public class PrioList extends IDElement{
 	@XmlTransient
 	private int totalPriorityNumber;
 	private List prioElementList;
 	
-	/**	Dh	14.03.2021
+	/**	Dh	23.08.2022
 	 * 
 	 */
 	public PrioList() {
 		prioElementList = new List();
 		totalPriorityNumber = 0;
+		
+		try {
+			super.setId(0);
+			super.setName("");
+		}catch(Exception ex) {MainManager.handleMessage(ex.getMessage());}
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	23.08.2022
 	 * 
 	 * @param pPrioElementList
 	 */
 	public PrioList(List pPrioElementList) {
 		try {
+			super.setId(0);
+			super.setName("");
+			
+			setPrioElementList(pPrioElementList);
+		} catch(Exception ex) {MainManager.handleException(ex);}
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pID
+	 * @param pName
+	 * @param pPrioElementList
+	 */
+	public PrioList(int pID, String pName, List pPrioElementList) {
+		try {
+			super.setId(pID);
+			super.setName(pName);
+			
 			setPrioElementList(pPrioElementList);
 		} catch(Exception ex) {MainManager.handleException(ex);}
 	}
@@ -115,7 +139,7 @@ public class PrioList {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	14.03.2021
+	/**	Dh	23.08.2022
 	 * 
 	 * 	Waehlt zufaellig anhand der entsprechenden Prioritaeten ein PrioElement
 	 * 		aus der pPrioElementList aus und gibt sie zurueck.
@@ -128,18 +152,20 @@ public class PrioList {
 		Random vRand = new Random();
 		int vCurPrioNumber, vPrioNumber;
 		
-		vCurPrioNumber = 0;
-		vPrioNumber = vRand.nextInt(totalPriorityNumber)+1;
-		
-		prioElementList.toFirst();
-		while(!prioElementList.isEnd() && (vRet == null)) {
-			vRet = (PrioElement) prioElementList.getCurrent();
+		if (totalPriorityNumber > 0) {
+			vCurPrioNumber = 0;
+			vPrioNumber = vRand.nextInt(totalPriorityNumber)+1;
 			
-			vCurPrioNumber += vRet.getPriority();
-			if (vPrioNumber >  vCurPrioNumber) vRet = null;
-			
-			prioElementList.next();
-		}
+			prioElementList.toFirst();
+			while(!prioElementList.isEnd() && (vRet == null)) {
+				vRet = (PrioElement) prioElementList.getCurrent();
+				
+				vCurPrioNumber += vRet.getPriority();
+				if (vPrioNumber >  vCurPrioNumber) vRet = null;
+				
+				prioElementList.next();
+			}
+		}else vRet = new PrioElement(0, "", 0);
 		
 		if (vRet == null) throw new Exception("04; gePrEl,PriLi");
 		

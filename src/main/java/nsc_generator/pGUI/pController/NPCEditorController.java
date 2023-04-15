@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	18.03.2021
+/**	NSC_Generator v0.0		Dh	27.08.2022
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -21,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -39,6 +40,10 @@ public class NPCEditorController extends EditorController {
 	private Button btName, btRace, btCulture, btJob, btSex, btSO, btAge, btHeight, btWeight,
 		btComplexion, btHairlength, btHaircolor, btEyecolor, btQuirk, btSexuality,
 		btApply, btNew, btDelete, btBack;
+	@FXML
+	private CheckBox cbRaceLock, cbCultureLock, cbJobLock, cbAgeLock, cbHeightLock, cbWeightLock,
+	 cbSOLock, cbQuirkLock, cbSexLock, cbSexualityLock, cbComplexionLock, cbEyecolorLock, 
+	 cbHairlengthLock, chHaircolorLock;
 			
 	@FXML
 	private ChoiceBox<NameElement> cbCurrentRegion;
@@ -54,11 +59,11 @@ public class NPCEditorController extends EditorController {
 		super();
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
-		super.setUp(pIsEdit, pParentController, pPackEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
+		super.setUp(pIsEdit, pIsMobile,pParentController, pPackEditor);
 		
 		if (pPackEditor != null) {
 			if (pPackEditor instanceof NPCEditor) {
@@ -260,6 +265,16 @@ public class NPCEditorController extends EditorController {
 		} else MainManager.handleMessage("Kultur fehlt!");
 	}
 	
+	//----------------------------------------------------------------------------------------------------
+	
+	private void changeLock(int pLockInd) {		
+		if ((0 <= pLockInd) && (pLockInd < 14)) {
+			switch (pLockInd){
+			case 0:
+				
+			}
+		} else MainManager.handleException(new Exception("07; cLo,NPCEC"));
+	}
 	
 	//----------------------------------------------------------------------------------------------------
 	

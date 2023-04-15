@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	18.03.2021
+/**	NSC_Generator v0.0		Dh	23.08.2022
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -75,13 +75,13 @@ public class PackEditorController extends ParentStageController implements Paren
 		super();
 	}
 	
-	/**	Dh	15.03.2021
+	/**	Dh	20.05.2021
 	 * 
 	 * @param pPackEditor
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
-		super.setUp(pIsEdit, pParentController, pPackEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
+		super.setUp(pIsEdit, pIsMobile, pParentController, pPackEditor);
 		
 		if (pPackEditor != null) {
 			if (pPackEditor instanceof PackEditor) {
@@ -389,7 +389,7 @@ public class PackEditorController extends ParentStageController implements Paren
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	18.03.2021
+	/**	Dh	23.08.2022
 	 * 
 	 */
 	@FXML
@@ -399,7 +399,7 @@ public class PackEditorController extends ParentStageController implements Paren
 				packEditor.setName(tfName.getText());
 				packEditor.setQuirkList();
 				
-				if (!isEdit) packEditor.add();
+				//if (!isEdit) packEditor.add();
 				
 				packEditor.save();
 				

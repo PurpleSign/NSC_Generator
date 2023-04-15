@@ -24,7 +24,7 @@ import nsc_generator.pGUI.SessionManagerStage;
 import nsc_generator.pLogic.pEditors.SessionEditor;
 import nsc_generator.pLogic.pEditors.SessionManager;
 
-public class MainManager extends Application {
+public class MainManager extends Application{
 	private static Stage mainStage, primaryStage;
 	
 	/**	Dh	25.02.2021
@@ -65,7 +65,7 @@ public class MainManager extends Application {
 	 */
 	public static void closeApp() {
 		mainStage.close();
-		primaryStage.close();
+		//primaryStage.close();
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ public class MainManager extends Application {
 	 * 
 	 * @return
 	 */
-	public static Stage  getPrimaryStage() {
+	public static Stage getPrimaryStage() {
 		return primaryStage;
 	}
 	
@@ -92,8 +92,9 @@ public class MainManager extends Application {
 	 * @param ex
 	 */
 	public static void handleException(Exception ex) {
-		//new InfoStage(true, ex.getMessage());
+		new InfoStage(true, ex.getMessage());
 		System.out.println(ex.getCause() + " : " + ex.getMessage());
+		closeApp();
 	}
 	/**	Dh	08.03.2021
 	 * 

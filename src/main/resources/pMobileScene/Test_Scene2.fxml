@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" spacing="10.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nsc_generator.pGUI.pController.SessionManagerController">
+	<children>
+		<HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" spacing="20.0">
+			<children>
+				<VBox minHeight="-Infinity" minWidth="250.0" spacing="5.0">
+					<children>
+                  <Label text="Sessions" />
+										<ListView fx:id="lvNameElements" minHeight="-Infinity" minWidth="250.0" prefHeight="244.0" />
+								<HBox minHeight="-Infinity" minWidth="250.0" prefHeight="30.0" prefWidth="245.0" spacing="10.0">
+									<children>
+										<Button fx:id="btNameElement_Add" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addNameElement" text="Hinzufügen" />
+										<Separator maxHeight="-Infinity" minHeight="-Infinity" minWidth="80.0" visible="false" />
+										<Button fx:id="btNameElement_Remove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#delete" text="Löschen" />
+									</children>
+								</HBox>
+					</children>
+				</VBox>
+				<VBox minHeight="305.0" prefWidth="100.0" spacing="10.0">
+					<children>
+						<HBox prefHeight="25.0" prefWidth="200.0">
+							<children>
+								<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="40.0">
+									<children>
+										<Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Name:" />
+										<Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Pack:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0">
+									<children>
+										<TextField fx:id="tfName" disable="true" editable="false" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="282.0" />
+										<TextField fx:id="tfPack" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="282.0" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+                  <Label text="Nicht Spieler Charaktere" />
+										<ListView fx:id="lvNPCs" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="325.0" />
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+				<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="606.0" spacing="10.0">
+					<children>
+						<Button fx:id="btApply" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#apply" text="Wählen" />
+						<Separator maxHeight="-Infinity" minHeight="-Infinity" prefWidth="40.0" visible="false" />
+						<Button fx:id="btImport" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importNameElement" text="Importieren" />
+						<Button fx:id="btExport" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#exportNameElement" text="Exportieren" />
+						<Separator maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="190.0" visible="false" />
+						<Button fx:id="btCancel" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#back" text="Abbrechen" />
+					</children>
+				</HBox>
+	</children>
+	<padding>
+		<Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+	</padding>
+</VBox>

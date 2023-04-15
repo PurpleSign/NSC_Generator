@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	14.03.2021
+/**	NSC_Generator v0.0		Dh	17.10.2021
  * 	
  * 	pLogic.pEditors
  * 	  Editor
@@ -20,6 +20,7 @@ package nsc_generator.pLogic.pEditors;
 import pDataStructures.List;
 import nsc_generator.pLogic.MainManager;
 import nsc_generator.pLogic.NPC;
+import nsc_generator.pLogic.pPack.PrioElement;
 import nsc_generator.pLogic.pPack.ProbElement;
 
 public class NPCEditor extends Editor {
@@ -363,7 +364,7 @@ public class NPCEditor extends Editor {
 	public void genJob() {
 	
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -373,11 +374,12 @@ public class NPCEditor extends Editor {
 		if (raceID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getRace(raceID).genSex();
 			
+			npc.setSexID(vProEle.getId());
 			npc.setSex(vProEle.getName());
 		} else throw new Exception("02; gSe,NPCEdi");
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -387,6 +389,7 @@ public class NPCEditor extends Editor {
 		if (cultureID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getCulture(cultureID).genSo();
 			
+			npc.setSoID(vProEle.getId());
 			npc.setSo(vProEle.getName());
 		} else throw new Exception("02; gSo,NPCEdi");
 	}
@@ -416,7 +419,7 @@ public class NPCEditor extends Editor {
 		else throw new Exception("02; gWe,NPCEdi");
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -426,10 +429,11 @@ public class NPCEditor extends Editor {
 		if (raceID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getRace(raceID).genComplexion();
 			
+			npc.setComplexionID(vProEle.getId());
 			npc.setComplexion(vProEle.getName());
 		} else throw new Exception("02; gCo,NPCEdi");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -439,10 +443,11 @@ public class NPCEditor extends Editor {
 		if (cultureID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getCulture(cultureID).genHairlength();
 			
+			npc.setHairlengthID(vProEle.getId());
 			npc.setHairlength(vProEle.getName());
 		} else throw new Exception("02; gHl,NPCEdi");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -452,10 +457,11 @@ public class NPCEditor extends Editor {
 		if (raceID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getRace(raceID).genHaircolor();
 			
+			npc.setHaircolorID(vProEle.getId());
 			npc.setHaircolor(vProEle.getName());
 		} else throw new Exception("02; gHc,NPCEdi");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -465,18 +471,22 @@ public class NPCEditor extends Editor {
 		if (raceID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getRace(raceID).genEyecolor();
 			
+			npc.setEyecolorID(vProEle.getId());
 			npc.setEyecolor(vProEle.getName());
 		} else throw new Exception("02; gEc,NPCEdi");
 	}
 
-	/**	Dh	14.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
 	public void genQuirk() throws Exception {
-		npc.setQuirk(sessionEditor.getUsedPack().genQuirk().getName());
+		PrioElement vPriEle = sessionEditor.getUsedPack().genQuirk();
+		
+		npc.setQuirkID(vPriEle.getId());
+		npc.setQuirk(vPriEle.getName());
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 * @throws Exception
 	 */
@@ -486,6 +496,7 @@ public class NPCEditor extends Editor {
 		if (cultureID >= 0) {
 			vProEle = sessionEditor.getUsedPack().getCulture(cultureID).genSexuality();
 			
+			npc.setSexualityID(vProEle.getId());
 			npc.setSexuality(vProEle.getName());
 		} else throw new Exception("02; gSeu,NPCEdi");
 	}

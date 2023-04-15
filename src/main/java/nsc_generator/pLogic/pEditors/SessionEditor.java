@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.0		Dh	22.08.2022
  * 	
  * 	pLogic.pEditors
  * 	  Editor
@@ -334,12 +334,13 @@ public class SessionEditor extends Editor {
 	public NPCEditor editNPC() throws Exception {
  		return new NPCEditor(session.getCurrentNPC(), this);
  	}
-	/**	Dh	09.03.2021
+	/**	Dh	22.08.2022
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	public PackEditor editPack() throws Exception{
+		newPackID = session.getUsedPack().getId();
 		return new PackEditor(session.getUsedPack());
 	}
 	
@@ -417,7 +418,7 @@ public class SessionEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void updatePack() throws Exception{
-		if (DatabaseConnector.doesPackExist(newPackID)) session.setUsedPack(DatabaseConnector.getPack(newPackID));
+		if (DatabaseConnector.doesPackExist(newPackID)) session.setUsedPack(DatabaseConnector.getPack(newPackID));;
 	}
 	
 	/**	Dh	09.03.2021

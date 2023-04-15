@@ -10,3 +10,4 @@ build/deploy/NSC*
 
 /.gradle/
 /build/
+/target/

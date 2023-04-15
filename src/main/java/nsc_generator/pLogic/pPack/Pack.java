@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	14.03.2021
+/**	NSC_Generator v0.0		Dh	23.08.2022
  * 	
  * 	pLogic.pPack
  * 	  IDElement
@@ -19,6 +19,7 @@ package nsc_generator.pLogic.pPack;
 
 import pDataStructures.List;
 import nsc_generator.pLogic.IDElement;
+import nsc_generator.pLogic.MainManager;
 import nsc_generator.pLogic.NPC;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +35,7 @@ public class Pack extends IDElement {
 	private List cultureList, raceList; 
 	private PrioList quirkList;
 	
-	/**	Dh	14.03.2021
+	/**	Dh	23.08.2022
 	 * 
 	 */
 	public Pack() {
@@ -45,7 +46,7 @@ public class Pack extends IDElement {
 		
 		quirkList = new PrioList();
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	23.08.2022
 	 * 
 	 * @param pID
 	 * @param pName
@@ -838,9 +839,11 @@ public class Pack extends IDElement {
 		Culture vCurRegCulture, vOrigCulture;
 		
 		if (pNPC != null) {
+			
 			vCurRegCulture = getCulture(pCurrentRegionCultureID);
 			
 			if (vCurRegCulture != null) {
+				
 				vCurProbEle = vCurRegCulture.genOriginCulture();
 				
 				vOrigCulture = getCulture(vCurProbEle.getId());
@@ -853,6 +856,7 @@ public class Pack extends IDElement {
 			}else throw new Exception("02; gC,Pac");
 			
 			pNPC.setQuirk(genQuirk().getName());
+			
 		} else throw new Exception("04, gC,Pac");
 		
 	}

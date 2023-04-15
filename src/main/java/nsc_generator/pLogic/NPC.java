@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	12.03.2021
+/**	NSC_Generator v0.0		Dh	17.10.2021
  * 	
  * 	pLogic
  * 	  IDElement
@@ -23,11 +23,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 //@XmlType(propOrder = {})
 
 public class NPC extends IDElement {
-	private int raceID, cultureID;
+	private int raceID, cultureID, sexID, soID, sexualityID, hairlenghtID, haircolorID, eyecolorID, complexionID, quirkID;
 	private int age, height, weight;
 	private String culture, race, sex, so, sexuality, hairlength, haircolor, eyecolor, complexion, quirk, note;
 	
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 */
 	public NPC() {
@@ -35,6 +35,15 @@ public class NPC extends IDElement {
 
 		raceID = -1;
 		cultureID = -1;
+		
+		sexID = -1;
+		soID = -1;
+		sexualityID = -1;
+		hairlenghtID = -1;
+		haircolorID = -1;
+		eyecolorID = -1;
+		complexionID = -1;
+		quirkID = -1;
 		
 		age = 0;
 		height = 0;
@@ -52,7 +61,7 @@ public class NPC extends IDElement {
 		quirk = "";
 		note = "";
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	17.10.2021
 	 * 
 	 */
 	public NPC(int pID) {
@@ -60,6 +69,15 @@ public class NPC extends IDElement {
 
 		raceID = -1;
 		cultureID = -1;
+		
+		sexID = -1;
+		soID = -1;
+		sexualityID = -1;
+		hairlenghtID = -1;
+		haircolorID = -1;
+		eyecolorID = -1;
+		complexionID = -1;
+		quirkID = -1;
 		
 		age = 0;
 		height = 0;
@@ -88,7 +106,7 @@ public class NPC extends IDElement {
 	public int getCultureID() {
 		return cultureID;
 	}
-	/**	Dh	07.03.201
+	/**	Dh	07.03.2021
 	 * 
 	 * @return
 	 */
@@ -96,6 +114,71 @@ public class NPC extends IDElement {
 	public int getRaceID() {
 		return raceID;
 	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getSexID() {
+		return sexID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getSoID() {
+		return soID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getSexualityID() {
+		return sexualityID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getHairlengthID() {
+		return hairlenghtID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getHaircolorID() {
+		return haircolorID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getEyecolorID() {
+		return eyecolorID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getComplexionID() {
+		return complexionID;
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public int getQuirkID() {
+		return quirkID;
+	}
+	
 	/**	Dh	23.02.2021
 	 * 
 	 * @return
@@ -219,6 +302,79 @@ public class NPC extends IDElement {
 		if (pRaceID >= -1) raceID = pRaceID;
 		else throw new Exception("02; sRID,NPC");
 	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pSexID
+	 * @throws Exception
+	 */
+	public void setSexID(int pSexID) throws Exception{
+		if (pSexID >= -1) sexID = pSexID;
+		else throw new Exception("02; sSeID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pSoID
+	 * @throws Exception
+	 */
+	public void setSoID(int pSoID) throws Exception{
+		if (pSoID >= -1) soID = pSoID;
+		else throw new Exception("02; sSoID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pSexualityID
+	 * @throws Exception
+	 */
+	public void setSexualityID(int pSexualityID) throws Exception{
+		if (pSexualityID >= -1) sexualityID = pSexualityID;
+		else throw new Exception("02; sSeID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pHairlengthID
+	 * @throws Exception
+	 */
+	public void setHairlengthID(int pHairlengthID) throws Exception{
+		if (pHairlengthID >= -1) hairlenghtID = pHairlengthID;
+		else throw new Exception("02; sHlID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pHaircolorID
+	 * @throws Exception
+	 */
+	public void setHaircolorID(int pHaircolorID) throws Exception{
+		if (pHaircolorID >= -1) haircolorID = pHaircolorID;
+		else throw new Exception("02; sHcID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pEyecolorID
+	 * @throws Exception
+	 */
+	public void setEyecolorID(int pEyecolorID) throws Exception{
+		if (pEyecolorID >= -1) eyecolorID = pEyecolorID;
+		else throw new Exception("02; sEcID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pComplexionID
+	 * @throws Exception
+	 */
+	public void setComplexionID(int pComplexionID) throws Exception{
+		if (pComplexionID >= -1) complexionID = pComplexionID;
+		else throw new Exception("02; sCoID,NPC");
+	}
+	/**	Dh	17.10.2021
+	 * 
+	 * @param pQuirkID
+	 * @throws Exception
+	 */
+	public void setQuirkID(int pQuirkID) throws Exception{
+		if (pQuirkID >= -1) quirkID = pQuirkID;
+		else throw new Exception("02; sQID,NPC");
+	}
+	
 	/**	Dh	23.02.2021
 	 * 
 	 * 	Setzt das Alter (age) des NPCs. pAge muss größergleich 0 sein.

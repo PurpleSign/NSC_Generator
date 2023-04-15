@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	19.03.2021
+/**	NSC_Generator v0.0		Dh	20.05.2021
  * 	
  * 	pLogic
  * 
@@ -19,11 +19,15 @@ public class Starter {
 
 	public Starter() {}
 
-	/**	Dh	19.03.2021
+	/**	Dh	20.05.2021
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		//if (System.getProperty("os.name").contains("Linux") && System.getProperty("os.arch").contains("aarch64")) MainManagerMobile.launch(args);
+		//else MainManager.main(args);
+		
+		//MainManagerMobile.main(args);
 		MainManager.main(args);
 	}
 

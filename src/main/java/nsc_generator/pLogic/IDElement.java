@@ -69,7 +69,7 @@ public abstract class IDElement {
 	 */
 	public void setId(int pID) throws Exception{
 		if (pID >= 0) id = pID;
-		else throw new Exception("02; sId,IDEle");
+		else throw new Exception("02; sId,IDEle:"+id+","+name);
 	}
 	/**	Dh	24.02.2021
 	 * 

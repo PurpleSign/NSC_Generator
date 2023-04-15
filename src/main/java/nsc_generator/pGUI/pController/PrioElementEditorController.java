@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	18.03.2021
+/**	NSC_Generator v0.0		Dh	20.05.2021
  * 	
  * 	pGUI.pController
  * 	  EditorController
@@ -45,11 +45,11 @@ public class PrioElementEditorController extends EditorController {
 		prioElemenID = -1;
 	}
 	
-	/**	Dh	18.03.2021
+	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception {
-		super.setUp(pIsEdit, pParentController, pEditor);
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception {
+		super.setUp(pIsEdit, pIsMobile, pParentController, pEditor);
 		
 		parentController = (ParentPrioElementEditorControllerInterface)super.parentController;
 		if (pEditor != null) throw new Exception("06; sU,PEEdCon");
