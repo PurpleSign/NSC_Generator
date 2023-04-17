@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nsc_generator.pGUI.pController.RaceEditorController">
+	<children>
+		<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="780.0">
+			<children>
+				<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="70.0" spacing="5.0">
+					<children>
+						<Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Name:" />
+						<Label prefHeight="25.0" prefWidth="70.0" text="Parentrasse:" />
+					</children>
+				</VBox>
+				<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="710.0" spacing="5.0">
+					<children>
+						<TextField fx:id="tfName" minHeight="-Infinity" prefHeight="25.0" prefWidth="461.0" />
+						<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="692.0" spacing="10.0">
+							<children>
+								<ChoiceBox fx:id="cbParent" minHeight="-Infinity" minWidth="600.0" prefHeight="25.0" />
+								<CheckBox fx:id="cbSubrace" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#selectSubrace" prefHeight="25.0" prefWidth="90.0" text="Ist Subrasse" HBox.hgrow="SOMETIMES" />
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+			</children>
+			<VBox.margin>
+				<Insets left="10.0" right="10.0" />
+			</VBox.margin>
+		</HBox>
+		<HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+			<children>
+				<VBox minHeight="-Infinity" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+					<children>
+						<Pane minHeight="-Infinity" prefHeight="90.0" prefWidth="342.0">
+							<children>
+								<GridPane prefHeight="86.0" prefWidth="342.0">
+									<columnConstraints>
+										<ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="58.0" />
+										<ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="64.0" />
+										<ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="39.0" />
+										<ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="67.0" />
+										<ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="39.0" />
+										<ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="76.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<Label text="Alter:" />
+										<Label text="Größe:" GridPane.rowIndex="1" />
+										<Label text="Gewicht:" GridPane.rowIndex="2" />
+										<Label prefHeight="17.0" prefWidth="12.0" text="W" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+										<Label text="W" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+										<Label text="W" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+										<Label text="+" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+										<Label text="+" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+										<Label text="+" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+										<TextField fx:id="tfAge_Number" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="1" />
+										<TextField fx:id="tfHeight_Number" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+										<TextField fx:id="tfWeight_Number" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+										<TextField fx:id="tfAge_Side" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="3" />
+										<TextField fx:id="tfHeight_Side" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+										<TextField fx:id="tfWeight_Side" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+										<TextField fx:id="tfAge_Offset" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="5" />
+										<TextField fx:id="tfHeight_Offset" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+										<TextField fx:id="tfWeight_Offset" prefHeight="25.0" prefWidth="45.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+									</children>
+								</GridPane>
+							</children>
+							<VBox.margin>
+								<Insets left="20.0" top="20.0" />
+							</VBox.margin>
+						</Pane>
+						<TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="386.0" text="Geschlecht">
+							<content>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0" prefWidth="384.0">
+									<children>
+										<ScrollPane minHeight="-Infinity" prefHeight="95.0" prefWidth="364.0">
+											<content>
+												<TableView fx:id="tSex" minHeight="-Infinity" minWidth="-Infinity" prefHeight="93.0" prefWidth="348.0">
+													<columns>
+														<TableColumn fx:id="tcSex_Name" minWidth="299.0" prefWidth="299.0" resizable="false" text="Geschlecht" />
+														<TableColumn fx:id="tcSex_Prob" minWidth="50.0" prefWidth="50.0" resizable="false" text="\%" />
+													</columns>
+												</TableView>
+											</content>
+										</ScrollPane>
+										<ButtonBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="386.0">
+											<buttons>
+												<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="376.0" spacing="10.0">
+													<children>
+														<Button fx:id="btSex_Add" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addSex" prefHeight="25.0" prefWidth="90.0" text="Hinzufuegen" />
+														<Separator minWidth="-Infinity" prefWidth="58.0" visible="false" />
+														<Button fx:id="btSex_Edit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#editSex" prefHeight="25.0" prefWidth="80.0" text="Bearbeiten" />
+														<Button fx:id="btSex_Remove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#removeSex" prefHeight="25.0" prefWidth="70.0" text="Entfernen" />
+													</children>
+												</HBox>
+											</buttons>
+										</ButtonBar>
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="385.0" text="Teint">
+							<content>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="383.0">
+									<children>
+										<ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="147.0" prefWidth="363.0">
+											<content>
+												<TableView fx:id="tComplexion" minHeight="-Infinity" minWidth="-Infinity" prefHeight="145.0" prefWidth="349.0">
+													<columns>
+														<TableColumn fx:id="tcComplexion_Name" minWidth="298.0" prefWidth="298.0" resizable="false" text="Teint" />
+														<TableColumn fx:id="tcComplexion_Prob" minWidth="50.0" prefWidth="50.0" resizable="false" text="\%" />
+													</columns>
+												</TableView>
+											</content>
+										</ScrollPane>
+										<ButtonBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="363.0">
+											<buttons>
+												<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="353.0" spacing="10.0">
+													<children>
+														<Button fx:id="btComplexion_Add" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addComplexion" prefHeight="25.0" prefWidth="90.0" text="Hinzufuegen" />
+														<Separator minWidth="-Infinity" prefWidth="50.0" visible="false" />
+														<Button fx:id="btComplexion_Edit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#editComplexion" prefHeight="25.0" prefWidth="80.0" text="Bearbeiten" />
+														<Button fx:id="btComplexion_Remove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#removeComplexion" prefHeight="25.0" prefWidth="70.0" text="Entfernen" />
+													</children>
+												</HBox>
+											</buttons>
+										</ButtonBar>
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+					</children>
+					<padding>
+						<Insets left="10.0" />
+					</padding>
+				</VBox>
+				<VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+					<children>
+						<TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="385.0" text="Haarfarbe">
+							<content>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="214.0" prefWidth="383.0">
+									<children>
+										<ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="363.0">
+											<content>
+												<TableView fx:id="tHair" prefHeight="173.0" prefWidth="349.0">
+													<columns>
+														<TableColumn fx:id="tcHair_Name" minWidth="298.0" prefWidth="298.0" resizable="false" text="Haarfarbe" />
+														<TableColumn fx:id="tcHair_Prob" minWidth="50.0" prefWidth="50.0" resizable="false" text="\%" />
+													</columns>
+												</TableView>
+											</content>
+										</ScrollPane>
+										<ButtonBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="363.0">
+											<buttons>
+												<HBox prefHeight="25.0" prefWidth="353.0" spacing="10.0">
+													<children>
+														<Button fx:id="btHair_Add" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addHaircolor" prefHeight="25.0" prefWidth="90.0" text="Hinzufuegen" />
+														<Separator prefWidth="50.0" />
+														<Button fx:id="btHair_Edit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#editHaircolor" prefHeight="25.0" prefWidth="80.0" text="Bearbeiten" />
+														<Button fx:id="btHair_Remove" mnemonicParsing="false" onMouseClicked="#removeHaircolor" prefHeight="25.0" prefWidth="70.0" text="Entfernen" />
+													</children>
+												</HBox>
+											</buttons>
+										</ButtonBar>
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="385.0" text="Augenfarbe">
+							<content>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="214.0" prefWidth="383.0">
+									<children>
+										<ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="363.0">
+											<content>
+												<TableView fx:id="tEye" minHeight="-Infinity" minWidth="-Infinity" prefHeight="173.0" prefWidth="349.0">
+													<columns>
+														<TableColumn fx:id="tcEye_Name" minWidth="298.0" prefWidth="298.0" resizable="false" text="Augenfarbe" />
+														<TableColumn fx:id="tcEye_Prob" minWidth="50.0" prefWidth="50.0" resizable="false" text="\%" />
+													</columns>
+												</TableView>
+											</content>
+										</ScrollPane>
+										<ButtonBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="363.0">
+											<buttons>
+												<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="353.0" spacing="10.0">
+													<children>
+														<Button fx:id="btEye_Add" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addEyecolor" prefHeight="25.0" prefWidth="90.0" text="Hinzufuegen" />
+														<Separator minWidth="-Infinity" prefWidth="50.0" visible="false" />
+														<Button fx:id="btEye_Edit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#editEyecolor" prefHeight="25.0" prefWidth="80.0" text="Bearbeiten" />
+														<Button fx:id="btEye_Remove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#removeEyecolor" prefHeight="25.0" prefWidth="70.0" text="Entfernen" />
+													</children>
+												</HBox>
+											</buttons>
+										</ButtonBar>
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+		<ButtonBar minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="800.0">
+			<buttons>
+				<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="790.0" spacing="10.0">
+					<children>
+						<Button fx:id="btApply" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#apply" prefHeight="25.0" prefWidth="80.0" text="Anwenden" />
+						<Separator prefWidth="550.0" visible="false" />
+						<Button fx:id="btDelete" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#delete" prefHeight="25.0" prefWidth="60.0" text="Löschen" />
+						<Button fx:id="btBack" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#back" prefHeight="25.0" prefWidth="60.0" text="Zurück" />
+					</children>
+				</HBox>
+			</buttons>
+		</ButtonBar>
+	</children>
+	<padding>
+		<Insets bottom="5.0" top="5.0" />
+	</padding>
+</VBox>

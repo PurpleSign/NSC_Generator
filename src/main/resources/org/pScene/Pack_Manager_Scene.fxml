@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nsc_generator.pGUI.pController.PackManagerController">
+	<children>
+		<HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" spacing="5.0">
+			<children>
+				<Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="65.0" text="Verzeichnis:" />
+				<TextField fx:id="tfDirectory" disable="true" editable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" prefWidth="500.0" />
+				<Button fx:id="btDirectory" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Ändern" />
+			</children>
+		</HBox>
+		<HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="640.0" spacing="20.0">
+			<children>
+				<VBox minHeight="-Infinity" minWidth="290.0" prefHeight="255.0" spacing="5.0">
+					<children>
+						<TitledPane collapsible="false" minHeight="-Infinity" minWidth="290.0" prefHeight="270.0" text="Packs">
+							<content>
+								<ScrollPane minHeight="100.0" minWidth="290.0" prefHeight="270.0">
+									<content>
+										<ListView fx:id="lvNameElements" minHeight="-Infinity" minWidth="290.0" prefHeight="244.0" />
+									</content>
+								</ScrollPane>
+							</content>
+						</TitledPane>
+						<ButtonBar buttonMinWidth="80.0" minHeight="-Infinity" minWidth="300.0" prefHeight="25.0" prefWidth="290.0">
+							<buttons>
+								<HBox minHeight="-Infinity" minWidth="250.0" prefHeight="25.0" prefWidth="280.0" spacing="10.0">
+									<children>
+										<Button fx:id="btNameElement_Add" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#addNameElement" text="Hinzufügen" />
+										<Button fx:id="btEdit" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#editNameElement" text="Bearbeiten" />
+										<Separator maxHeight="-Infinity" minHeight="-Infinity" minWidth="40.0" visible="false" />
+										<Button fx:id="btNameElement_Remove" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#delete" text="Löschen" />
+									</children>
+								</HBox>
+							</buttons>
+							<VBox.margin>
+								<Insets left="-10.0" />
+							</VBox.margin>
+						</ButtonBar>
+					</children>
+				</VBox>
+				<VBox minHeight="305.0" prefWidth="100.0" spacing="10.0">
+					<children>
+						<HBox prefHeight="25.0" prefWidth="200.0">
+							<children>
+								<Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Name:" />
+								<TextField fx:id="tfName" editable="false" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="282.0" />
+							</children>
+						</HBox>
+						<TitledPane collapsible="false" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="111.0" prefWidth="325.0" text="Kulturen">
+							<content>
+								<ScrollPane maxHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="325.0">
+									<content>
+										<ListView fx:id="lvCultures" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="325.0" />
+									</content>
+								</ScrollPane>
+							</content>
+						</TitledPane>
+						<TitledPane collapsible="false" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="111.0" prefWidth="325.0" text="Rassen">
+							<content>
+								<ScrollPane maxHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="325.0">
+									<content>
+										<ListView fx:id="lvRaces" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="325.0" />
+									</content>
+								</ScrollPane>
+							</content>
+						</TitledPane>
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+		<ButtonBar buttonMinWidth="80.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="280.0">
+			<buttons>
+				<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="630.0" spacing="10.0">
+					<children>
+						<Button fx:id="btApply" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#apply" text="Wählen" />
+						<Separator maxHeight="-Infinity" minHeight="-Infinity" prefWidth="40.0" visible="false" />
+						<Button fx:id="btImport" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importNameElement" text="Importieren" />
+						<Button fx:id="btExport" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#exportNameElement" text="Exportieren" />
+						<Separator maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="240.0" visible="false" />
+						<Button fx:id="btCancel" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#back" text="Abbrechen" />
+					</children>
+				</HBox>
+			</buttons>
+		</ButtonBar>
+	</children>
+	<padding>
+		<Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+	</padding>
+</VBox>

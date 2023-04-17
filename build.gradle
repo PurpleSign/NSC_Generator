@@ -13,9 +13,9 @@ repositories {
     }
 }
 
-//mainClassName = 'nsc_generator.pLogic.Starter'
-mainClassName = 'nsc_generator.pLogic.MainManager'
-//mainClassName = 'nsc_generator.pLogic.MainManagerMobile'
+//mainClassName = 'org.nsc_generator.pLogic.Starter'
+mainClassName = 'org.nsc_generator.pLogic.MainManager'
+//mainClassName = 'org.nsc_generator.pLogic.MainManagerMobile'
 
 dependencies {
    	implementation 'com.gluonhq:charm:6.2.2'
