@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="380.0" minWidth="-Infinity" prefWidth="660.0" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nsc_generator.gui.stageController.NPCEditorController">
+	<children>
+		<HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="660.0">
+			<children>
+				<Separator prefWidth="360.0" visible="false" />
+				<Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="90.0" text="Aktuelle Region:" />
+				<ChoiceBox fx:id="cbCurrentRegion" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+			</children>
+			<VBox.margin>
+				<Insets bottom="-10.0" top="5.0" />
+			</VBox.margin>
+		</HBox>
+		<HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="660.0" prefHeight="25.0" spacing="5.0">
+			<children>
+				<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Name:" />
+				<TextField fx:id="tfName" maxHeight="-Infinity" minHeight="-Infinity" minWidth="550.0" prefHeight="25.0" />
+				<Button fx:id="btName" disable="true" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genName" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+			</children>
+			<padding>
+				<Insets left="10.0" right="10.0" />
+			</padding>
+			<VBox.margin>
+				<Insets bottom="10.0" />
+			</VBox.margin>
+		</HBox>
+		<HBox minHeight="-Infinity" minWidth="480.0" prefHeight="75.0" spacing="5.0">
+			<children>
+				<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="280.0" prefHeight="75.0">
+					<children>
+						<HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="300.0" prefHeight="25.0" spacing="5.0">
+							<padding>
+								<Insets left="10.0" right="10.0" />
+							</padding>
+							<children>
+								<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="65.0">
+									<children>
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Rasse:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Kultur:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Beruf:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="75.0">
+									<children>
+										<TextField fx:id="tfRace" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" prefWidth="156.0" />
+										<TextField fx:id="tfCulture" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" />
+										<TextField fx:id="tfJob" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" />
+									</children>
+								</VBox>
+                        <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="26.0">
+                           <children>
+                              <CheckBox fx:id="cbRaceLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbCultureLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbJobLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </VBox>
+								<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="45.0">
+									<children>
+										<Button fx:id="btRace" mnemonicParsing="false" onMouseClicked="#genRace" text="Neu" />
+										<Button fx:id="btCulture" mnemonicParsing="false" onMouseClicked="#genCulture" text="Neu" />
+										<Button fx:id="btJob" disable="true" mnemonicParsing="false" onMouseClicked="#genJob" text="Neu" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+				<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="170.0">
+					<children>
+						<HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" spacing="5.0">
+							<padding>
+								<Insets left="10.0" right="10.0" />
+							</padding>
+							<children>
+								<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="50.0">
+									<children>
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Alter:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="40.0" text="Größe:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" text="Gewicht:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="50.0">
+									<children>
+										<TextField fx:id="tfAge" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" />
+										<TextField fx:id="tfHeight" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" />
+										<TextField fx:id="tfWeight" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" />
+									</children>
+								</VBox>
+                        <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="26.0">
+                           <children>
+                              <CheckBox fx:id="cbAgeLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbHeightLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbWeightLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                        </VBox>
+								<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="45.0">
+									<children>
+										<Button fx:id="btAge" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genAge" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+										<Button fx:id="btHeight" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genHeight" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+										<Button fx:id="btWeight" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genWeight" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+			</children>
+		</HBox>
+		<HBox minHeight="-Infinity" minWidth="480.0" prefHeight="50.0" spacing="30.0">
+			<children>
+				<VBox prefHeight="50.0" prefWidth="275.0">
+					<children>
+						<HBox prefHeight="50.0" prefWidth="275.0" spacing="5.0">
+							<children>
+								<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="65.0">
+									<children>
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" text="Sozialstatus:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="65.0" text="Eigenschaft:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="50.0">
+									<children>
+										<TextField fx:id="tfSO" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="50.0" />
+										<TextField fx:id="tfQuirk" maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="25.0" />
+									</children>
+								</VBox>
+                        <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="26.0">
+                           <children>
+                              <CheckBox fx:id="cbSOLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbQuirkLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                        </VBox>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="40.0">
+									<children>
+										<Button fx:id="btSO" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genSO" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+										<Button fx:id="btQuirk" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genQuirk" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+				<VBox prefHeight="200.0" prefWidth="100.0">
+					<children>
+						<HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+							<children>
+								<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="65.0">
+									<children>
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="65.0" text="Geschlecht:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" text="Sexualität:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="50.0">
+									<children>
+										<TextField fx:id="tfSex" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="160.0" />
+										<TextField fx:id="tfSexuality" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="160.0" />
+									</children>
+								</VBox>
+                        <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="26.0">
+                           <children>
+                              <CheckBox fx:id="cbSexLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbSexualityLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                        </VBox>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="40.0">
+									<children>
+										<Button fx:id="btSex" mnemonicParsing="false" onMouseClicked="#genSex" text="Neu" />
+										<Button fx:id="btSexuality" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genSexuality" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+			</children>
+			<padding>
+				<Insets left="10.0" right="10.0" />
+			</padding>
+			<VBox.margin>
+				<Insets />
+			</VBox.margin>
+		</HBox>
+		<HBox minHeight="-Infinity" minWidth="480.0" prefHeight="50.0" spacing="30.0">
+			<children>
+				<VBox prefHeight="50.0" prefWidth="275.0">
+					<children>
+						<HBox prefHeight="50.0" prefWidth="275.0" spacing="5.0">
+							<children>
+								<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="65.0">
+									<children>
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" text="Teint:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="70.0" text="Augenfarbe:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="50.0">
+									<children>
+										<TextField fx:id="tfComplexion" maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="25.0" />
+										<TextField fx:id="tfEyecolor" maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="25.0" />
+									</children>
+								</VBox>
+                        <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="26.0">
+                           <children>
+                              <CheckBox fx:id="cbComplexionLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbEyecolorLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                        </VBox>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="40.0">
+									<children>
+										<Button fx:id="btComplexion" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genComplexion" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+										<Button fx:id="btEyecolor" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genEyecolor" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+				<VBox prefHeight="50.0" prefWidth="275.0">
+					<children>
+						<HBox prefHeight="50.0" prefWidth="275.0" spacing="5.0">
+							<children>
+								<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="65.0">
+									<children>
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" text="Haarlänge:" />
+										<Label maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="60.0" text="Haarfabre:" />
+									</children>
+								</VBox>
+								<VBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="50.0">
+									<children>
+										<TextField fx:id="tfHairlength" maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="25.0" />
+										<TextField fx:id="tfHaircolor" maxHeight="-Infinity" minHeight="-Infinity" minWidth="160.0" prefHeight="25.0" />
+									</children>
+								</VBox>
+                        <VBox alignment="CENTER" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="26.0">
+                           <children>
+                              <CheckBox fx:id="cbHairlengthLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <CheckBox fx:id="cbHaircolorLock" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                        </VBox>
+								<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="40.0">
+									<children>
+										<Button fx:id="btHairlength" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genHairlength" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+										<Button fx:id="btHaircolor" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genHaircolor" prefHeight="25.0" prefWidth="40.0" text="Neu" />
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+			</children>
+			<padding>
+				<Insets left="10.0" right="10.0" />
+			</padding>
+			<VBox.margin>
+				<Insets />
+			</VBox.margin>
+		</HBox>
+		<ButtonBar buttonMinWidth="60.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="660.0" prefHeight="25.0">
+			<buttons>
+				<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="620.0" spacing="10.0">
+					<children>
+						<Button fx:id="btApply" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#apply" prefHeight="25.0" prefWidth="70.0" text="Speichern" />
+						<Button fx:id="btNew" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#genAll" prefHeight="25.0" prefWidth="90.0" text="Neu würfeln" />
+						<Separator maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="260.0" visible="false" />
+						<Button fx:id="btDelete" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#delete" prefHeight="25.0" prefWidth="60.0" text="Löschen" />
+						<Button fx:id="btBack" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#back" prefHeight="25.0" prefWidth="60.0" text="Zurück" />
+					</children>
+				</HBox>
+			</buttons>
+			<VBox.margin>
+				<Insets top="15.0" />
+			</VBox.margin>
+		</ButtonBar>
+	</children>
+</VBox>
