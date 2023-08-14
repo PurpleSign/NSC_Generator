@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	17.10.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    AbstractCondition
  * 
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 @XmlRootElement(name = "abstractCondition")
 //@XmlType(propOrder = {"cultureList", "raceList", "quirkList"})
@@ -42,7 +42,7 @@ public abstract class AbstractCondition extends IDElement {
 		assignmentAttribute = -1;
 		compareMethod = -1;
 	}
-	/**	Dh	17.10.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pAssignmentAttribute
@@ -60,7 +60,7 @@ public abstract class AbstractCondition extends IDElement {
 			
 			setConditionValue1(pConditionValue1);
 			setConditionValue2(pConditionValue2);
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------

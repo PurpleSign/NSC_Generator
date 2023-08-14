@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 	    SessionEditor
  * 	      SesseionManger
@@ -19,9 +19,10 @@
 package org.nsc_generator.logic.editors;
 
 
-import pDataStructures.List;
+import java.util.ArrayList;
+
 import org.nsc_generator.logic.DatabaseConnector;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.Session;
 
 public class SessionManager extends SessionEditor {
@@ -51,13 +52,13 @@ public class SessionManager extends SessionEditor {
 		return packID;
 	}
 	
-	/**	Dh	10.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getSessionList() throws Exception{
- 		return genObjectArrayListFromIDElementList(DatabaseConnector.getSessionList());
+	public ArrayList<Object[]> getSessionList() throws Exception{
+ 		return genObjectArrayListFromIDElementList(DatabaseConnector.getSessions());
  	}
 	
 	/**	Dh	11.03.2021
@@ -102,7 +103,7 @@ public class SessionManager extends SessionEditor {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @throws Exception
 	 */
@@ -110,7 +111,7 @@ public class SessionManager extends SessionEditor {
  		if ((sessionEditor == null) || (session.getId() != sessionEditor.session.getId())) {
  			DatabaseConnector.removeSession(session.getId());
  			session = null;
- 		} else MainManager.handleMessage("Diese Sitzung kann nicht gelöscht werden.");
+ 		} else LogManager.handleMessage("Diese Sitzung kann nicht gelöscht werden.");
  	}
 	
 	//----------------------------------------------------------------------------------------------------

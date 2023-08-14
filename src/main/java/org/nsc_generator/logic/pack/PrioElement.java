@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	14.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    PrioElement
  * 
@@ -20,7 +20,7 @@ package org.nsc_generator.logic.pack;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 @XmlRootElement(name = "prioelement")
 
@@ -35,7 +35,7 @@ public class PrioElement extends IDElement {
 		
 		priority = -1;
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -45,7 +45,7 @@ public class PrioElement extends IDElement {
 		super(pID, pName);
 		
 		try {setPriority(pPriority);}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------

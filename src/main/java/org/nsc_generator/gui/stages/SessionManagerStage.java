@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	10.03.2021
  * 	
- * 	pGUI
+ * 	gui.stages
  * 	  EditorStage
  * 	    SessionManagerStage
  * 
@@ -17,7 +17,7 @@
 
 package org.nsc_generator.gui.stages;
 
-import org.nsc_generator.gui.stageController.ParentStageControllerInterface;
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.logic.editors.Editor;
 
 public class SessionManagerStage extends EditorStage {
@@ -28,7 +28,7 @@ public class SessionManagerStage extends EditorStage {
 	 * @param pParentController
 	 * @param pEditor
 	 */
-	public SessionManagerStage(boolean pIsEdit,	ParentStageControllerInterface pParentController, Editor pEditor) {
+	public SessionManagerStage(boolean pIsEdit,	ParentControllerInterface pParentController, Editor pEditor) {
 		super("org/nsc_generator/stages/Session_Manager_Scene.fxml", "Sitzungs Manager", pIsEdit, pParentController, pEditor);
 	}
 

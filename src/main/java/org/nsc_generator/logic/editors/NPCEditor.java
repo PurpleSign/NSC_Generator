@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	17.10.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 	    NPCEditor
  * 
@@ -17,8 +17,9 @@
 
 package org.nsc_generator.logic.editors;
 
-import pDataStructures.List;
-import org.nsc_generator.logic.MainManager;
+import java.util.ArrayList;
+
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.NPC;
 import org.nsc_generator.logic.pack.PrioElement;
 import org.nsc_generator.logic.pack.ProbElement;
@@ -29,7 +30,7 @@ public class NPCEditor extends Editor {
 	private SessionEditor sessionEditor;
 	private NPC npc;
 	
-	/**	Dh	07.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pPack
 	 * @param pNPC
@@ -41,7 +42,7 @@ public class NPCEditor extends Editor {
 			
 			cultureID = npc.getCultureID();
 			raceID = npc.getRaceID();
-		}else MainManager.handleException(null);
+		}else LogManager.handleException(null);
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -157,13 +158,13 @@ public class NPCEditor extends Editor {
 		return npc.getSexuality();
 	}
 	
-	/**	Dh	08.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getPossibleRegionCultures() throws Exception{
-		return genObjectArrayListFromIDElementList(sessionEditor.getUsedPack().getCultureList());
+	public ArrayList<Object[]> getPossibleRegionCultures() throws Exception{
+		return genObjectArrayListFromIDElementList(sessionEditor.getUsedPack().getCultures());
 	}
 	
 	//----------------------------------------------------------------------------------------------------

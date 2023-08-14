@@ -1,7 +1,8 @@
 /**	NSC_Generator v0.0		Dh	17.10.2021
  * 	
- * 	pLogic
+ * 	logic
  * 	  IDElement
+ * 		NPC
  * 
  * Exceptions:
  * 	  01 Wrong length

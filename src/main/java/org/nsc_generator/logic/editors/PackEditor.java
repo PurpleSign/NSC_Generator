@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	15.03.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 	    PackEditor
  * 
@@ -17,12 +17,14 @@
 
 package org.nsc_generator.logic.editors;
 
-import pDataStructures.List;
+import java.util.ArrayList;
+
 import org.nsc_generator.logic.DatabaseConnector;
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.pack.Culture;
 import org.nsc_generator.logic.pack.Pack;
+import org.nsc_generator.logic.pack.PrioElement;
 import org.nsc_generator.logic.pack.PrioList;
 import org.nsc_generator.logic.pack.ProbElement;
 import org.nsc_generator.logic.pack.ProbList;
@@ -31,18 +33,19 @@ import org.nsc_generator.logic.pack.Race;
 public class PackEditor extends Editor {
 	protected Pack pack;
 	
-	private List quirkList;
+	private ArrayList<PrioElement> quirks;
 	
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @param pPack
 	 */
 	public PackEditor() {
 		pack = null;
 		
-		quirkList = new List();
+		//quirkList = new List();
+		quirks = new ArrayList<PrioElement>();
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @param pPack
 	 */
@@ -50,8 +53,9 @@ public class PackEditor extends Editor {
 		if (pPack != null) {
 			pack = pPack;
 			
-			quirkList = pack.getQuirkList().getPrioElementList().copyList();
-		}else MainManager.handleException(new Exception("04; PaEd"));
+			//quirkList = pack.getQuirkList().getPrioElementList().copyList();
+			quirks = (ArrayList<PrioElement>)pack.getQuirkList().getPrioElements().clone();
+		}else LogManager.handleException(new Exception("04; PaEd"));
 	}
  	
 //--------------------------------------------------------------------------------------------------------
@@ -64,47 +68,47 @@ public class PackEditor extends Editor {
  		return pack.getName();
  	}
  	
- 	/**	Dh	14.03.2021
+ 	/**	Dh	13.08.2023
  	 * 
  	 * @param pQuirkElementID
  	 * @return
  	 * @throws Exception
  	 */
  	public Object[] getQuirkElement(int pQuirkElementID) throws Exception{
-		return getElementFromElementListAsArray(pQuirkElementID, quirkList);
+		return getElementFromElementListAsArray(pQuirkElementID, quirks);
 	}
  	
- 	/**	Dh	14.03.2021
+ 	/**	Dh	13.08.2023
  	 * 
  	 * @return
  	 * @throws Exception
  	 */
- 	public List getQuirkList() throws Exception{
-		return transformPrioElementListToList(quirkList);
+ 	public ArrayList<Object[]> getQuirkList() throws Exception{
+		return transformPrioElementListToList(quirks);
 	}
  	//-----
- 	/**	Dh	27.02.2021
+ 	/**	Dh	13.08.2023
  	 * 
  	 * 	Gibt eine Liste mit den Kulturen von pack zurueck, wobei die Culture-Objekten durch ein Object Array(Id, Name)
  	 * 		repr‰sentiert werden.
  	 * 
  	 * @return
  	 */
- 	public List getCultureList() throws Exception{
- 		return genObjectArrayListFromIDElementList(pack.getCultureList());
+ 	public ArrayList<Object[]> getCultureList() throws Exception{
+ 		return genObjectArrayListFromIDElementList(pack.getCultures());
  	}
- 	/**	Dh	27.02.2021
- 	 * 
+ 	/**	Dh	13.08.2023
+ 	 * 	 
  	 * 	Gibt eine Liste mit den Rassen/Ethnien von pack zurueck, wobei die Race-Objekten durch ein Object-Array(Id, Name)
  	 * 		repr‰sentiert werden.
  	 * 
  	 * @return
  	 */
- 	public List getRaceList() throws Exception{
- 		return genObjectArrayListFromIDElementList(pack.getRaceList());
+ 	public ArrayList<Object[]> getRaceList() throws Exception{
+ 		return genObjectArrayListFromIDElementList(pack.getRaces());
  	}
  	
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Liefert eine Liste mit den OriginCultureList Wahrscheinlichkeitsverteilungen aller Kulturen zurueck.
  	 * 		Die List hat die Form, (( , culterName, ...), (culterName, probability, ...), ...)
@@ -112,10 +116,10 @@ public class PackEditor extends Editor {
  	 * @return
  	 * @throws Exception
  	 */
- 	public List getCultureDistributions() throws Exception {
- 		return genTwoListDistribution(pack.getCultureList(), pack.getCultureList(), true);
+ 	public ArrayList<ArrayList<Object[]>> getCultureDistributions() throws Exception {
+ 		return genTwoListDistribution(pack.getCultures(), pack.getCultures(), true);
  	}
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Liefert eine Liste mit den RaceList Wahrscheinlichkeitsverteilungen aller Kulturen zurueck.
  	 * 		Die List hat die Form, (( , raceName, ...), (culterName, probability, ...), ...)
@@ -123,8 +127,8 @@ public class PackEditor extends Editor {
  	 * @return
  	 * @throws Exception
  	 */
- 	public List getRaceDistributions() throws Exception{
- 		return genTwoListDistribution(pack.getCultureList(), pack.getRaceList(), false);
+ 	public ArrayList<ArrayList<Object[]>> getRaceDistributions() throws Exception{
+ 		return genTwoListDistribution(pack.getCultures(), pack.getRaces(), false);
  	}
  	
  	/**	Dh	28.02.2021
@@ -147,12 +151,12 @@ public class PackEditor extends Editor {
  		catch(Exception ex) {throw ex;}
  	}
  	
- 	/**	Dh	15.03.2021
+ 	/**	Dh	13.08.2023
  	 * 
  	 * 	Setzt pName und pPriority des Quirk Objektes mit der pQuirkElementID.
 	 * 
 	 * 	pName darf nicht null sein, pQuirkElementID und pPriority muessen groesser gleich 0 sein, und pQuirkElementID
-	 * 		muss in der quirkElementList enthalten sein.
+	 * 		muss in den quirkElements enthalten sein.
  	 * 
  	 * @param pQuirkElementID
  	 * @param pName
@@ -160,18 +164,18 @@ public class PackEditor extends Editor {
  	 * @throws Exception
  	 */
  	public void setQuirkElement(int pQuirkElementID, String pName, int pPriority) throws Exception{
-		setElementFromElementList(pQuirkElementID, pName, pPriority, quirkList, 1);
+		setElementFromElementList(pQuirkElementID, pName, pPriority, quirks, 1);
 	}
 	//-----
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @throws Exception
 	 */
 	public void setQuirkList() throws Exception{
-		pack.setQuirkList(new PrioList(quirkList));
+		pack.setQuirkList(new PrioList(quirks));
 	}
  	
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Ubernimmt die OriginCulture Wahrscheinlichkeitsverteilung die in pCultureDistribution enthalten sind. 
  	 * 		pCultureDistribution muss die Form ((, cultureName), (cultureName, probability, ...), ...) haben.
@@ -179,10 +183,10 @@ public class PackEditor extends Editor {
  	 * @param pCultureDistribution
  	 * @throws Exception
  	 */
- 	public void setCultureDistributions(List pCultureDistribution) throws Exception{
+ 	public void setCultureDistributions(ArrayList<ArrayList<Object[]>> pCultureDistribution) throws Exception{
  		setDistributions(pCultureDistribution, true);
  	}
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Ubernimmt die Race Wahrscheinlichkeitsverteilung die in pRaceDistribution enthalten sind. 
  	 * 		pRaceDistribution muss die Form ((, raceName), (cultureName, probability, ...), ...) haben.
@@ -190,15 +194,15 @@ public class PackEditor extends Editor {
  	 * @param pRaceDistribution
  	 * @throws Exception
  	 */
- 	public void setRaceDistributions(List pRaceDistribution) throws Exception{
+ 	public void setRaceDistributions(ArrayList<ArrayList<Object[]>> pRaceDistribution) throws Exception{
  		setDistributions(pRaceDistribution, false);
  	}
  	
  	//----------------------------------------------------------------------------------------------------
  	
- 	/**	Dh	15.03.2021
+ 	/**	Dh	13.08.2023
 	 * 
-	 * 	Fuegt ein PrioElement mit den pName und pPriority in die quirkElementList ein.
+	 * 	Fuegt ein PrioElement mit den pName und pPriority in den quirkElements ein.
 	 * 
 	 * 	pName darf nicht null sein und pPriority muss groessergleich 0 sein.
  	 * 
@@ -207,7 +211,7 @@ public class PackEditor extends Editor {
  	 * @throws Exception
  	 */
 	public void addQuirkElement(String pName, int pPriority) throws Exception{
-		addElementToElementList(pName, pPriority, quirkList, 1);
+		addElementToElementList(pName, pPriority, quirks, 1);
 	}
  	//-----
  	/**	Dh	27.02.2021
@@ -237,9 +241,9 @@ public class PackEditor extends Editor {
  		pack.addRace(pRace);
  	}
  	
- 	/**	Dh	15.03.2021
+ 	/**	Dh	13.08.2023
 	 * 
-	 * 	Entfernt die zur pQuirkElementID gehoerende Eigenschaft aus der quirkElementList.
+	 * 	Entfernt die zur pQuirkElementID gehoerende Eigenschaft aus den quirkElements.
 	 * 
 	 * 	pQuirkElementID muss groessergleich 0 sein und in quirkElementList vorhanden sein.
  	 * 
@@ -247,7 +251,7 @@ public class PackEditor extends Editor {
  	 * @throws Exception
  	 */
 	public void removeQuirkElement(int pQuirkElementID) throws Exception{
-		removeElementFromElementList(pQuirkElementID, quirkList);
+		removeElementFromElementList(pQuirkElementID, quirks);
 	}
  	
  	/**	Dh	27.02.2021
@@ -273,7 +277,7 @@ public class PackEditor extends Editor {
  	
 //--------------------------------------------------------------------------------------------------------
  	
- 	/**	Dh	27.02.2021
+ 	/**	Dh	13.08.2023
  	 * 
  	 * 	Erstellt ein neues CultureEditor Objekt, gibt dieses zurueck und erstellt eine neues Culture Element.
  	 * 		Bestimmt auﬂerdem ein neue ID fuer das Culture Element.
@@ -282,9 +286,9 @@ public class PackEditor extends Editor {
  	 * @throws Exception
  	 */
  	public CultureEditor addCulture() throws Exception{
- 		return new CultureEditor(new Culture(genNewIDFromIDElementList(pack.getCultureList()), ""), this);
+ 		return new CultureEditor(new Culture(genNewIDFromIDElementList(pack.getCultures()), ""), this);
  	}
- 	/**	Dh	27.02.2021
+ 	/**	Dh	13.08.2023
  	 * 
  	 * 	Erstellt ein neues RaceEditor Objekt, gibt dieses zurueck und erstellt eine neues Race Element.
  	 * 		Bestimmt auﬂerdem ein neue ID fuer das Race Element.
@@ -293,7 +297,7 @@ public class PackEditor extends Editor {
  	 * @throws Exception
  	 */
  	public RaceEditor addRace() throws Exception {
- 		return new RaceEditor(new Race(genNewIDFromIDElementList(pack.getRaceList()),  ""), this);
+ 		return new RaceEditor(new Race(genNewIDFromIDElementList(pack.getRaces()),  ""), this);
  	}
  	
  	/**	Dh	27.02.2021
@@ -359,7 +363,7 @@ public class PackEditor extends Editor {
  	
 //--------------------------------------------------------------------------------------------------------
 
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Macht Stuff bla, bla, bla, ....
  	 * 
@@ -367,16 +371,13 @@ public class PackEditor extends Editor {
  	 * @param pObjectArray
  	 * @param pFirstList
  	 */
- 	private void fillArrayWithExistingIDs(List pIDElementList, Object[][] pObjectArray, boolean pFirstList) {
- 		pIDElementList.toFirst();
-		while(!pIDElementList.isEnd()) {
-			if (pFirstList == true) pObjectArray[ ((IDElement)pIDElementList.getCurrent()).getId()+1 ][0] = 1;
-			else pObjectArray[0][((IDElement)pIDElementList.getCurrent()).getId()+1] = 1;
-			
-			pIDElementList.next();
-		}
+ 	private void fillArrayWithExistingIDs(ArrayList<? extends IDElement> pIDElementList, Object[][] pObjectArray, boolean pFirstList) {
+ 		for (IDElement vCur : pIDElementList) {
+ 			if (pFirstList) pObjectArray[ vCur.getId() + 1 ][0] = 1;
+ 			else pObjectArray[0][ vCur.getId() + 1 ] = 1;
+ 		}
  	}
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Fuellt das pObjectArray mit den possibilities der abhaengingen ProbElementListe von pCultureList.
  	 * 		Abhaengig von pIsCultureProbabiolity wird die OriginCultureList oder die RaceList geladen.
@@ -387,11 +388,9 @@ public class PackEditor extends Editor {
  	 * @param pIsCultureProbability
  	 * @throws Exception
  	 */
- 	private void fillArrayWithProbabilities(List pCultureList, Object[][] pObjectArray, boolean pIsCultureProbability) throws Exception{
+ 	private void fillArrayWithProbabilities(ArrayList<Culture> pCultureList, Object[][] pObjectArray, boolean pIsCultureProbability) throws Exception{
  		int vID;
- 		Culture vCur;
- 		ProbElement vTemp;
- 		List vProbElementList;
+ 		ArrayList<ProbElement> vProbElementList;
  		
  		for (int i=1; i < pObjectArray.length; i++) {
  			for (int u=1; u < pObjectArray[i].length; u++) {
@@ -399,27 +398,17 @@ public class PackEditor extends Editor {
  			}
  		}
  		
- 		pCultureList.toFirst();
-		while(!pCultureList.isEnd()) {
-			vCur = (Culture) pCultureList.getCurrent();
+ 		for (Culture vCur : pCultureList) {
+ 			vID = vCur.getId();
+			if (pIsCultureProbability == true) vProbElementList = vCur.getOriginCultureList().getProbElements();
+			else vProbElementList = vCur.getRaceList().getProbElements();
 			
-			vID = vCur.getId();
-			if (pIsCultureProbability == true) vProbElementList = vCur.getOriginCultureList().getProbElementList();
-			else vProbElementList = vCur.getRaceList().getProbElementList();
-			
-			vProbElementList.toFirst();
-			while(!vProbElementList.isEnd()) {
-				vTemp = (ProbElement) vProbElementList.getCurrent();
-				
+			for (ProbElement vTemp : vProbElementList) {
 				pObjectArray[vID + 1][vTemp.getId() + 1] = vTemp.getProbability();
-				
-				vProbElementList.next();
 			}
-			
-			pCultureList.next();
-		}
+ 		}
  	}
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Fuellt die pFillList mit den Probabilities von pObjectArray und den Title von pCultureList.
  	 * 		pCulture List muss schon eine Liste fuer die GUI sein.
@@ -428,23 +417,21 @@ public class PackEditor extends Editor {
  	 * @param pCultureList
  	 * @param pObjectArray
  	 */
- 	private void fillListWithArrayPluyTitle(List pFillList, List pCultureList, Object[][] pObjectArray) {
+ 	private void fillListWithArrayPlusTitle(ArrayList<ArrayList<Object[]>> pFillList, ArrayList<Object[]> pCultureList, Object[][] pObjectArray) {
  		int vID;
- 		List vCurList;
+ 		ArrayList<Object[]> vCurList;
  		
- 		pCultureList.toFirst();
- 		for (int i=0; i < pObjectArray.length; i++) {
- 			vID = (int)((Object[]) pCultureList.getCurrent())[0];
+ 		for (int i=0; i<pCultureList.size(); i++) {
+ 			vID = (int) (pCultureList.get(i)[0]);
  			
- 			vCurList = new List();
- 			vCurList.append(pCultureList.getCurrent());
+ 			vCurList = new ArrayList<Object[]>();
+ 			vCurList.add(pCultureList.get(i));
  			
  			for (int u=0; u < pObjectArray[i].length; u++) {
- 				vCurList.append(new Object[] {vID, pObjectArray[i][u]});
+ 				vCurList.add(new Object[] {vID, pObjectArray[i][u]});
  			}
  			
- 			pFillList.append(vCurList);
- 			pCultureList.next();
+ 			pFillList.add(vCurList);
  		}
  	}
  	//-----
@@ -491,7 +478,7 @@ public class PackEditor extends Editor {
  		return vRet;
  	}
  	
- 	/**	Dh	09.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Generiert eine Liste mit den Verteilungswahrscheinlichkeiten aus der pCultureList und der pIDElemenList.
  	 * 		Je nach pIsCultureProbability werden die OriginCulture oder die Race List geladen, das muss mit der pIDElemenList matchen.
@@ -502,21 +489,18 @@ public class PackEditor extends Editor {
  	 * @return
  	 * @throws Exception
  	 */
- 	private List genTwoListDistribution(List pCultureList, List pIDElementList, boolean pIsCultureProbability) throws Exception{
+ 	private ArrayList<ArrayList<Object[]>> genTwoListDistribution(ArrayList<Culture> pCultureList, ArrayList<? extends IDElement> pIDElementList, boolean pIsCultureProbability) throws Exception{
  		Object[][] vObArray;
  		int vLen1, vLen2;
- 		List vRet, vTemp;
+ 		ArrayList<Object[]> vTemp;
+ 		ArrayList<ArrayList<Object[]>> vRet;
  		
- 		vRet = new List();
+ 		vRet = new ArrayList<ArrayList<Object[]>>();
  		
- 		if ((pCultureList != null) && (pIDElementList != null)) {
- 			
- 			pCultureList.toLast();
- 			pIDElementList.toLast();
- 			
- 			if (pCultureList.getContentNumber() > 0) vLen1 = ((IDElement) pCultureList.getCurrent()).getId() + 2;
+ 		if ((pCultureList != null) && (pIDElementList != null)) { 			
+ 			if (pCultureList.size() > 0) vLen1 = pCultureList.get(pCultureList.size()-1).getId() + 2;
  			else vLen1 = 2;
- 			if (pIDElementList.getContentNumber() > 0) vLen2 = ((IDElement) pIDElementList.getCurrent()).getId() + 2;
+ 			if (pIDElementList.size() > 0) vLen2 = pIDElementList.get(pIDElementList.size()-1).getId() + 2;
  			else vLen2 = 2;
  			
  			vObArray = new Object[vLen1][vLen2];
@@ -530,11 +514,13 @@ public class PackEditor extends Editor {
  			
  			vTemp = genObjectArrayListFromIDElementList(pIDElementList);
  			
- 			vTemp.toFirst();
- 			vTemp.insert(new Object[] {-1, ""}); 
- 			vRet.append(vTemp);
+ 			vTemp.add(new Object[] {-1, ""});
+ 			vTemp.sort((pObjectArray1, pObjectArray2) -> {
+ 				return ((int) pObjectArray1[0]) - ((int)pObjectArray2[0]);
+ 			});
+ 			vRet.add(vTemp);
  			
- 			fillListWithArrayPluyTitle(vRet, genObjectArrayListFromIDElementList(pCultureList), vObArray);
+ 			fillListWithArrayPlusTitle(vRet, genObjectArrayListFromIDElementList(pCultureList), vObArray);
  		}else throw new Exception("04; gTLD,PaEdi");
  		
  		return vRet;
@@ -542,7 +528,7 @@ public class PackEditor extends Editor {
  	
  	//----------------------------------------------------------------------------------------------------
  	
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Macht aus einer Wahrcheinlichkeitsverteilungs List eine ProbElementList und erstllt die entsprechenden ProbElements.
  	 * 
@@ -550,32 +536,24 @@ public class PackEditor extends Editor {
  	 * @param pIDElementNameList
  	 * @return
  	 */
- 	private List transformListToProbElementList(List pList, List pIDElementNameList) {
+ 	private ArrayList<ProbElement> transformListToProbElementList(ArrayList<Object[]> pList, ArrayList<Object[]> pIDElementNameList) {
  		Object[] vCur, vCurNameElement;
- 		List vRet = new List();
+ 		ArrayList<ProbElement> vRet = new ArrayList<ProbElement>();
  		
- 		pIDElementNameList.toFirst();
- 		pList.toFirst();
- 		pIDElementNameList.next();
- 		pList.next();
- 		
- 		while(!pIDElementNameList.isEnd()) {
- 			vCur = (Object[]) pList.getCurrent();
+ 		for (int i=1; i<pIDElementNameList.size(); i++) {
+ 			vCur = pList.get(i);
  			
  			if (((double)vCur[1]) != 0) {
- 				vCurNameElement = (Object[])pIDElementNameList.getCurrent();
+ 				vCurNameElement = pIDElementNameList.get(i);
  				
- 				vRet.append(new ProbElement((int)vCurNameElement[0], (String) vCurNameElement[1], (double) vCur[1]));
+ 				vRet.add(new ProbElement((int)vCurNameElement[0], (String) vCurNameElement[1], (double) vCur[1]));
  			}
- 			
- 			pIDElementNameList.next();
- 			pList.next();
  		}
  		
  		return vRet;
  	}
  	
- 	/**	Dh	27.02.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * 	Fuegt die durch pIsOriginCulture definiert Wahrscheinlichkeitsverteilung von pList den jeweiligen Kulturen hinzu.
  	 * 
@@ -583,27 +561,21 @@ public class PackEditor extends Editor {
  	 * @param pIsOriginCulture
  	 * @throws Exception
  	 */
- 	private void setDistributions(List pList, boolean pIsOriginCulture) throws Exception{
+ 	private void setDistributions(ArrayList<ArrayList<Object[]>> pList, boolean pIsOriginCulture) throws Exception{
  		Culture vCurCult;
- 		List vIDElementList, vCurList;
+ 		ArrayList<Object[]> vIDElementList, vCurList;
  		
  		if (pList != null) {
- 			pList.toFirst();
- 			vIDElementList = (List)pList.getCurrent();
+ 			vIDElementList = pList.get(0);
  			
- 			pList.next();
- 			while(!pList.isEnd()) {
- 				vCurList = (List)pList.getCurrent();
+ 			for (int i=1; i<pList.size(); i++) {
+ 				vCurList = pList.get(i);
  				
- 				vCurList.toFirst();
- 				vCurCult = pack.getCulture( (int)((Object[])vCurList.getCurrent())[0] );
+ 				vCurCult = pack.getCulture( (int)((Object[])vCurList.get(0))[0] );
  				
  				if (pIsOriginCulture == true) vCurCult.setOriginCultureList( new ProbList(transformListToProbElementList(vCurList, vIDElementList)));
  				else vCurCult.setRaceList( new ProbList(transformListToProbElementList(vCurList, vIDElementList)));
- 				
- 				pList.next();
  			}
- 			
  		}else throw new Exception("04; sDi,PaEdi");
  		
  	}

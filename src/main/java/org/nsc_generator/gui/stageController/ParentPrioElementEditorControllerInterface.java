@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	18.03.2021
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  ParentStageControllerInterface
  * 	    ParentPrioElementEditorControllerInterface
  * 
@@ -17,7 +17,9 @@
 
 package org.nsc_generator.gui.stageController;
 
-public interface ParentPrioElementEditorControllerInterface extends ParentStageControllerInterface {
+import org.nsc_generator.gui.ParentControllerInterface;
+
+public interface ParentPrioElementEditorControllerInterface extends ParentControllerInterface {
 
 	public abstract void setPrioElement(int pCaseNumber, int pPrioElementID, String pName, int pPrio) throws Exception;
 	public abstract Object[] getPrioElement(int pCaseNumber, int pPrioElementID) throws Exception;

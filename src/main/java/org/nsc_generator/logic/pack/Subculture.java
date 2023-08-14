@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	12.03.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    Culture
  * 	      Subculture
@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 @XmlRootElement(name = "subculture")
 @XmlSeeAlso({ProbList.class, ProbElement.class})
@@ -40,7 +40,7 @@ public class Subculture extends Culture implements SubElement{
 		
 		parentID = -1;
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -50,9 +50,9 @@ public class Subculture extends Culture implements SubElement{
 		super(pID, pName);
 		
 		try {setParentCulture(pParentCulture);}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -68,7 +68,7 @@ public class Subculture extends Culture implements SubElement{
 		super(pID, pName, pOriginCultureList, pRaceList, pSexualityList, pHairlengthList, pSOList);
 		
 		try {setParentCulture(pParentCulture);}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ public class Subculture extends Culture implements SubElement{
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert eine Herkunftskultur aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subkultur gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternkultur.
@@ -147,13 +147,13 @@ public class Subculture extends Culture implements SubElement{
 	public ProbElement genOriginCulture() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getOriginCultureList().getProbElementList().getContentNumber() != 0) {
+		if (this.getOriginCultureList().getProbElements().size() != 0) {
 			vRet = super.genOriginCulture();
 		} else vRet = parentCulture.genOriginCulture();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert eine REasse/Ethnie aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subkultur gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternkultur.
@@ -162,13 +162,13 @@ public class Subculture extends Culture implements SubElement{
 	public ProbElement genRace() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getRaceList().getProbElementList().getContentNumber() != 0) {
+		if (this.getRaceList().getProbElements().size() != 0) {
 			vRet = super.genRace();
 		} else vRet = parentCulture.genRace();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert eine Sexualitaet aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subkultur gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternkultur.
@@ -177,13 +177,13 @@ public class Subculture extends Culture implements SubElement{
 	public ProbElement genSexuality() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getSexualityList().getProbElementList().getContentNumber() != 0) {
+		if (this.getSexualityList().getProbElements().size() != 0) {
 			vRet = super.genSexuality();
 		} else vRet = parentCulture.genSexuality();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert eine Haarlaenge aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subkultur gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternkultur.
@@ -192,13 +192,13 @@ public class Subculture extends Culture implements SubElement{
 	public ProbElement genHairlength() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getHairlengthList().getProbElementList().getContentNumber() != 0) {
+		if (this.getHairlengthList().getProbElements().size() != 0) {
 			vRet = super.genHairlength();
 		} else vRet = parentCulture.genHairlength();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert einen SozialStatus (So) aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subkultur gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternkultur.
@@ -207,7 +207,7 @@ public class Subculture extends Culture implements SubElement{
 	public ProbElement genSo() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getSoList().getProbElementList().getContentNumber() != 0) {
+		if (this.getSoList().getProbElements().size() != 0) {
 			vRet = super.genSo();
 		} else vRet = parentCulture.genSo();
 		

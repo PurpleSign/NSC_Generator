@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 	    PackEditor
  * 	      PackManager
@@ -19,10 +19,10 @@
 package org.nsc_generator.logic.editors;
 
 import java.io.File;
+import java.util.ArrayList;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.DatabaseConnector;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.pack.Pack;
 
 public class PackManager extends PackEditor {
@@ -48,12 +48,12 @@ public class PackManager extends PackEditor {
 
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
  	 * 
  	 * @return
  	 */
- 	public List getPackList() throws Exception{
- 		return genObjectArrayListFromIDElementList(DatabaseConnector.getPackList());
+ 	public ArrayList<Object[]> getPackList() throws Exception{
+ 		return genObjectArrayListFromIDElementList(DatabaseConnector.getPacks());
  	}
  	
  	//----------------------------------------------------------------------------------------------------
@@ -110,12 +110,12 @@ public class PackManager extends PackEditor {
  		if (pack != null) DatabaseConnector.exportPack(pack.getId(), pSaveFile);
  	}
  	
-	/**	Dh	09.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
  	public void delete() throws Exception{
  		if (pack.getId() != oldPackID) super.delete();
- 		else MainManager.handleMessage("Diese Pack kann nicht gelöscht werden.");
+ 		else LogManager.handleMessage("Diese Pack kann nicht gelöscht werden.");
  	}
  	
  	//----------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	25.02.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic
+ * 	logic
  * 	  IDElement
  * 
  * Exceptions:
@@ -16,7 +16,11 @@
 
 package org.nsc_generator.logic;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAttribute;
+
+import pDataStructures.List;
 
 public abstract class IDElement {
 	private int id;
@@ -29,7 +33,7 @@ public abstract class IDElement {
 		id = -1;
 		name = "";
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -38,7 +42,7 @@ public abstract class IDElement {
 		try {
 			setId(pID);
 			setName(pName);
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -81,4 +85,69 @@ public abstract class IDElement {
 		else throw new Exception("04; sNa,IDEle");
 	}
 
+//--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	08.08.2023
+	 * 
+	 * @param <T>
+	 * @param pArrayList
+	 * @return
+	 */
+	protected <T> List convertArrayListToList(ArrayList<T> pArrayList) {
+		List vRet = new List();
+		
+		if ((pArrayList != null) && (!pArrayList.isEmpty())) {
+			for (T vTemp : pArrayList) {
+				vRet.append(vTemp);
+			}
+		}
+		
+		return vRet;
+	}
+	
+	/**	Dh	08.08.2023
+	 * 
+	 * @param <T>
+	 * @param pList
+	 * @return
+	 */
+	protected <T> ArrayList<T> convertListToArrayList(List pList){
+		ArrayList<T> vRet = new ArrayList<T>();
+		
+		if ((pList != null) && (!pList.isEmpty())) {
+			pList.toFirst();
+			
+			while(!pList.isEnd()) {
+				vRet.add( (T)pList.getCurrent() );
+				
+				pList.next();
+			}
+		}
+		
+		return vRet;
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	08.08.2023
+	 * 
+	 * @param pID
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean isIDInIDElementList(int pID, ArrayList<? extends IDElement> pIDList) throws Exception{
+		boolean vRet = false;
+		
+		if (pIDList != null) {
+			if (pID >= -1) {
+				for (IDElement vCur : pIDList) {
+					if (vCur.getId() == pID) vRet = true;
+				}
+			} else throw new Exception("02; ciIDaEiL,Pac");
+		} else throw new Exception("04; ciIDaEiL,Pac");
+		
+		return vRet;
+	}
+	
 }

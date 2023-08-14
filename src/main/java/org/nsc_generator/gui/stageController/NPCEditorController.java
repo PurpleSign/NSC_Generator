@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	27.08.2022
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    NPCEditorController
  * 
@@ -27,8 +27,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
 
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.tableElements.NameElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 import org.nsc_generator.logic.editors.NPCEditor;
 
@@ -62,7 +63,7 @@ public class NPCEditorController extends EditorController {
 	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pPackEditor) throws Exception {
 		super.setUp(pIsEdit, pIsMobile,pParentController, pPackEditor);
 		
 		if (pPackEditor != null) {
@@ -89,7 +90,7 @@ public class NPCEditorController extends EditorController {
 		
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -99,10 +100,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genRace();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Kultur fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Kultur fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -112,15 +113,15 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genCulture(cbCurrentRegion.getSelectionModel().getSelectedItem().getId());
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Aktuelle Region fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Aktuelle Region fehlt!");
 	}
 	
 	@FXML
 	protected void genJob() {
 		
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 	
 	 */
 	@FXML
@@ -130,11 +131,11 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genSex();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		}else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		}else LogManager.handleMessage("Rasse fehlt!");
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -144,10 +145,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genSO();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Kultur fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Kultur fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -157,10 +158,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genAge();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Rasse fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -170,10 +171,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genHeight();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Rasse fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -183,11 +184,11 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genWeight();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Rasse fehlt!");
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -197,10 +198,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genComplexion();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Rasse fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -210,10 +211,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genHairlength();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Kultur fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Kultur fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -223,10 +224,10 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genHaircolor();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Rasse fehlt!");
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -236,11 +237,11 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genEyecolor();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Rasse fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Rasse fehlt!");
 	}
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -249,9 +250,9 @@ public class NPCEditorController extends EditorController {
 			npcEditor.genQuirk();
 			
 			updateNPCFields();
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -261,8 +262,8 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genSexuality();
 				
 				updateNPCFields();
-			} catch(Exception ex) {MainManager.handleException(ex);}
-		} else MainManager.handleMessage("Kultur fehlt!");
+			} catch(Exception ex) {LogManager.handleException(ex);}
+		} else LogManager.handleMessage("Kultur fehlt!");
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -273,12 +274,12 @@ public class NPCEditorController extends EditorController {
 			case 0:
 				
 			}
-		} else MainManager.handleException(new Exception("07; cLo,NPCEC"));
+		} else LogManager.handleException(new Exception("07; cLo,NPCEC"));
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -288,11 +289,11 @@ public class NPCEditorController extends EditorController {
 				npcEditor.genAll(cbCurrentRegion.getSelectionModel().getSelectedItem().getId());
 				
 				updateNPCFields();
-			} else MainManager.handleMessage("Aktuelle Region fehlt!");
-		} catch(Exception ex) {MainManager.handleException(ex);}
+			} else LogManager.handleMessage("Aktuelle Region fehlt!");
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -322,11 +323,11 @@ public class NPCEditorController extends EditorController {
 				if (!isEdit) npcEditor.add();
 				
 				parentController.closeChildStage();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 			
 		}
 	}
-	/**	Dh	08.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -334,7 +335,7 @@ public class NPCEditorController extends EditorController {
 		try{
 			npcEditor.remove();
 			parentController.closeChildStage();
-		} catch (Exception ex) {MainManager.handleException(ex);}
+		} catch (Exception ex) {LogManager.handleException(ex);}
 	}
 	/**	Dh	08.03.2021
 	 * 

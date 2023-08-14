@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	12.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    Culture
  * 
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.NPC;
 
 @XmlRootElement(name = "culture")
@@ -42,21 +42,15 @@ public class Culture extends IDElement{
 		hairlengthList = new ProbList();
 		soList = new ProbList();
 	}
-	/**	Dh	24.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
 	 */
 	public Culture(int pID, String pName) {
-		super(pID, pName);
-		
-		originCultureList = new ProbList();
-		raceList = new ProbList();
-		sexualityList = new ProbList();
-		hairlengthList = new ProbList();
-		soList = new ProbList();
+		this(pID, pName, new ProbList(), new ProbList(), new ProbList(), new ProbList(), new ProbList());
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -75,7 +69,7 @@ public class Culture extends IDElement{
 			setSexualityList(pSexualityList);
 			setHairlengthList(pHairlengthList);
 			setSoList(pSOList);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------

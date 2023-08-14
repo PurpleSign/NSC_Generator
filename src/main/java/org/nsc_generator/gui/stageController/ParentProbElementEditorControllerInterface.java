@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	09.03.2021
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  ParentStageControllerInterface
  * 	    ParentProbElementEditorControllerInterface
  * 
@@ -17,7 +17,9 @@
 
 package org.nsc_generator.gui.stageController;
 
-public interface ParentProbElementEditorControllerInterface extends ParentStageControllerInterface{
+import org.nsc_generator.gui.ParentControllerInterface;
+
+public interface ParentProbElementEditorControllerInterface extends ParentControllerInterface{
 	
 	public abstract void setProbElement(int pCaseNumber, int pProbElementID, String pName, double pProb) throws Exception;
 	public abstract Object[] getProbElement(int pCaseNumber, int pProbElementID) throws Exception;

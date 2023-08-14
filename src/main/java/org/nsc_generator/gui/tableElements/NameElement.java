@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	04.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pTableElement
+ * 	gui.tableElements
  * 	  NameElement
  * 
  * Exceptions:
@@ -16,13 +16,13 @@
 
 package org.nsc_generator.gui.tableElements;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 public class NameElement {
 	private int id;
 	private String name;
 	
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -31,7 +31,7 @@ public class NameElement {
  		try {
 			setId(pID);
 			setName(pName);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------

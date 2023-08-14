@@ -4,7 +4,7 @@ plugins {
     id 'com.gluonhq.gluonfx-gradle-plugin' version '1.0.18'
 }
 
-version = '0.0'
+version = '0.2'
 
 repositories {
     mavenCentral()
@@ -21,6 +21,7 @@ dependencies {
    	implementation 'com.gluonhq:charm:6.2.2'
    	
    	//implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.4'
+   	//implementation 'javax.xml.stream:stax-api:1.0-2'  
 	//implementation 'javax.xml.stream:stax-api:1.0-2'
     implementation 'com.sun.xml.bind:jaxb-impl:2.3.4'
     implementation files('libs/DataStructure_v0.4.jar')
@@ -37,7 +38,7 @@ javafx {
 gluonfx {
     //target = 'android' // Uncomment to enable Android
     attachConfig {
-        version = "4.0.13"
+        version = "4.0.16"
         services 'display', 'lifecycle', 'statusbar', 'storage'
     }
     

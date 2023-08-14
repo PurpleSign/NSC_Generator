@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	20.05.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    PrioElementEditorController
  * 
@@ -24,7 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.IntegerStringConverter;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.gui.ParentControllerInterface;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 
 public class PrioElementEditorController extends EditorController {
@@ -48,7 +49,7 @@ public class PrioElementEditorController extends EditorController {
 	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pEditor) throws Exception {
 		super.setUp(pIsEdit, pIsMobile, pParentController, pEditor);
 		
 		parentController = (ParentPrioElementEditorControllerInterface)super.parentController;
@@ -86,7 +87,7 @@ public class PrioElementEditorController extends EditorController {
 
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	protected void apply() {
@@ -100,7 +101,7 @@ public class PrioElementEditorController extends EditorController {
 			try {
 				if (isEdit == true) this.parentController.setPrioElement(caseNumber, prioElemenID, vName, vPrio);
 				else this.parentController.addPrioElement(caseNumber, vName, vPrio);
-			} catch(Exception ex) {MainManager.handleException(ex);}
+			} catch(Exception ex) {LogManager.handleException(ex);}
 			
 			this.parentController.closeChildStage();
 		}
@@ -117,7 +118,7 @@ public class PrioElementEditorController extends EditorController {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @return
 	 */
@@ -126,15 +127,15 @@ public class PrioElementEditorController extends EditorController {
 		
 		if (tfName.getText().equals("")) {
 			vRet = false;
-			MainManager.handleMessage("Der Name fehlt.");
+			LogManager.handleMessage("Der Name fehlt.");
 		}
 		if (tfPrio.getText().equals("")) {
 			vRet = false;
-			MainManager.handleMessage("Ein Prioritätswert fehlt.");
+			LogManager.handleMessage("Ein Prioritätswert fehlt.");
 		}
 		else if (Integer.parseInt(tfPrio.getText()) < 0) {
 			vRet = false;
-			MainManager.handleMessage("Der Prioritätswert ist nicht größer 0.");
+			LogManager.handleMessage("Der Prioritätswert ist nicht größer 0.");
 		}
 		
 		return vRet;

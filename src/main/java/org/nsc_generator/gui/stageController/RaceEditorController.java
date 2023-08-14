@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	20.05.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    RaceEditorController
  * 
@@ -35,10 +35,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.converter.IntegerStringConverter;
+
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.stages.ProbElementEditorStage;
 import org.nsc_generator.gui.tableElements.NameElement;
 import org.nsc_generator.gui.tableElements.ProbElementTableElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 import org.nsc_generator.logic.editors.RaceEditor;
 
@@ -66,7 +68,6 @@ public class RaceEditorController extends ParentStageController implements Paren
 	private ObservableList<ProbElementTableElement> liSex, liHair, liEye, liComplexion;
 	
 	private RaceEditor raceEditor;
-	//protected ProbElementEditorStage childStage;
 	
 	/**	Dh	03.03.2021
 	 * 
@@ -78,7 +79,7 @@ public class RaceEditorController extends ParentStageController implements Paren
 	/**	Dh	20.05.2021
 	 * 	
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pRaceEditor) throws Exception{
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pRaceEditor) throws Exception{
 		super.setUp(pIsEdit, pIsMobile, pParentController, pRaceEditor);
 		
 		if (pRaceEditor != null) {
@@ -256,17 +257,17 @@ public class RaceEditorController extends ParentStageController implements Paren
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
 	protected void selectSubrace() {
 		setEnabledParentListChoiceBox(true);
 		try{updateParentChoiceBox();}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	03.03.2021
+	/**	Dh	07.08.2023
 	 * 	
 	 * 	CaseNumber (int):
 	 * 		0	Sex
@@ -280,9 +281,9 @@ public class RaceEditorController extends ParentStageController implements Paren
 			childStage = new ProbElementEditorStage("Füge Geschlecht hinzu", false, null, 0, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 	
 	 * 	CaseNumber (int):
 	 * 		0	Sex
@@ -297,9 +298,9 @@ public class RaceEditorController extends ParentStageController implements Paren
 			childStage = new ProbElementEditorStage("Füge Teint hinzu", false, null, 3, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sex
@@ -313,9 +314,9 @@ public class RaceEditorController extends ParentStageController implements Paren
 			childStage = new ProbElementEditorStage("Füge Haarfarbe hinzu", false, null, 1, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sex
@@ -329,7 +330,7 @@ public class RaceEditorController extends ParentStageController implements Paren
 			childStage = new ProbElementEditorStage("Füge Augenfarbe hinzu", false, null, 2, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	/**	Dh	04.03.2021
@@ -406,7 +407,7 @@ public class RaceEditorController extends ParentStageController implements Paren
 		}
 	}
 	
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 		CaseNumber (int):
 	 * 		0	Sex
@@ -423,10 +424,10 @@ public class RaceEditorController extends ParentStageController implements Paren
 				removeProbElement(0, vCur.getId());
 				
 				updateSexList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 		CaseNumber (int):
 	 * 		0	Sex
@@ -444,10 +445,10 @@ public class RaceEditorController extends ParentStageController implements Paren
 				removeProbElement(3, vCur.getId());
 				
 				updateComplexionList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 		CaseNumber (int):
 	 * 		0	Sex
@@ -464,10 +465,10 @@ public class RaceEditorController extends ParentStageController implements Paren
 				removeProbElement(1, vCur.getId());
 				
 				updateHaircolorList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 		CaseNumber (int):
 	 * 		0	Sex
@@ -484,26 +485,26 @@ public class RaceEditorController extends ParentStageController implements Paren
 				removeProbElement(2, vCur.getId());
 				
 				updateEyecolorList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	14.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	public void closeChildStage() {
 		childStage.hide();
 		
 		try{updateLists();} 
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 		setEnabled();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -535,10 +536,10 @@ public class RaceEditorController extends ParentStageController implements Paren
 				
 				parentController.closeChildStage();
 			}
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	05.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -548,7 +549,7 @@ public class RaceEditorController extends ParentStageController implements Paren
 				raceEditor.remove();
 				parentController.closeChildStage();
 			}
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	/**	Dh	03.03.2021
@@ -741,7 +742,7 @@ public class RaceEditorController extends ParentStageController implements Paren
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
@@ -763,10 +764,10 @@ public class RaceEditorController extends ParentStageController implements Paren
 			if ((!tfWeight_Number.getText().equals("")) && ( Integer.parseInt(tfWeight_Number.getText()) < 0)) vRet = false;
 			if ((!tfWeight_Side.getText().equals("")) && ( Integer.parseInt(tfWeight_Side.getText()) < 0)) vRet = false;
 			
-			if ((raceEditor.getSexList().getContentNumber() >= 1) && (checkProbElementList(raceEditor.getSexList()) == false)) vRet = false; 
-			if ((raceEditor.getComplexionList().getContentNumber() >= 1) && (checkProbElementList(raceEditor.getComplexionList()) == false)) vRet = false; 
-			if ((raceEditor.getHaircolorList().getContentNumber() >= 1) &&(checkProbElementList(raceEditor.getHaircolorList()) == false)) vRet = false;
-			if ((raceEditor.getEyecolorList().getContentNumber() >= 1) &&(checkProbElementList(raceEditor.getEyecolorList()) == false)) vRet = false;
+			if ((raceEditor.getSexList().size() >= 1) && (checkProbElementList(raceEditor.getSexList()) == false)) vRet = false; 
+			if ((raceEditor.getComplexionList().size() >= 1) && (checkProbElementList(raceEditor.getComplexionList()) == false)) vRet = false; 
+			if ((raceEditor.getHaircolorList().size() >= 1) &&(checkProbElementList(raceEditor.getHaircolorList()) == false)) vRet = false;
+			if ((raceEditor.getEyecolorList().size() >= 1) &&(checkProbElementList(raceEditor.getEyecolorList()) == false)) vRet = false;
 		}else {
 			if ((tfAge_Number.getText().equals("")) || ( Integer.parseInt(tfAge_Number.getText()) < 0)) vRet = false;
 			if ((tfAge_Side.getText().equals("")) || ( Integer.parseInt(tfAge_Side.getText()) < 0)) vRet = false;

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	09.03.2021
+/**	NSC_Generator v0.2		Dh	18.04.2023
  * 	
- * 	pGUI.pController
+ * 	gui
  * 	  ParentStageControllerInterface
  * 
  * Exceptions:
@@ -14,9 +14,9 @@
  * 	  08 Equal Object Error
  */
 
-package org.nsc_generator.gui.stageController;
+package org.nsc_generator.gui;
 
-public interface ParentStageControllerInterface {
+public interface ParentControllerInterface {
 
 	public abstract void closeChildStage();
 	

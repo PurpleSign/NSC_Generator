@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	22.08.2022
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 	    SessionEditor
  * 
@@ -18,10 +18,10 @@
 package org.nsc_generator.logic.editors;
 
 import java.io.File;
+import java.util.ArrayList;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.DatabaseConnector;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.NPC;
 import org.nsc_generator.logic.Session;
 import org.nsc_generator.logic.pack.Pack;
@@ -37,13 +37,13 @@ public class SessionEditor extends Editor {
 		session = null;
 		newPackID = -1;
 	}
-	/**	Dh	09.03.2021
+	/**	Dh	07.08.2023
 	 * 	
 	 * @param pSession
 	 */
 	public SessionEditor(Session pSession) {
 		if (pSession != null) session = pSession;
-		else MainManager.handleException(new Exception("04; SeEd"));
+		else LogManager.handleException(new Exception("04; SeEd"));
 		
 		newPackID = -1;
 	}
@@ -217,13 +217,13 @@ public class SessionEditor extends Editor {
 		return session;
 	}
 	
-	/**	Dh	07.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getNPCList() throws Exception {
-		return genObjectArrayListFromIDElementList(session.getNpcList());
+	public ArrayList<Object[]> getNPCList() throws Exception {
+		return genObjectArrayListFromIDElementList(session.getNpcs());
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -307,13 +307,13 @@ public class SessionEditor extends Editor {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	08.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	public NPCEditor addNPC() throws Exception{
-		return new NPCEditor(new NPC(genNewIDFromIDElementList(session.getNpcList())), this);
+		return new NPCEditor(new NPC(genNewIDFromIDElementList(session.getNpcs())), this);
 	}
 	/**	Dh	09.03.2021
 	 * 
@@ -386,7 +386,7 @@ public class SessionEditor extends Editor {
  		if ((session != null) && (session.getUsedPack() != null)) DatabaseConnector.exportPack(session.getUsedPack().getId(), pSaveFile);
  	}
  	
- 	/**	Dh	19.04.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pFile
  	 * @throws Exception
@@ -397,7 +397,7 @@ public class SessionEditor extends Editor {
  		vNewNPC = DatabaseConnector.importNPC(pFile);
  		
  		if (vNewNPC != null) {
- 			vNewNPC.setId(genNewIDFromIDElementList(session.getNpcList()));
+ 			vNewNPC.setId(genNewIDFromIDElementList(session.getNpcs()));
  			session.addNPC(vNewNPC);
  			session.setCurrentNPC(vNewNPC.getId());
  		}

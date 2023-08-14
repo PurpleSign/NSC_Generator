@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.1		Dh	22.05.2021
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    InfoController
  * 
@@ -23,7 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import org.nsc_generator.gui.stages.InfoStage;
-import org.nsc_generator.logic.MainManagerMobile;
 
 public class InfoController extends EditorController {
 	@FXML

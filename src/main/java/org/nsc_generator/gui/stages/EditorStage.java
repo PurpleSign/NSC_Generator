@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	20.05.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI
+ * 	gui.stages
  * 	  EditorStage
  * 
  * Exceptions:
@@ -22,13 +22,13 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.stageController.EditorController;
-import org.nsc_generator.gui.stageController.ParentStageControllerInterface;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 
 public abstract class EditorStage extends Stage {
-	protected String zSceneFileName, zTitle;
+	protected String stageFile, title;
 	
 	protected boolean isEdit;
 	
@@ -36,17 +36,17 @@ public abstract class EditorStage extends Stage {
 	protected Scene scene;
 	protected EditorController controller;
 	
-	/**	Dh	14.03.2021
+	/**	Dh	18.04.2023
 	 * 
 	 * @param pName
 	 * @param pIsEdit
 	 * @param pEditor
 	 */
-	public EditorStage(String pSceneFileName, String pTitle, boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pEditor) {
+	public EditorStage(String pStageFile, String pTitle, boolean pIsEdit, ParentControllerInterface pParentController, Editor pEditor) {
 		super();
 		
-		zSceneFileName = pSceneFileName;
-		zTitle = pTitle;
+		stageFile = pStageFile;
+		title = pTitle;
 		
 		isEdit = pIsEdit;
 		
@@ -59,32 +59,31 @@ public abstract class EditorStage extends Stage {
 
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	20.05.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pName
 	 * @param pIsEdit
 	 * @param pEditor
 	 */
-	private void init(boolean pIsEdit, ParentStageControllerInterface pParentController, Editor pEditor) {
+	private void init(boolean pIsEdit, ParentControllerInterface pParentController, Editor pEditor) {
 		FXMLLoader fxmlloader;
 		try {
-			fxmlloader = new FXMLLoader(getClass().getResource("/"+zSceneFileName));
+			fxmlloader = new FXMLLoader(getClass().getResource("/"+stageFile));
 			root = fxmlloader.load();
 			scene = new Scene(root);
 			controller = fxmlloader.getController();
-			//controller.setUp(pIsEdit, pParentController, pEditor);
 			
 			this.setScene(scene);
 			this.sizeToScene();
 			this.setResizable(false);
 			
-			this.setTitle(zTitle);
+			this.setTitle(title);
 			this.initModality(Modality.WINDOW_MODAL);
 			this.setIconified(false);
 			
 			this.show();
 			controller.setUp(pIsEdit, false, pParentController, pEditor);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 		
 	}
 

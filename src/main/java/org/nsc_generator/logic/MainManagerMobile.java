@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.2		Dh	17.04.2023
  * 	
- * 	pLogic
+ * 	logic
  * 	  MainManagerMobile
  * 
  * Exceptions:
@@ -45,12 +45,12 @@ public class MainManagerMobile extends Application implements MainManagerInterfa
  	
  	//----------------------------------------------------------------------------------------------------
  	
-	/**	Dh	22.05.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	public void init() {
 		try {
-			MessageHandler.initMessageHandler(this);
+			LogManager.initLogManager(this);
 			DatabaseConnector.initConnector();
 			
 			//addViewFactory(HOME_VIEW, () -> new SessionManagerView(false, null, new SessionManager(null), this));

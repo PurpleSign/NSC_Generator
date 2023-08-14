@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	17.10.2021
+/**	NSC_Generator v0.2		Dh	08.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  *    IDElement
  * 	    ProbList
  * 
@@ -17,10 +17,10 @@
 
 package org.nsc_generator.logic.pack;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,27 +30,27 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({ProbElement.class})
 
 public class ProbList extends IDElement {
-	private List probElementList;
+	private ArrayList<ProbElement> probElements;
 	
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 */
 	public ProbList() {
-		probElementList = new List();
+		probElements = new ArrayList<ProbElement>();
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pProbElementList
 	 */
-	public ProbList(List pProbElementList) {
+	public ProbList(ArrayList<ProbElement> pProbElements) {
 		try {
-			setProbElementList(pProbElementList);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+			setProbElements(pProbElements);
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	pProbElementID muss groessergleich 0.
 	 * 
@@ -62,62 +62,45 @@ public class ProbList extends IDElement {
 		ProbElement vRet = null;
 		
 		if (pProbElementID >= 0) {
-			probElementList.toFirst();
-			
-			while(!probElementList.isEnd() && vRet == null) {
-				vRet = (ProbElement)probElementList.getCurrent();
-				
-				if (vRet.getId() != pProbElementID) vRet = null;
-				
-				probElementList.next();
+			for (int i=0; (i<probElements.size()) && (vRet == null); i++) {
+				if (probElements.get(i).getId() == pProbElementID) vRet = probElements.get(i);
 			}
 		} else throw new Exception("02; gPrEl,ProLis");
 		
 		return vRet;
 	}
-	/**	Dh	24.02.2021
+	
+	/**	Dh	08.08.2023
 	 * 
 	 * @return
 	 */
-	public List getProbElementList() {
-		return probElementList;
+	public ArrayList<ProbElement> getProbElements(){
+		return probElements;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
-	
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
-	 * 	pProbElementList darf nicht null sein und nur Objekte vom Typ ProbElement enthalten, die eine summierte
-	 * 		pProbability von 100 haben.
-	 * 
-	 * @param pProbElementList
+	 * @param pProbElements
 	 * @throws Exception
 	 */
-	public void setProbElementList(List pProbElementList) throws Exception {
-		Object vCur;
-		int vTotalProbability = 0;
+	public void setProbElements(ArrayList<ProbElement> pProbElements) throws Exception{
+		int vTotalProb = 0;
 		
-		if (pProbElementList != null) {
-			pProbElementList.toFirst();
-			
-			while(!pProbElementList.isEnd()) {
-				vCur = pProbElementList.getCurrent();
-				
-				if (vCur instanceof ProbElement) vTotalProbability += ((ProbElement)vCur).getProbability();
-				else throw new Exception("06; sPrElLi,ProLi");
-				
-				pProbElementList.next();
+		if (pProbElements != null) {
+			for (ProbElement vCur : pProbElements) {
+				vTotalProb += vCur.getProbability();
 			}
 			
-			if ((vTotalProbability == 100) || (vTotalProbability == 0 && pProbElementList.getContentNumber() == 0))
-				probElementList = pProbElementList;
-			else throw new Exception("02; sPrElLi,ProLi");
-		} else throw new Exception("04; sPrElLi,ProbLi");
+			if ((vTotalProb == 100) || ((vTotalProb == 0) && (pProbElements.size() == 0))) probElements = pProbElements;
+			else throw new Exception("02; sPE,ProLi");
+		}
+		else probElements = new ArrayList<ProbElement>();
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Waehlt zufaellig anhand der entsprechenden Wahrscheinlichkeiten ein ProbElement
 	 * 		aus der pProbElementList Liste aus und gibt sie zurueck.
@@ -133,14 +116,11 @@ public class ProbList extends IDElement {
 		vCurProbCount = 0;
 		vProb = vRand.nextDouble();
 		
-		probElementList.toFirst();
-		while(!probElementList.isEnd() && (vRet == null)) {
-			vRet = (ProbElement) probElementList.getCurrent();
+		for (int i=0; (i<probElements.size()) && (vRet == null); i++) {
+			vRet = probElements.get(i);
 			
 			vCurProbCount += (vRet.getProbability()/100);
 			if (vProb >=  vCurProbCount) vRet = null;
-			
-			probElementList.next();
 		}
 		
 		if (vRet == null) throw new Exception("04; gePrEl,ProLi");

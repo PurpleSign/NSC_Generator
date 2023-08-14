@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	18.10.2021
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    AbstractCondition
  * 		  NumberCondition

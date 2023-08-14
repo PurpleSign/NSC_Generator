@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	27.08.2022
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    ParentStageController
  * 	      CultureEditorController
@@ -34,10 +34,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.stages.ProbElementEditorStage;
 import org.nsc_generator.gui.tableElements.NameElement;
 import org.nsc_generator.gui.tableElements.ProbElementTableElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.CultureEditor;
 import org.nsc_generator.logic.editors.Editor;
 
@@ -75,7 +76,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pCultureEditor) throws Exception{
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pCultureEditor) throws Exception{
 		super.setUp(pIsEdit, pIsMobile,pParentController, pCultureEditor);
 		
 		if (pCultureEditor != null) {
@@ -218,17 +219,17 @@ public class CultureEditorController extends ParentStageController implements Pa
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
 	protected void selectSubculture() {
 		setEnabledParentListChoiceBox(true);
 		try{updateParentChoiceBox();}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -241,9 +242,9 @@ public class CultureEditorController extends ParentStageController implements Pa
 			childStage = new ProbElementEditorStage("Füge Sexualität hinzu", false, null, 0, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 	
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -256,9 +257,9 @@ public class CultureEditorController extends ParentStageController implements Pa
 			childStage = new ProbElementEditorStage("Füge Haarlänge hinzu", false, null, 1, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -271,7 +272,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 			childStage = new ProbElementEditorStage("Füge einen Sozialstatus hinzu", false, null, 2, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	/**	Dh	04.03.2021
@@ -326,7 +327,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 		}
 	}
 	
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 	
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -342,10 +343,10 @@ public class CultureEditorController extends ParentStageController implements Pa
 				removeProbElement(0, vCur.getId());
 				
 				updateSexualityList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -361,10 +362,10 @@ public class CultureEditorController extends ParentStageController implements Pa
 				removeProbElement(1, vCur.getId());
 				
 				updateHairlengthList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	27.08.2022
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Sexuality
@@ -380,26 +381,26 @@ public class CultureEditorController extends ParentStageController implements Pa
 				removeProbElement(2, vCur.getId());
 				
 				updateSoList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	14.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	public void closeChildStage() {
 		childStage.hide();
 		
 		try{updateLists();} 
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 		setEnabled();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	12.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -421,10 +422,10 @@ public class CultureEditorController extends ParentStageController implements Pa
 				
 				parentController.closeChildStage();
 			}
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	05.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -434,7 +435,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 				cultureEditor.remove();
 				parentController.closeChildStage();
 			}
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	/**	Dh	03.03.2021
@@ -576,7 +577,7 @@ public class CultureEditorController extends ParentStageController implements Pa
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	08.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
@@ -586,32 +587,32 @@ public class CultureEditorController extends ParentStageController implements Pa
 		
 		if (tfName.getText().equals("")) {
 			vRet = false;
-			MainManager.handleMessage("Der Name fehlt.");
+			LogManager.handleMessage("Der Name fehlt.");
 		}
 		
 		if (cbSubculture.isSelected()) {
 			if (cbParent.getSelectionModel().getSelectedItem() == null) {
 				vRet = false;
-				MainManager.handleMessage("Es wurde kein Kultur gewählt.");
+				LogManager.handleMessage("Es wurde kein Kultur gewählt.");
 			}
 			
-			if ((cultureEditor.getSexualityList().getContentNumber() >= 1) && (checkProbElementList(cultureEditor.getSexualityList()) == false)) {
+			if ((cultureEditor.getSexualityList().size() >= 1) && (checkProbElementList(cultureEditor.getSexualityList()) == false)) {
 				vRet = false;
-				MainManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Sexualitätsliste beträgt nicht 100.");
+				LogManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Sexualitätsliste beträgt nicht 100.");
 			}
-			if ((cultureEditor.getHairlengthList().getContentNumber() >= 1) && (checkProbElementList(cultureEditor.getHairlengthList()) == false)) {
+			if ((cultureEditor.getHairlengthList().size() >= 1) && (checkProbElementList(cultureEditor.getHairlengthList()) == false)) {
 				vRet = false;
-				MainManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Haarlängenliste beträgt nicht 100.");
+				LogManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Haarlängenliste beträgt nicht 100.");
 			}
 				
 		}else {
 			if (checkProbElementList(cultureEditor.getSexualityList()) == false) {
 				vRet = false; 
-				MainManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Sexualitätsliste beträgt nicht 100.");
+				LogManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Sexualitätsliste beträgt nicht 100.");
 			}
 			if (checkProbElementList(cultureEditor.getHairlengthList()) == false) {
 				vRet = false;
-				MainManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Haarlängenliste beträgt nicht 100.");
+				LogManager.handleMessage("Der wert aller Wahrscheinlichkeitswerte der Haarlängenliste beträgt nicht 100.");
 			}
 		}
 		

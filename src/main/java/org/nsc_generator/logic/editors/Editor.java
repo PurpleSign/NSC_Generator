@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	15.03.2021
+/**	NSC_Generator v0.2		Dh	13.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 
  * 	pElementType:
@@ -20,7 +20,8 @@
 
 package org.nsc_generator.logic.editors;
 
-import pDataStructures.List;
+import java.util.ArrayList;
+
 import org.nsc_generator.logic.DatabaseConnector;
 import org.nsc_generator.logic.IDElement;
 import org.nsc_generator.logic.pack.GenElement;
@@ -35,7 +36,7 @@ public abstract class Editor {
 
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	pID muss groessergleich 0 sein und in pElementList enthalten sein, pElementList darf nicht null sein.
 	 * 		Auﬂerdem muss das gesuchte Element vom Type ProbElement oder PrioElement sein.
@@ -46,14 +47,13 @@ public abstract class Editor {
 	 * @return
 	 * @throws Exception
 	 */
-	protected Object[] getElementFromElementListAsArray(int pID, List pElementList) throws Exception{
+	protected Object[] getElementFromElementListAsArray(int pID, ArrayList<? extends IDElement> pElementList) throws Exception{
 		IDElement vCur;
 		Object[] vRet = new Object[3];
 		
 		if (pID >= 0) {
-			pElementList.toFirst();
-			while(!pElementList.isEnd() && (pID >= 0)) {
-				vCur = (IDElement) pElementList.getCurrent();
+			for (int i=0; (i<pElementList.size()) && (pID >= 0); i++) {
+				vCur = (IDElement) pElementList.get(i);
 				
 				if (vCur.getId() == pID) {
 					if (vCur instanceof ProbElement) vRet = transformProbElementToList((ProbElement)vCur);
@@ -62,8 +62,6 @@ public abstract class Editor {
 					
 					pID = -1;
 				}
-				
-				pElementList.next();
 			}
 		} else throw new Exception("02; gEfELaA,Edi");
 		
@@ -101,7 +99,7 @@ public abstract class Editor {
 		} else throw new Exception("04; sPriE,Edi");
 	}
 	//-----
-	/**	Dh	15.03.2021
+	/**	Dh	12.08.2023
 	 * 
 	 * 	pID und pValue muessen groessergleich 0 sein, und pName und pElementList duerfen nicht null sein.
 	 * 		Auﬂerdem muss pID in pElementList vorhanden sein.
@@ -116,14 +114,13 @@ public abstract class Editor {
 	 * @param pProbElementList
 	 * @throws Exception
 	 */
-	protected void setElementFromElementList(int pID, String pName, Object pValue, List pElementList, int pElementType) throws Exception{
-		IDElement vCur;
+	protected <T extends IDElement> void setElementFromElementList(int pID, String pName, Object pValue, ArrayList<T> pElementList, int pElementType) throws Exception{
+		T vCur;
 		
 		if (pElementList != null) {
 			if (pID >= 0) {
-				pElementList.toFirst();
-				while(!pElementList.isEnd() && (pID >= 0)) {
-					vCur = (IDElement) pElementList.getCurrent();
+				for (int i=0; (i<pElementList.size()) && (pID >= 0); i++) {
+					vCur =  pElementList.get(i);
 					
 					if (vCur.getId() == pID) {
 						switch(pElementType) {
@@ -143,14 +140,12 @@ public abstract class Editor {
 						
 						pID = -1;
 					}
-					
-					pElementList.next();
 				}
 			}else throw new Exception("02a; sEfEL,Edi");
 		} else throw new Exception("04; sEfEL,Edi");
 	}
 	
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	pElementList darf nicht null sein, und muss nach IDs sortiert sein.
 	 * 
@@ -163,48 +158,37 @@ public abstract class Editor {
 	 * @param pProbElementList
 	 * @throws Exception
 	 */
-	protected void addElementToElementList(String pName, Object pValue, List pElementList, int pElementType) throws Exception {
+	protected <T extends IDElement>  void addElementToElementList(String pName, Object pValue, ArrayList<T> pElementList, int pElementType) throws Exception {
 		int vID;
-		IDElement vCur, vAdd;
+		T vAdd;
 		
 		if (pElementList != null) {
 			vID = genNewIDFromIDElementList(pElementList);	
 			
 			switch(pElementType) {
 			case 0:
-				if (pValue instanceof Double) vAdd = new ProbElement(vID, pName, (double)pValue);
+				if (pValue instanceof Double) vAdd = (T)new ProbElement(vID, pName, (double)pValue);
 				else throw new Exception("06a; aEtEL,Edi");
 				break;
 			case 1:
-				if (pValue instanceof Integer) vAdd = new PrioElement(vID, pName, (int)pValue);
+				if (pValue instanceof Integer) vAdd = (T)new PrioElement(vID, pName, (int)pValue);
 				else throw new Exception("06b; aEtEL,Edi");
 				break;
 			default:
 				throw new Exception("02b; aEtEL,Edi");
 			}
 			
-			if (pElementList.getContentNumber() != 0) {
-				pElementList.toFirst();
-				while(!pElementList.isEnd()) {
-					vCur = (IDElement) pElementList.getCurrent();
-						
-					if (vCur.getId() == vID) throw new Exception("02a; aEtEL,Edi");
-					else if (vCur.getId() > vID) {
-						pElementList.insert(vAdd);
-						
-						pElementList.toLast();
-					} else if (pElementList.isLast()) {
-						pElementList.append(vAdd);
-						pElementList.toLast();
-					}
-					
-					pElementList.next();
-				}
-			} else pElementList.append(vAdd);
+			if (pElementList.size() != 0) {
+				if (isIDInIDElementList(vID, pElementList)) throw new Exception("02a; aEtEL,Edi");
+			}else pElementList.add(vAdd);
+			
+			pElementList.sort((pObj1, pObj2) -> {
+				return pObj1.getId() - pObj2.getId();
+			});
 		} else throw new Exception("04; aEtEL,Edi");
 	}
 	
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	pElementList darf nicht nuzll sein, pID muss groessergleich 0 sein und in pElemntList vorhanden.
 	 * 
@@ -212,21 +196,14 @@ public abstract class Editor {
 	 * @param pProbElementList
 	 * @throws Exception
 	 */
-	protected void removeElementFromElementList(int pID, List pElementList) throws Exception{
-		IDElement vCur;
-		
+	protected void removeElementFromElementList(int pID, ArrayList<? extends IDElement> pElementList) throws Exception{
 		if (pElementList != null) {
 			if (pID >= 0) {
-				pElementList.toFirst();
-				while(!pElementList.isEnd()) {
-					vCur = (IDElement) pElementList.getCurrent();
-					
-					if (vCur.getId() == pID) {
-						pElementList.remove();
-						pElementList.toLast();
+				for (int i=0; i<pElementList.size(); i++) {
+					if (pElementList.get(i).getId() == pID) {
+						pElementList.remove(i);
+						i--;
 					}
-					
-					pElementList.next();
 				}
 			}else throw new Exception("02; rEfEL,Edi");
 		} else throw new Exception("04; rEfEL,Edi");
@@ -234,7 +211,7 @@ public abstract class Editor {
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	09.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Generiert eine neue ID, die noch nicht in der angegebenen pIDElementList vorkommt.
 	 * 		Dazu muss die pIDElement nach ihren IDs geordnet sein.
@@ -245,11 +222,11 @@ public abstract class Editor {
 	 * @return
 	 * @throws Exception
 	 */
-	protected int genNewIDFromIDElementList(List pIDElementList) throws Exception {
+	protected int genNewIDFromIDElementList(ArrayList<? extends IDElement> pIDElementList) throws Exception {
 		return DatabaseConnector.genNewIDFromIDElementList(pIDElementList);
 	}
 	
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Erzeugt eine List von Objekt Array (id, name) der pIDElementList.
 	 * 
@@ -259,25 +236,21 @@ public abstract class Editor {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List genObjectArrayListFromIDElementList(List pIDElementList) throws Exception{
+	protected ArrayList<Object[]> genObjectArrayListFromIDElementList(ArrayList<? extends IDElement> pIDElementList) throws Exception{
 		Object[] vElement;
-		List vRet;
- 		IDElement vCur;
+		ArrayList<Object[]> vRet;
  		
  		if (pIDElementList != null) {
- 			vRet = new List();
+ 			vRet = new ArrayList<Object[]>();
  			
- 			pIDElementList.toFirst();
- 	 		while(!pIDElementList.isEnd()) {
- 	 			vCur = (IDElement) pIDElementList.getCurrent();
- 	 			vElement = new Object[2];
+ 			for (IDElement vCur : pIDElementList) {
+ 				vElement = new Object[2];
  	 			
  	 			vElement[0] = vCur.getId();
  	 			vElement[1] = vCur.getName();
  	 			
- 	 			vRet.append(vElement);
- 	 			pIDElementList.next();
- 	 		}
+ 	 			vRet.add(vElement);
+ 			}
  		} else throw new Exception("04; gOALfIDEL,Edi");
  		
  		return vRet;
@@ -343,7 +316,7 @@ public abstract class Editor {
 		return vRet;
 	}
 	
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	pElementList darf nicht null sein und pElementType muss zwischen 0 und 1 sein.
 	 * 
@@ -356,33 +329,30 @@ public abstract class Editor {
 	 * @return
 	 * @throws Exception
 	 */
-	private List transformElementListToList(List pElementList, int pElementType) throws Exception{
-		List vRet = new List();
+	private <T extends IDElement> ArrayList<Object[]> transformElementListToList(ArrayList<T> pElementList, int pElementType) throws Exception{
+		ArrayList<Object[]> vRet = new ArrayList<Object[]>();
 		
 		if (pElementList!= null) {
-			pElementList.toFirst();
-			while(!pElementList.isEnd()) {
+			for (T vCur : pElementList) {
 				switch(pElementType) {
 				case 0:
-					vRet.append(transformProbElementToList((ProbElement)pElementList.getCurrent()));
+					vRet.add(transformProbElementToList((ProbElement)vCur));
 					
 					break;
 				case 1:
-					vRet.append(transformPrioElementToList((PrioElement)pElementList.getCurrent()));
+					vRet.add(transformPrioElementToList((PrioElement)vCur));
 					
 					break;
 				default:
 					throw new Exception("02; tELtL,Edi");
 				}
-				
-				pElementList.next();
 			}
 		}else throw new Exception("04; tELtL,Edi");
 		
 		return vRet;
 	}
 	//-----
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	pProbElementList darf nicht null sein.
 	 * 
@@ -390,10 +360,10 @@ public abstract class Editor {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List transformProbElementListToList(List pProbElementList) throws Exception{
+	protected ArrayList<Object[]> transformProbElementListToList(ArrayList<ProbElement> pProbElementList) throws Exception{
 		return transformElementListToList(pProbElementList, 0);
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	pPrioElementList darf nicht null sein.
 	 * 
@@ -401,8 +371,27 @@ public abstract class Editor {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List transformPrioElementListToList(List pPrioElementList) throws Exception{
+	protected ArrayList<Object[]> transformPrioElementListToList(ArrayList<PrioElement> pPrioElementList) throws Exception{
 		return transformElementListToList(pPrioElementList, 1);
+	}
+	
+//--------------------------------------------------------------------------------------------------------
+
+	/**	Dh	13.08.2023
+	 * 
+	 * @param pID
+	 * @param pIDElementList
+	 * @return
+	 * @throws Exception
+	 */
+	protected boolean isIDInIDElementList(int pID, ArrayList<? extends IDElement> pIDElementList) throws Exception {
+		boolean vRet = false;
+		
+		for (int i=0; (i<pIDElementList.size()) && (vRet == false); i++) {
+			if (pIDElementList.get(i).getId() == pID) vRet = true;
+		}
+		
+		return vRet;
 	}
 	
 }

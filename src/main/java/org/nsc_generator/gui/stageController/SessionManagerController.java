@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.1		Dh	22.05.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    ManagerController
  * 	      SessionkManagerController
@@ -27,11 +27,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.stages.PackManagerStage;
 import org.nsc_generator.gui.tableElements.NameElement;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.MainManager;
 import org.nsc_generator.logic.MainManagerInterface;
-import org.nsc_generator.logic.MainManagerMobile;
 import org.nsc_generator.logic.editors.Editor;
 import org.nsc_generator.logic.editors.PackManager;
 import org.nsc_generator.logic.editors.SessionManager;
@@ -58,13 +59,13 @@ public class SessionManagerController extends ManagerController {
 	 * 
 	 * 	Old, please don't use anymore.
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pSessionManager) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pSessionManager) throws Exception {
 		setUp(pIsEdit, pIsMobile, pParentController, pSessionManager, null);
 	}
-	/**	Dh	22.05.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pSessionManager, MainManagerInterface pMainManager) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pSessionManager, MainManagerInterface pMainManager) throws Exception {
 		super.setUp(pIsEdit, pIsMobile, pParentController, pSessionManager, pMainManager);
 		
 		if (pSessionManager != null) {
@@ -77,7 +78,7 @@ public class SessionManagerController extends ManagerController {
 						
 						updateNameElementInfos();
 						setEnabledNameElementElements(true);
-					} catch(Exception ex) {MainManager.handleException(ex);}
+					} catch(Exception ex) {LogManager.handleException(ex);}
 				});
 				
 				liNameElements = FXCollections.observableArrayList();
@@ -101,7 +102,7 @@ public class SessionManagerController extends ManagerController {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@Override
@@ -123,13 +124,13 @@ public class SessionManagerController extends ManagerController {
 			}
 			
 			updateAll();
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 		setEnabled();
 	}
 
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -137,10 +138,10 @@ public class SessionManagerController extends ManagerController {
 		try {
 			childStage = new PackManagerStage(true, this, new PackManager(sessionManager));
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	19.04.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -160,10 +161,10 @@ public class SessionManagerController extends ManagerController {
 				
 				updateNameElementList();
 				updateNameElementInfos();
-			} catch(Exception ex) {MainManager.handleException(ex);}
+			} catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -179,13 +180,13 @@ public class SessionManagerController extends ManagerController {
 		
 		if (vFile != null) {
 			try{sessionManager.exportSession(vFile);
-			} catch(Exception ex) {MainManager.handleException(ex);}
+			} catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -196,9 +197,9 @@ public class SessionManagerController extends ManagerController {
 				parentController.closeChildStage();
 			}
 			else MainManager.startSessionEditor(sessionManager.getSessionEditor());
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -208,15 +209,15 @@ public class SessionManagerController extends ManagerController {
 			sessionManager.delete();
 			
 			updateAll();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	22.05.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
 	public void back() {
 		if (isEdit) parentController.closeChildStage();
-		else MainManager.closeApp();
+		else LogManager.closeApp();
 	}
 	
 //--------------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	15.03.2021
+/**	NSC_Generator v0.2		Dh	13.08.2023
  * 	
- * 	pLogic.pEditors
+ * 	logic.editors
  * 	  Editor
  * 	    RaceEditor
  * 
@@ -17,10 +17,12 @@
 
 package org.nsc_generator.logic.editors;
 
-import pDataStructures.List;
-import org.nsc_generator.logic.MainManager;
+import java.util.ArrayList;
+
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.pack.GenElement;
 import org.nsc_generator.logic.pack.Pack;
+import org.nsc_generator.logic.pack.ProbElement;
 import org.nsc_generator.logic.pack.ProbList;
 import org.nsc_generator.logic.pack.Race;
 import org.nsc_generator.logic.pack.Subrace;
@@ -29,25 +31,25 @@ public class RaceEditor extends Editor {
 	private PackEditor packEditor;
 	private Race race;
 	
-	private List sexElementList, complexionElementList, haircolorElementList, eyecolorElementList;
+	private ArrayList<ProbElement> sexElements, complexionElements, haircolorElements, eyecolorElements;
 	
-	/**	Dh	12.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @param pRace
 	 * @param pPackEditor
 	 */
 	public RaceEditor(Race pRace, PackEditor pPackEditor) {
 		if (pPackEditor != null) packEditor = pPackEditor;
-		else MainManager.handleException(new Exception("04b; RaEdt"));
+		else LogManager.handleException(new Exception("04b; RaEdt"));
 		
 		if (pRace != null) {
 			race = pRace;
 			
-			sexElementList = race.getSexList().getProbElementList().copyList();
-			complexionElementList = race.getComplexionList().getProbElementList().copyList();
-			haircolorElementList = race.getHaircolorList().getProbElementList().copyList();
-			eyecolorElementList = race.getEyecolorList().getProbElementList().copyList();
-		} else MainManager.handleException(new Exception("04a; RaEdt"));
+			sexElements = (ArrayList<ProbElement>) race.getSexList().getProbElements().clone();
+			complexionElements = (ArrayList<ProbElement>) race.getComplexionList().getProbElements().clone();
+			haircolorElements = (ArrayList<ProbElement>) race.getHaircolorList().getProbElements().clone();
+			eyecolorElements = (ArrayList<ProbElement>) race.getEyecolorList().getProbElements().clone();
+		} else LogManager.handleException(new Exception("04a; RaEdt"));
 	}
 
 //--------------------------------------------------------------------------------------------------------	
@@ -91,98 +93,98 @@ public class RaceEditor extends Editor {
 		return transformGenElementToList(race.getWeight());
 	}
 	
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt ein Geschlecht als Array (id, name, probability) zurueck.
 	 * 
-	 * 	pSexElementID muss goressergleich 0 sein und muss in der sexElementList vorkommen.
+	 * 	pSexElementID muss goressergleich 0 sein und muss in den sexElements vorkommen.
 	 * 
 	 * @param pSexElementID
 	 * @return
 	 * @throws Exception
 	 */
 	public Object[] getSexElement(int pSexElementID) throws Exception{
-		return getElementFromElementListAsArray(pSexElementID, sexElementList);
+		return getElementFromElementListAsArray(pSexElementID, sexElements);
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt einen Teint als Array (id, name, probability) zurueck.
 	 * 
-	 * 	pComplexionElementID muss goressergleich 0 sein und muss in der complexionElementList vorkommen.
+	 * 	pComplexionElementID muss goressergleich 0 sein und muss in den complexionElements vorkommen.
 	 * 
 	 * @param pComplexionElementID
 	 * @return
 	 * @throws Exception
 	 */
 	public Object[] getComplexionElement(int pComplexionElementID) throws Exception{
-		return getElementFromElementListAsArray(pComplexionElementID, complexionElementList);
+		return getElementFromElementListAsArray(pComplexionElementID, complexionElements);
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt eine Haarfarbe als Array (id, name, probability) zurueck.
 	 * 
-	 * 	pHaircolorElementID muss goressergleich 0 sein und muss in der haircolorElementList vorkommen.
+	 * 	pHaircolorElementID muss goressergleich 0 sein und muss in der haircolorElements vorkommen.
 	 * 
 	 * @param pHaircolorElementID
 	 * @return
 	 * @throws Exception
 	 */
 	public Object[] getHaircolorElement(int pHaircolorElementID) throws Exception{
-		return getElementFromElementListAsArray(pHaircolorElementID, haircolorElementList);
+		return getElementFromElementListAsArray(pHaircolorElementID, haircolorElements);
 	}
-	/**	Dh	14.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt eine Augenfarbe als Array (id, name, probability) zurueck.
 	 * 
-	 * 	pEyecolorElementID muss goressergleich 0 sein und muss in der eyecolorElementList vorkommen.
+	 * 	pEyecolorElementID muss goressergleich 0 sein und muss in den eyecolorElements vorkommen.
 	 * 
 	 * @param pEyecolorElementID
 	 * @return
 	 * @throws Exception
 	 */
 	public Object[] getEyecolorElement(int pEyecolorElementID) throws Exception{
-		return getElementFromElementListAsArray(pEyecolorElementID, eyecolorElementList);
+		return getElementFromElementListAsArray(pEyecolorElementID, eyecolorElements);
 	}
 	//-----
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt das Geschlecht als Liste von Arrays ((id, name, probability), ...) zurueck.
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getSexList() throws Exception{
-		return transformProbElementListToList(sexElementList);
+	public ArrayList<Object[]> getSexList() throws Exception{
+		return transformProbElementListToList(sexElements);
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt den Teint als Liste von Arrays ((id, name, probability), ...) zurueck.
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getComplexionList() throws Exception{
-		return transformProbElementListToList(complexionElementList);
+	public ArrayList<Object[]> getComplexionList() throws Exception{
+		return transformProbElementListToList(complexionElements);
 	}
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt die Haarfarbe als Liste von Arrays ((id, name, probability), ...) zurueck.
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getHaircolorList() throws Exception{
-		return transformProbElementListToList(haircolorElementList);
+	public ArrayList<Object[]> getHaircolorList() throws Exception{
+		return transformProbElementListToList(haircolorElements);
 	}
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Gibt die Augenfarbe als Liste von Arrays ((id, name, probability), ...) zurueck.
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getEyecolorList() throws Exception{
-		return transformProbElementListToList(eyecolorElementList);
+	public ArrayList<Object[]> getEyecolorList() throws Exception{
+		return transformProbElementListToList(eyecolorElements);
 	}
 	
 	/**	Dh	28.02.2021
@@ -212,27 +214,24 @@ public class RaceEditor extends Editor {
 		return vRet;
 	}
 	//-----
-	/**	Dh	05.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List getPossibleParentList() throws Exception {
+	public ArrayList<Object[]> getPossibleParentList() throws Exception {
 		int vID;
-		List vRet, vRaceList;
+		ArrayList<Object[]> vRet, vRaceList;
 		
 		if (race != null) {
 			vID = race.getId();
 			vRaceList = packEditor.getRaceList();
 			
 			if (vRaceList != null) {
-				vRet = new List();
+				vRet = new ArrayList<Object[]>();
 				
-				vRaceList.toFirst();
-				while(!vRaceList.isEnd()) {
-					if ( (int)((Object[])vRaceList.getCurrent())[0] != vID ) vRet.append(vRaceList.getCurrent());
-					
-					vRaceList.next();
+				for (Object[] vCur : vRaceList) {
+					if ( (int)(vCur[0]) != vID ) vRet.add(vCur);
 				}
 			} else throw new Exception ("04b; gPPL,RaEdi");
 		} else throw new Exception ("04a; gPPL,RaEdi");
@@ -290,12 +289,12 @@ public class RaceEditor extends Editor {
 		race.setWeight(new GenElement(pNumber, pSide, pOffset));
 	}
 	
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Setzt pName und pProbability des Sex Objektes mit der pSexElementID.
 	 * 
 	 * 	pName darf nicht null sein, pSexElementID und pProbability muessen groesser gleich 0 sein, und pSexElementID
-	 * 		muss in der sexElementList enthalten sein.
+	 * 		muss in den sexElements enthalten sein.
 	 * 
 	 * @param pSexElementID
 	 * @param pName
@@ -303,14 +302,14 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void setSexElement(int pSexElementID, String pName, double pProbability) throws Exception{
-		setElementFromElementList(pSexElementID, pName, pProbability, sexElementList, 0);
+		setElementFromElementList(pSexElementID, pName, pProbability, sexElements, 0);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Setzt pName und pProbability des Teint Objektes mit der pComplexionElementID.
 	 * 
 	 * 	pName darf nicht null sein, pComplexionElementID und pProbability muessen groesser gleich 0 sein, und pComplexionElementID
-	 * 		muss in der complexionElementList enthalten sein.
+	 * 		muss in den complexionElements enthalten sein.
 	 * 
 	 * @param pComplexionElementID
 	 * @param pName
@@ -318,14 +317,14 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void setComplexionElement(int pComplexionElementID, String pName, double pProbability) throws Exception{
-		setElementFromElementList(pComplexionElementID, pName, pProbability, complexionElementList, 0);
+		setElementFromElementList(pComplexionElementID, pName, pProbability, complexionElements, 0);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Setzt pName und pProbability des Haircolor Objektes mit der pHaircolorElementID.
 	 * 
 	 * 	pName darf nicht null sein, pHaircolorElementID und pProbability muessen groesser gleich 0 sein, und
-	 * 		pHaircolorElementID muss in der haircolorElementList enthalten sein.
+	 * 		pHaircolorElementID muss in den haircolorElements enthalten sein.
 	 * 
 	 * @param pHaircolorElementID
 	 * @param pName
@@ -333,14 +332,14 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void setHaircolorElement(int pHaircolorElementID, String pName, double pProbability) throws Exception{
-		setElementFromElementList(pHaircolorElementID, pName, pProbability, haircolorElementList, 0);
+		setElementFromElementList(pHaircolorElementID, pName, pProbability, haircolorElements, 0);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * 	Setzt pName und pProbability des Eyecolor Objektes mit der pEyecolorElementID.
 	 * 
 	 * 	pName darf nicht null sein, pEyecolorElementID und pProbability muessen groesser gleich 0 sein, und
-	 * 		pEyecolorElementID muss in der eyecolorElementList enthalten sein.
+	 * 		pEyecolorElementID muss in den eyecolorElements enthalten sein.
 	 * 
 	 * @param pEyecolorElementID
 	 * @param pName
@@ -348,39 +347,36 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void setEyecolorElement(int pEyecolorElementID, String pName, double pProbability) throws Exception{
-		setElementFromElementList(pEyecolorElementID, pName, pProbability, eyecolorElementList, 0);
+		setElementFromElementList(pEyecolorElementID, pName, pProbability, eyecolorElements, 0);
 	}
 	//-----
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * @param pList
 	 * @throws Exception
 	 */
 	public void setSexList() throws Exception{
-		race.setSexList(new ProbList(sexElementList));
+		race.setSexList(new ProbList(sexElements));
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @throws Exception
 	 */
 	public void setComplexionList() throws Exception{
-		race.setComplexionList(new ProbList(complexionElementList));
+		race.setComplexionList(new ProbList(complexionElements));
 	}
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * @param pList
 	 * @throws Exception
 	 */
 	public void setHaircolorList() throws Exception{
-		race.setHaircolorList(new ProbList(haircolorElementList));
+		race.setHaircolorList(new ProbList(haircolorElements));
 	}
-	/**	Dh	27.02.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * @param pList
 	 * @throws Exception
 	 */
 	public void setEyecolorList() throws Exception{
-		race.setEyecolorList(new ProbList(eyecolorElementList));
+		race.setEyecolorList(new ProbList(eyecolorElements));
 	}
 	
 	/**	Dh	28.02.2021
@@ -405,9 +401,9 @@ public class RaceEditor extends Editor {
 	
 //--------------------------------------------------------------------------------------------------------	
 
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Fuegt ein ProbElement mit den pName und pProbability in die sexElementList ein.
+	 * 	Fuegt ein ProbElement mit den pName und pProbability in den sexElements ein.
 	 * 
 	 * 	pName darf nicht null sein und pProbability muss groessergleich 0 sein.
 	 * 
@@ -416,11 +412,11 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void addSexElement(String pName, double pProbability) throws Exception{
-		addElementToElementList(pName, pProbability, sexElementList, 0);
+		addElementToElementList(pName, pProbability, sexElements, 0);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Fuegt ein ProbElement mit den pName und pProbability in die complexionElementList ein.
+	 * 	Fuegt ein ProbElement mit den pName und pProbability in den complexionElements ein.
 	 * 
 	 * 	pName darf nicht null sein und pProbability muss groessergleich 0 sein.
 	 * 
@@ -429,11 +425,11 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void addComplexionElement(String pName, double pProbability) throws Exception{
-		addElementToElementList(pName, pProbability, complexionElementList, 0);
+		addElementToElementList(pName, pProbability, complexionElements, 0);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Fuegt ein ProbElement mit den pName und pProbability in die haircolorElementList ein.
+	 * 	Fuegt ein ProbElement mit den pName und pProbability in den haircolorElements ein.
 	 * 
 	 * 	pName darf nicht null sein und pProbability muss groessergleich 0 sein.
 	 * 
@@ -442,11 +438,11 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void addHaircolorElement(String pName, double pProbability) throws Exception{
-		addElementToElementList(pName, pProbability, haircolorElementList, 0);
+		addElementToElementList(pName, pProbability, haircolorElements, 0);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Fuegt ein ProbElement mit den pName und pProbability in die eyecolorElementList ein.
+	 * 	Fuegt ein ProbElement mit den pName und pProbability in den eyecolorElements ein.
 	 * 
 	 * 	pName darf nicht null sein und pProbability muss groessergleich 0 sein.
 	 * 
@@ -455,7 +451,7 @@ public class RaceEditor extends Editor {
 	 * @throws Exception
 	 */
 	public void addEyecolorElement(String pName, double pProbability) throws Exception{
-		addElementToElementList(pName, pProbability, eyecolorElementList, 0);
+		addElementToElementList(pName, pProbability, eyecolorElements, 0);
 	}
 	
 	/**	Dh	27.02.2021
@@ -468,53 +464,53 @@ public class RaceEditor extends Editor {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Entfernt das zur pSexElementId gehoerende Geschlecht aus der sexElementList.
+	 * 	Entfernt das zur pSexElementId gehoerende Geschlecht aus den sexElements.
 	 * 
-	 * 	pSexElementID muss groessergleich 0 sein und in sexElementList vorhanden sein.
+	 * 	pSexElementID muss groessergleich 0 sein und in sexElements vorhanden sein.
 	 * 
 	 * @param pSexElementID
 	 * @throws Exception
 	 */
 	public void removeSexElement(int pSexElementID) throws Exception{
-		removeElementFromElementList(pSexElementID, sexElementList);
+		removeElementFromElementList(pSexElementID, sexElements);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Entfernt das zur pComplexionElementId gehoerender Teint aus der complexionElementList.
+	 * 	Entfernt das zur pComplexionElementId gehoerender Teint aus den complexionElements.
 	 * 
-	 * 	pComplexionElementID muss groessergleich 0 sein und in complexionElementList vorhanden sein.
+	 * 	pComplexionElementID muss groessergleich 0 sein und in complexionElements vorhanden sein.
 	 * 
 	 * @param pComplexionElementID
 	 * @throws Exception
 	 */
 	public void removeComplexionElement(int pComplexionElementID) throws Exception{
-		removeElementFromElementList(pComplexionElementID, complexionElementList);
+		removeElementFromElementList(pComplexionElementID, complexionElements);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Entfernt das zur pHaircolorElementId gehoerende Haarfarbe aus der haircolorElementList.
+	 * 	Entfernt das zur pHaircolorElementId gehoerende Haarfarbe aus den haircolorElements.
 	 * 
-	 * 	pHaircolorElementID muss groessergleich 0 sein und in haircolorElementList vorhanden sein.
+	 * 	pHaircolorElementID muss groessergleich 0 sein und in haircolorElements vorhanden sein.
 	 * 
 	 * @param pHaircolorElementID
 	 * @throws Exception
 	 */
 	public void removeHaircolorElement(int pHaircolorElementID) throws Exception{
-		removeElementFromElementList(pHaircolorElementID, haircolorElementList);
+		removeElementFromElementList(pHaircolorElementID, haircolorElements);
 	}
-	/**	Dh	15.03.2021
+	/**	Dh	13.08.2023
 	 * 
-	 * 	Entfernt das zur pEyecolorElementId gehoerende Augenfarbe aus der eyecolorElementList.
+	 * 	Entfernt das zur pEyecolorElementId gehoerende Augenfarbe aus den eyecolorElements.
 	 * 
-	 * 	pEyecolorElementID muss groessergleich 0 sein und in eyecolorElementList vorhanden sein.
+	 * 	pEyecolorElementID muss groessergleich 0 sein und in eyecolorElements vorhanden sein.
 	 * 
 	 * @param pEyecolorElementID
 	 * @throws Exception
 	 */
 	public void removeEyecolorElement(int pEyecolorElementID) throws Exception{
-		removeElementFromElementList(pEyecolorElementID, eyecolorElementList);
+		removeElementFromElementList(pEyecolorElementID, eyecolorElements);
 	}
 	
 	/**	Dh	27.02.2021

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	12.03.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    Race
  * 	      Subrace
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 @XmlRootElement(name = "subrace")
 
@@ -39,7 +39,7 @@ public class Subrace extends Race implements SubElement {
 		parentRace = new Race();
 		parentID = -1;
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -49,7 +49,7 @@ public class Subrace extends Race implements SubElement {
 		super(pID, pName);
 		
 		try {setParentRace(pParentRace);}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------
@@ -190,7 +190,7 @@ public class Subrace extends Race implements SubElement {
 		return vRet;
 	}
 	
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert ein Geschlecht aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subrasse gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternrasse.
@@ -199,13 +199,13 @@ public class Subrace extends Race implements SubElement {
 	public ProbElement genSex() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getSexList().getProbElementList().getContentNumber() != 0) {
+		if (this.getSexList().getProbElements().size() != 0) {
 			vRet = super.genSex();
 		} else vRet = parentRace.genSex();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert eine Haarfarbe aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subrasse gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternrasse.
@@ -216,13 +216,13 @@ public class Subrace extends Race implements SubElement {
 	public ProbElement genHaircolor() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getHaircolorList().getProbElementList().getContentNumber() != 0) {
+		if (this.getHaircolorList().getProbElements().size() != 0) {
 			vRet = super.genHaircolor();
 		} else vRet = parentRace.genHaircolor();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 	
 	 * 	Generiert eine Augenfarbe aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subrasse gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternrasse.
@@ -233,13 +233,13 @@ public class Subrace extends Race implements SubElement {
 	public ProbElement genEyecolor() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getEyecolorList().getProbElementList().getContentNumber() != 0) {
+		if (this.getEyecolorList().getProbElements().size() != 0) {
 			vRet = super.genEyecolor();
 		} else vRet = parentRace.genEyecolor();
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * 	Generiert einen Teint aus der Liste, anhand der jeweiligen Wahrscheinlichkeiten, falls das in der Subrasse gesetzt ist.
 	 * 		Falls nicht, nimmt es die Liste der angegeben Elternrasse.
@@ -247,7 +247,7 @@ public class Subrace extends Race implements SubElement {
 	public ProbElement genComplexion() throws Exception {
 		ProbElement vRet = null;
 		
-		if (this.getComplexionList().getProbElementList().getContentNumber() != 0) {
+		if (this.getComplexionList().getProbElements().size() != 0) {
 			vRet = super.genComplexion();
 		} else vRet = parentRace.genComplexion();
 		

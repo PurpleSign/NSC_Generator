@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	19.04.2021
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    ManagerController
  * 

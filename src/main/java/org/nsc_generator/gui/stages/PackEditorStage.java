@@ -1,6 +1,6 @@
 /**	NSC_Generator v0.0		Dh	09.03.2021
  * 	
- * 	pGUI
+ * 	gui.stages
  * 	  EditorStage
  * 	    PackEditorStage
  * 

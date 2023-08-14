@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	20.05.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    ManagerController
  * 	      PackManagerController
@@ -27,8 +27,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
+
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.stages.PackEditorStage;
 import org.nsc_generator.gui.tableElements.NameElement;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.MainManager;
 import org.nsc_generator.logic.editors.Editor;
 import org.nsc_generator.logic.editors.PackManager;
@@ -50,14 +53,14 @@ public class PackManagerController extends ManagerController {
 		super();
 	}
 
-	/**	Dh	20.05.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pIsEdit
 	 * @param pParentController
 	 * @param pPackEditor
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackManager) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pPackManager) throws Exception {
 		super.setUp(pIsEdit, pIsMobile, pParentController, pPackManager);
 		
 		if (pPackManager != null) {
@@ -70,7 +73,7 @@ public class PackManagerController extends ManagerController {
 						
 						updateNameElementInfos();
 						setEnabledNameElementElements(true);
-					} catch(Exception ex) {MainManager.handleException(ex);}
+					} catch(Exception ex) {LogManager.handleException(ex);}
 				});
 				
 				liNameElements = FXCollections.observableArrayList();
@@ -97,7 +100,7 @@ public class PackManagerController extends ManagerController {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -105,10 +108,10 @@ public class PackManagerController extends ManagerController {
 		try {
 			childStage = new PackEditorStage(false, this, packManager.newPack());
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	10.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -117,10 +120,10 @@ public class PackManagerController extends ManagerController {
 			Platform.runLater(() -> {lvNameElements.getSelectionModel().clearSelection();}); 
 			childStage = new PackEditorStage(true, this, packManager.editPack());
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	19.04.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -140,10 +143,10 @@ public class PackManagerController extends ManagerController {
 				
 				updateNameElementList();
 				updateNameElementInfos();
-			} catch(Exception ex) {MainManager.handleException(ex);}
+			} catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -159,13 +162,13 @@ public class PackManagerController extends ManagerController {
 		
 		if (vFile != null) {
 			try{packManager.exportPack(vFile);
-			} catch(Exception ex) {MainManager.handleException(ex);}
+			} catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -173,9 +176,9 @@ public class PackManagerController extends ManagerController {
 		try {
 			packManager.applyCurrentPack(!isEdit);
 			parentController.closeChildStage();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -184,7 +187,7 @@ public class PackManagerController extends ManagerController {
 			lvNameElements.getSelectionModel().clearSelection();
 			packManager.delete();
 			updateAll();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	/**	Dh	09.03.2021
 	 * 

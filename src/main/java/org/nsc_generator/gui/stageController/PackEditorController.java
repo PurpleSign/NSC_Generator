@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	23.08.2022
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    PackEditorController
  * 
@@ -30,15 +30,16 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import pDataStructures.List;
+import java.util.ArrayList;
 
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.stages.CultureEditorStage;
 import org.nsc_generator.gui.stages.RaceEditorStage;
 import org.nsc_generator.gui.tableElements.NameElement;
 import org.nsc_generator.gui.stages.PrioElementEditorStage;
 import org.nsc_generator.gui.tableElements.PrioElementTableElement;
 import org.nsc_generator.gui.tableElements.TableRowModel;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.CultureEditor;
 import org.nsc_generator.logic.editors.Editor;
 import org.nsc_generator.logic.editors.PackEditor;
@@ -80,7 +81,7 @@ public class PackEditorController extends ParentStageController implements Paren
 	 * @param pPackEditor
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pPackEditor) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pPackEditor) throws Exception {
 		super.setUp(pIsEdit, pIsMobile, pParentController, pPackEditor);
 		
 		if (pPackEditor != null) {
@@ -194,7 +195,7 @@ public class PackEditorController extends ParentStageController implements Paren
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Quirk
@@ -206,10 +207,10 @@ public class PackEditorController extends ParentStageController implements Paren
 			childStage = new PrioElementEditorStage("Füge eine Eigenschaft hinzu", false, null, 0, -1, this);
 			
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	//-----
-	/**	Dh	02.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -222,9 +223,9 @@ public class PackEditorController extends ParentStageController implements Paren
 			childStage = new CultureEditorStage(false, this, vCultureEditor);
 
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	03.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -237,7 +238,7 @@ public class PackEditorController extends ParentStageController implements Paren
 			childStage = new RaceEditorStage(false, this, vRaceEditor);
 
 			setDisabled();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	/**	Dh	18.03.2021
@@ -257,7 +258,7 @@ public class PackEditorController extends ParentStageController implements Paren
 		}
 	}
 	//-----
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -273,9 +274,9 @@ public class PackEditorController extends ParentStageController implements Paren
 				
 				setDisabled();
 			}
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -291,10 +292,10 @@ public class PackEditorController extends ParentStageController implements Paren
 				
 				setDisabled();
 			}
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	CaseNumber (int):
 	 * 		0	Quirk
@@ -309,11 +310,11 @@ public class PackEditorController extends ParentStageController implements Paren
 				removePrioElement(0, vCur.getId());
 				
 				updateQuirkList();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
 	//-----
-	/**	Dh	07.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -326,10 +327,10 @@ public class PackEditorController extends ParentStageController implements Paren
 				
 				updateCultureList();
 				updateTables();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
-	/**	Dh	07.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -342,13 +343,13 @@ public class PackEditorController extends ParentStageController implements Paren
 				
 				updateRaceList();
 				updateTables();
-			}catch(Exception ex) {MainManager.handleException(ex);}
+			}catch(Exception ex) {LogManager.handleException(ex);}
 		}
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	07.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -356,18 +357,18 @@ public class PackEditorController extends ParentStageController implements Paren
 		try {
 			if (checkDistroTable(tOriginalCultureProbability) == true)	
 				packEditor.setCultureDistributions(getDistributionsListFromTables(tOriginalCultureProbability));
-		}catch (Exception ex) {MainManager.handleException(ex);}
+		}catch (Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	06.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
 	protected void resetOriginCultureTable() {
 		try{updateCultureOriginTable();}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
-	/**	Dh	07.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -375,21 +376,21 @@ public class PackEditorController extends ParentStageController implements Paren
 		try {
 			if (checkDistroTable(tRaceProbability) == true)	
 				packEditor.setRaceDistributions(getDistributionsListFromTables(tRaceProbability));
-		}catch (Exception ex) {MainManager.handleException(ex);}
+		}catch (Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	06.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
 	protected void resetRaceDistributionTable() {
 		try {updateRaceDistributionTable();}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	23.08.2022
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -406,14 +407,14 @@ public class PackEditorController extends ParentStageController implements Paren
 				parentController.closeChildStage();
 			}
 		}
-		catch (Exception ex) {MainManager.handleException(ex);}
+		catch (Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	@FXML
 	protected void delete() {
 		initExample();
 	}
-	/**	Dh	09.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@FXML
@@ -423,7 +424,7 @@ public class PackEditorController extends ParentStageController implements Paren
 			else packEditor.back();
 			
 			parentController.closeChildStage();
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -494,40 +495,34 @@ public class PackEditorController extends ParentStageController implements Paren
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	04.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @throws Exception
 	 */
 	private void updateCultureList() throws Exception {
-		List vNameEleList = packEditor.getCultureList();
+		ArrayList<Object[]> vNameEleList = packEditor.getCultureList();
 		
 		if (vNameEleList != null) {
 			liCulture.clear();
 			
-			vNameEleList.toFirst();
-			while(!vNameEleList.isEnd()) {
-				liCulture.add( convertToNameElement((Object[])vNameEleList.getCurrent()) );
-				
-				vNameEleList.next();
+			for (Object[] vCur : vNameEleList) {
+				liCulture.add( convertToNameElement(vCur) );
 			}
 			lvCulture.setItems(liCulture);
 		}else throw new Exception("04; uCuLis,PaEdiCOn");
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @throws Exception
 	 */
 	private void updateRaceList() throws Exception {
-		List vNameEleList = packEditor.getRaceList();
+		ArrayList<Object[]> vNameEleList = packEditor.getRaceList();
 		
 		if (vNameEleList != null) {
 			liRace.clear();
 			
-			vNameEleList.toFirst();
-			while(!vNameEleList.isEnd()) {
-				liRace.add( convertToNameElement((Object[])vNameEleList.getCurrent()) );
-				
-				vNameEleList.next();
+			for (Object[] vCur : vNameEleList) {
+				liRace.add( convertToNameElement(vCur) );
 			}
 			lvRace.setItems(liRace);
 		}else throw new Exception("04; uRaLis,PaEdiCOn");
@@ -636,7 +631,7 @@ public class PackEditorController extends ParentStageController implements Paren
 		return vRet;
 	}
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
@@ -645,27 +640,30 @@ public class PackEditorController extends ParentStageController implements Paren
 		boolean vRet = true;
 		
 		if (checkPackName() == false) {
-			MainManager.handleMessage("Name Fehlt.");
+			LogManager.handleMessage("Name Fehlt.");
 			vRet = false;
 		}
 		
 		if (checkQuirkTable() == false) {
-			MainManager.handleMessage("Eigenschaftstabele falsch.");
+			LogManager.handleMessage("Eigenschaftstabele falsch.");
 			vRet = false;
 		}
 		
 		if (checkDistroTable(tOriginalCultureProbability) == false) {
-			MainManager.handleMessage("Kulturelle Herkunftsverteilungstabelle falsch.");
+			LogManager.handleMessage("Kulturelle Herkunftsverteilungstabelle falsch.");
 			vRet = false;
 		}
 		if (checkDistroTable(tRaceProbability) == false) {
-			MainManager.handleMessage("Rassenverteilungstabele falsch.");
+			LogManager.handleMessage("Rassenverteilungstabele falsch.");
 			vRet = false;
 		}
 		
 		return vRet;
 	}
 	
+	/**	Dh	07.08.2023
+	 * 
+	 */
 	@FXML
 	private void initExample() {
 		CultureEditor vCultEditor;
@@ -719,7 +717,7 @@ public class PackEditorController extends ParentStageController implements Paren
 			
 			
 			updateAll();
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 		
 		
 	}

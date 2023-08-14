@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.1		Dh	22.05.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 
  * Exceptions:
@@ -17,6 +17,7 @@
 package org.nsc_generator.gui.stageController;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,8 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
-import pDataStructures.List;
-
+import org.nsc_generator.gui.ParentControllerInterface;
 import org.nsc_generator.gui.tableElements.NameElement;
 import org.nsc_generator.gui.tableElements.PrioElementTableElement;
 import org.nsc_generator.gui.tableElements.ProbElementTableElement;
@@ -39,7 +39,7 @@ import org.nsc_generator.logic.editors.Editor;
 public abstract class EditorController {
 	protected boolean isEdit;
 	protected boolean isMobile;
-	protected ParentStageControllerInterface parentController;
+	protected ParentControllerInterface parentController;
 	protected MainManagerInterface mainManager;
 	
 	/**	Dh	02.03.2021
@@ -53,7 +53,7 @@ public abstract class EditorController {
 	 * 
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile,  ParentStageControllerInterface pParentController, Editor pEditor) throws Exception{
+	public void setUp(boolean pIsEdit, boolean pIsMobile,  ParentControllerInterface pParentController, Editor pEditor) throws Exception{
 		isEdit = pIsEdit;
 		isMobile = pIsMobile;
 		
@@ -70,7 +70,7 @@ public abstract class EditorController {
 	 * @param pMainManager
 	 * @throws Exception
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile,  ParentStageControllerInterface pParentController, Editor pEditor, MainManagerInterface pMainManager) throws Exception{
+	public void setUp(boolean pIsEdit, boolean pIsMobile,  ParentControllerInterface pParentController, Editor pEditor, MainManagerInterface pMainManager) throws Exception{
 		isEdit = pIsEdit;
 		isMobile = pIsMobile;
 		
@@ -122,39 +122,40 @@ public abstract class EditorController {
 		return vRet;
 	}
 	
-	/**	Dh	07.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pTable
 	 * @return
 	 * @throws Exception
 	 */
-	protected List getDistributionsListFromTables(TableView<TableRowModel> pTable) throws Exception {
-		List vRet, vColumnList;
+	protected ArrayList<ArrayList<Object[]>> getDistributionsListFromTables(TableView<TableRowModel> pTable) throws Exception {
+		ArrayList<ArrayList<Object[]>> vRet;
+		ArrayList<Object[]> vColumnList;
 		TableRowModel vCur;
 		ObservableList<TableRowModel> vRowLists;
 		
 		if (pTable != null) {
-			vRet = new List();
+			vRet = new ArrayList<ArrayList<Object[]>>();
 			vRowLists = pTable.getItems();
 			
 			for (int i=0; i<pTable.getColumns().size() ; i++) {
-				vColumnList = new List();
+				vColumnList = new ArrayList<Object[]>();
 				
 				for (int u=-1; u<vRowLists.size(); u++) {
 					if (u == -1) {
 						vCur = vRowLists.get(u+1);
 						
-						if (i == 0) vColumnList.append(new Object[] { null, null });
-						else vColumnList.append(new Object[] {  vCur.getID(i-1), "" });
+						if (i == 0) vColumnList.add(new Object[] { null, null });
+						else vColumnList.add(new Object[] {  vCur.getID(i-1), "" });
 					}else {
 						vCur = vRowLists.get(u);
 						
-						if (i == 0) vColumnList.append(new Object[] { vCur.getDistroElementID(), vCur.getDistroElementName() });
-						else vColumnList.append(new Object[] { vCur.getID(i-1), vCur.getDistroProb(i-1) });
+						if (i == 0) vColumnList.add(new Object[] { vCur.getDistroElementID(), vCur.getDistroElementName() });
+						else vColumnList.add(new Object[] { vCur.getID(i-1), vCur.getDistroProb(i-1) });
 					}
 				}
 				
-				vRet.append(vColumnList);
+				vRet.add(vColumnList);
 			}
 		} else throw new Exception("04; gDLfT,EdCon");
 		
@@ -257,7 +258,6 @@ public abstract class EditorController {
  	 */
  	protected NameElement getNameElementFromNameElementListByID(int pID, ObservableList<NameElement> pNameElementList) throws Exception{
  		NameElement vRet = null;
- 		//ListIterator<NameElement> vLiIterator;
  		
  		if (pID >= 0) {
  			if (pNameElementList != null) {
@@ -287,104 +287,89 @@ public abstract class EditorController {
  			} else throw new Exception("01; uGETF,EdCon");
  		} else throw new Exception("04; uGETF,EdCon");
  	}
- 	/**	Dh	04.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pProbElementList
  	 * @param pTableElementList
  	 * @param pTableView
  	 * @throws Exception
  	 */
- 	protected void updateProbElementTableElementList (List pProbElementList, ObservableList<ProbElementTableElement> pTableElementList, 
+ 	protected void updateProbElementTableElementList (ArrayList<Object[]> pProbElementList, ObservableList<ProbElementTableElement> pTableElementList, 
  			TableView<ProbElementTableElement> pTableView) throws Exception {
  		if (pProbElementList != null) {
  			pTableElementList.clear();
 			
-			pProbElementList.toFirst();
-			while(!pProbElementList.isEnd()) {
-				pTableElementList.add( convertToProbElementTableElement((Object[])pProbElementList.getCurrent()) );
-				
-				pProbElementList.next();
-			}
+ 			for (Object[] vCur : pProbElementList) {
+ 				pTableElementList.add( convertToProbElementTableElement(vCur) );
+ 			}
 			pTableView.setItems(pTableElementList);
 		}else throw new Exception("04; uPETEL,EdiCon");
  	}
- 	/**	Dh	15.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pPrioElementList
  	 * @param pTableElementList
  	 * @param pTableView
  	 * @throws Exception
  	 */
- 	protected void updatePrioElementTableElementList (List pPrioElementList, ObservableList<PrioElementTableElement> pTableElementList, 
+ 	protected void updatePrioElementTableElementList (ArrayList<Object[]> pPrioElementList, ObservableList<PrioElementTableElement> pTableElementList, 
  			TableView<PrioElementTableElement> pTableView) throws Exception {
  		if (pPrioElementList != null) {
  			pTableElementList.clear();
 			
-			pPrioElementList.toFirst();
-			while(!pPrioElementList.isEnd()) {
-				pTableElementList.add( convertToPrioElementTableElement((Object[])pPrioElementList.getCurrent()) );
-				
-				pPrioElementList.next();
-			}
+ 			for (Object[] vCur : pPrioElementList) {
+ 				pTableElementList.add( convertToPrioElementTableElement(vCur) );
+ 			}
 			pTableView.setItems(pTableElementList);
 		}else throw new Exception("04; uPETEL,EdiCon");
  	}
- 	/**	Dh	10.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pProbElementList
  	 * @param pTableElementList
  	 * @param pListView
  	 * @throws Exception
  	 */
- 	protected void updateNameElementListElementList (List pProbElementList, ObservableList<NameElement> pTableElementList, 
+ 	protected void updateNameElementListElementList (ArrayList<Object[]> pProbElementList, ObservableList<NameElement> pTableElementList, 
  			ListView<NameElement> pListView) throws Exception {
  		if (pProbElementList != null) {
  			try {pTableElementList.clear();}
  			catch (Exception ex) {}
 			
-			pProbElementList.toFirst();
-			while(!pProbElementList.isEnd()) {
-				pTableElementList.add( convertToNameElement((Object[])pProbElementList.getCurrent()) );
-				
-				pProbElementList.next();
-			}
+ 			for (Object[] vCur : pProbElementList) {
+ 				pTableElementList.add( convertToNameElement(vCur) );
+ 			}
 			pListView.setItems(pTableElementList);
 		}else throw new Exception("04; uPETEL,EdiCon");
  	}
  	
  	
- 	/**	Dh	08.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pNameElementList
  	 * @param pChoiceBoxList
  	 * @param pChoiceBox
  	 * @throws Exception
  	 */
- 	protected void updateChoiceBoxList(List pNameElementList, ObservableList<NameElement> pChoiceBoxList, ChoiceBox<NameElement> pChoiceBox) throws Exception{
+ 	protected void updateChoiceBoxList(ArrayList<Object[]> pNameElementList, ObservableList<NameElement> pChoiceBoxList, ChoiceBox<NameElement> pChoiceBox) throws Exception{
  		if (pNameElementList != null) {
  			pChoiceBoxList.clear();
 			
-			pNameElementList.toFirst();
-			while(!pNameElementList.isEnd()) {
-				pChoiceBoxList.add( convertToNameElement( (Object[])pNameElementList.getCurrent()) );
-				
-				pNameElementList.next();
-			}
-			
+ 			for (Object[] vCur : pNameElementList) {
+ 				pChoiceBoxList.add( convertToNameElement(vCur) );
+ 			}			
 			pChoiceBox.setItems(pChoiceBoxList);
 		}
  	}
  	//-----
- 	/**	Dh	07.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pDataList
  	 * @param pTable
  	 * @throws Exception
  	 */
- 	protected void updateDistributionTable(List pDataList, TableView<TableRowModel> pTable) throws Exception {
- 		int i, u;
-		
-		List vCurColumn;
+ 	protected void updateDistributionTable(ArrayList<ArrayList<Object[]>> pDataList, TableView<TableRowModel> pTable) throws Exception {
+ 		ArrayList<Object[]> vCurColumn;
 		ObservableList<TableRowModel> vDataTable;		
 
 		if (pDataList != null) {
@@ -393,31 +378,19 @@ public abstract class EditorController {
 			
 			vDataTable = FXCollections.observableArrayList();
 			
-			pDataList.toFirst();
-			i=-1;
-			while(!pDataList.isEnd()) {
-				vCurColumn = (List) pDataList.getCurrent();
+			for (int i=-1; i<(pDataList.size()-1); i++) {
+				vCurColumn = pDataList.get(i+1);
 				
-				vCurColumn.toFirst();
-				if (pDataList.isFirst()) pTable.getColumns().add(TableRowModel.creatTitleColumn() );
-				else pTable.getColumns().add(TableRowModel.creatColumn(i, (String)((Object[])vCurColumn.getCurrent())[1]));
-					
-				u = 0;
-				vCurColumn.next();
-				while(!vCurColumn.isEnd()) {
-					if (pDataList.isFirst()) vDataTable.add( new TableRowModel((int)((Object[])vCurColumn.getCurrent())[0], 
-							(String)((Object[])vCurColumn.getCurrent())[1], pDataList.getContentNumber()-1) );
+				if (i == -1) pTable.getColumns().add(TableRowModel.creatTitleColumn());
+				else pTable.getColumns().add(TableRowModel.creatColumn(i, (String)(vCurColumn.get(0)[1])  ));
+				
+				for (int u=0; u<vCurColumn.size()-1; u++) {
+					if (i == -1) vDataTable.add( new TableRowModel((int) (vCurColumn.get(u+1)[0]) , (String) (vCurColumn.get(u+1)[1]), pDataList.size() - 1) );
 					else {
-						vDataTable.get(u).setID(i, (int)((Object[])vCurColumn.getCurrent())[0]);
-						vDataTable.get(u).setDistroProb(i, (double)((Object[])vCurColumn.getCurrent())[1]);
+						vDataTable.get(u).setID(i, (int) (vCurColumn.get(u+1)[0]));
+						vDataTable.get(u).setDistroProb(i, (double) (vCurColumn.get(u+1)[1]));
 					}
-						
-					u++;
-					vCurColumn.next();
 				}
-				
-				i++;
-				pDataList.next();
 			}
 			
 			pTable.setItems(vDataTable);
@@ -426,28 +399,22 @@ public abstract class EditorController {
  	}
  	
  	
- 	/**	Dh	04.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pProbElementList
  	 * @return
  	 * @throws Exception
  	 */
- 	protected boolean checkProbElementList(List pProbElementList) throws Exception{
- 		Object[] vCur;
+ 	protected boolean checkProbElementList(ArrayList<Object[]> pProbElementList) throws Exception{
  		boolean vRet = false;
  		double vTotalProb = 0;
  		
  		if (pProbElementList != null) {
- 			pProbElementList.toFirst();
- 			while(!pProbElementList.isEnd()) {
- 				vCur = (Object[])pProbElementList.getCurrent();
- 				
+ 			for (Object[] vCur : pProbElementList) {
  				if (vCur.length == 3) {
  					if (vCur[2] instanceof Double) vTotalProb += (double) vCur[2];
  					else throw new Exception("06; cPELi,EdCon");
  				} else throw new Exception("01; cPELi,EdCon");
- 				
- 				pProbElementList.next();
  			}
  			
  			if (vTotalProb == 100) vRet = true;
@@ -455,28 +422,22 @@ public abstract class EditorController {
  		
  		return vRet;
  	}
- 	/**	Dh	18.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pPrioElementList
  	 * @return
  	 * @throws Exception
  	 */
- 	protected boolean checkPrioElementList(List pPrioElementList) throws Exception{
- 		Object[] vCur;
+ 	protected boolean checkPrioElementList(ArrayList<Object[]> pPrioElementList) throws Exception{
  		boolean vRet = true;
  		
  		if (pPrioElementList != null) {
- 			pPrioElementList.toFirst();
- 			while(!pPrioElementList.isEnd()) {
- 				vCur = (Object[])pPrioElementList.getCurrent();
- 				
+ 			for (Object[] vCur : pPrioElementList) {
  				if (vCur.length == 3) {
  					if (vCur[2] instanceof Integer) {
  						if ((int) vCur[2] < 0) throw new Exception("02; cPELi,EdCon");
  					}else throw new Exception("06; cPELi,EdCon");
  				} else throw new Exception("01; cPELi,EdCon");
- 				
- 				pPrioElementList.next();
  			}
  		} else throw new Exception("04; cPELi,EdCon");
  		

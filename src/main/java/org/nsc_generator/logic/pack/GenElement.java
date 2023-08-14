@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	07.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  GenElement
  * 
  * Exceptions:
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 @XmlRootElement(name = "genelement")
 @XmlType(propOrder = {"number", "side", "offset"})
@@ -38,19 +38,15 @@ public class GenElement {
 		side = 0;
 		offset = 0;
 	}
-	/**	Dh	23.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pNumber
 	 * @param pSide
 	 */
 	public GenElement(int pNumber, int pSide) {
-		try {
-			setNumber(pNumber);
-			setSide(pSide);
-		}catch(Exception ex) {MainManager.handleException(ex);}
-		offset = 0;
+		this(pNumber, pSide, 0);
 	}
-	/**	Dh	23.02.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pNumber
 	 * @param pSide
@@ -61,7 +57,7 @@ public class GenElement {
 			setNumber(pNumber);
 			setSide(pSide);
 			setOffset(pOffset);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 //--------------------------------------------------------------------------------------------------------

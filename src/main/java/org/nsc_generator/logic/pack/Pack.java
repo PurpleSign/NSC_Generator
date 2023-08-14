@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	23.08.2022
+/**	NSC_Generator v0.2		Dh	12.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    Pack
  * 
@@ -17,36 +17,36 @@
 
 package org.nsc_generator.logic.pack;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
 import org.nsc_generator.logic.NPC;
+
+import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "pack")
-@XmlType(propOrder = {"cultureList", "raceList", "quirkList"})
+//@XmlType(propOrder = {"cultureList", "raceList", "quirkList"})
 @XmlSeeAlso({Culture.class, Subculture.class, Race.class, Subrace.class, ProbList.class, ProbElement.class, 
 			PrioList.class, PrioElement.class})
 
 public class Pack extends IDElement {
-	private List cultureList, raceList; 
+	private ArrayList<Culture> cultures;
+	private ArrayList<Race>	races;
 	private PrioList quirkList;
 	
-	/**	Dh	23.08.2022
+	/**	Dh	08.08.2023
 	 * 
 	 */
 	public Pack() {
 		super();
 		
-		cultureList = new List();
-		raceList = new List();
+		cultures = new ArrayList<Culture>();
+		races = new ArrayList<Race>();
 		
 		quirkList = new PrioList();
 	}
-	/**	Dh	23.08.2022
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -54,15 +54,15 @@ public class Pack extends IDElement {
 	public Pack(int pID, String pName) {
 		super(pID, pName);
 		
-		cultureList = new List();
-		raceList = new List();
+		cultures = new ArrayList<Culture>();
+		races = new ArrayList<Race>();
 		
 		quirkList = new PrioList();
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Sucht die Kultur mit der pCultureID aus der cultureList.
 	 * 		pCultureID muss groessergleich 0 sein.
@@ -75,19 +75,14 @@ public class Pack extends IDElement {
 		Culture vRet = null;
 		
 		if (pCultureID >= 0) {
-			cultureList.toFirst();
-			while((!cultureList.isEnd()) && (vRet == null)) {
-				vRet = (Culture)cultureList.getCurrent();
-				
-				if (vRet.getId() != pCultureID) vRet = null;
-				
-				cultureList.next();
+			for (int i=0; (i<cultures.size()) && (vRet == null); i++) {
+				if (cultures.get(i).getId() == pCultureID) vRet = cultures.get(i);
 			}
 		}else throw new Exception("02; gCu,Pac");
 		
 		return vRet;
 	}
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Sucht die Rasse/Ethnie mit der pRaceID aus der raceList.
 	 * 		pRaceID muss groessergleich 0 sein.
@@ -100,32 +95,27 @@ public class Pack extends IDElement {
 		Race vRet = null;
 		
 		if (pRaceID >= 0) {
-			raceList.toFirst();
-			while((!raceList.isEnd()) && (vRet == null)) {
-				vRet = (Race)raceList.getCurrent();
-				
-				if (vRet.getId() != pRaceID) vRet = null;
-				
-				raceList.next();
+			for (int i=0; (i<races.size()) && (vRet == null); i++) {
+				if (races.get(i).getId() == pRaceID) vRet = races.get(i);
 			}
 		}else throw new Exception("02; gRa,Pac");
 		
 		return vRet;
 	}
-
-	/**	Dh	24.02.2021
+	
+	/**	Dh	08.08.2023
 	 * 
 	 * @return
 	 */
-	public List getCultureList() {
-		return cultureList;
+	public ArrayList<Culture> getCultures(){
+		return cultures;
 	}
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @return
 	 */
-	public List getRaceList() {
-		return raceList;
+	public ArrayList<Race> getRaces(){
+		return races;
 	}
 	
 	/**	Dh	14.03.2021
@@ -138,7 +128,7 @@ public class Pack extends IDElement {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Ersetzt ein vorhandene Kultur aus der culuterList, und schreibt bei allen evt.
 	 * 		Subculters die parentCulters auf das neue um.
@@ -150,30 +140,16 @@ public class Pack extends IDElement {
 		Culture vCur = null;
 		
 		if (pCulture != null) {
-			cultureList.toFirst();
-			while((!cultureList.isEnd())) {
-				vCur = (Culture)cultureList.getCurrent();
+			for (int i=0; i<cultures.size(); i++) {
+				vCur = cultures.get(i);
 				
-				if (vCur.getId() == pCulture.getId()) {
-					if (!cultureList.isLast()) {
-						cultureList.remove();
-						cultureList.insert(pCulture);
-					} else {
-						cultureList.remove();
-						cultureList.append(pCulture);
-					}
-				}else {
-					if ((vCur instanceof Subculture) && ( ((Subculture)vCur).getId() == pCulture.getId() )) 
-						((Subculture)vCur).setParentCulture(pCulture);
-						
-					vCur = null;
-				}
-				
-				cultureList.next();
+				if (vCur.getId() == pCulture.getId()) cultures.set(i, pCulture);
+				else if ((vCur instanceof Subculture) && ((Subculture)vCur).getParentID() == pCulture.getId())
+					((Subculture)vCur).setParentCulture(pCulture);
 			}
 		}else throw new Exception("04; sCu,Pac");
 	}
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Ersetzt ein vorhandene Rasse/ethnie aus der raceList, und schreibt bei allen evt.
 	 * 		Subraces die parentRaces auf das neue um.
@@ -185,107 +161,63 @@ public class Pack extends IDElement {
 		Race vCur = null;
 		
 		if (pRace!= null) {
-			raceList.toFirst();
-			while((!raceList.isEnd())) {
-				vCur = (Race)raceList.getCurrent();
+			for (int i=0; i<races.size(); i++) {
+				vCur = races.get(i);
 				
-				if (vCur.getId() == pRace.getId()) {
-					if (!raceList.isLast()) {
-						raceList.remove();
-						raceList.insert(pRace);
-					} else {
-						raceList.remove();
-						raceList.append(pRace);
-					}
-				}else {
-					if ((vCur instanceof Subrace) && ( ((Subrace)vCur).getId() == pRace.getId() )) 
-						((Subrace)vCur).setParentRace(pRace);
-						
-					vCur = null;
-				}
-				
-				raceList.next();
+				if (vCur.getId() == pRace.getId()) races.set(i, pRace);
+				else if ((vCur instanceof Subrace) && ((Subrace)vCur).getParentID() == pRace.getId())
+					((Subrace)vCur).setParentRace(pRace);
 			}
 		}else throw new Exception("04; sRa,Pac");
 	}
-	
-	/**	Dh	25.02.2021
+		
+	/**	Dh	12.08.2023
 	 * 
 	 * 	Setzt die CultureList und prueft, ob fuer alle in ihr enthaltenen CultureIDs eine ID existiert.
 	 * 		pCultureList darf nicht null sein und nur Objekte von Type Culture enthalten.
 	 * 
-	 * @param pCultureList
+	 * @param pCultures
 	 * @throws Exception
 	 */
-	public void setCultureList(List pCultureList) throws Exception {
+	public void setCultures(ArrayList<Culture> pCultures) throws Exception{
 		int vCurID;
-		Object vTemp = null;
-		List vIDList = new List();
+		ArrayList<Integer> vIDList = new ArrayList<Integer>();
 		
-		if (pCultureList != null) {
-			pCultureList.toFirst();
-			while(!pCultureList.isEnd()) {					// Erstellt eine ID List und checkt, ob diese bereits vorhanden ist.
-				vTemp = pCultureList.getCurrent();
+		if (pCultures != null) {
+			for (Culture vCurCulture : pCultures) {
+				vCurID = vCurCulture.getId();
 				
-				if (vTemp instanceof Culture) {
-					vCurID = ((Culture) vTemp).getId();
-					
-					vIDList.toFirst();
-					while(!vIDList.isEnd()) {
-						if (((int)vIDList.getCurrent()) == vCurID) throw new Exception("02a; sCuLi,Pac");
-						
-						vIDList.next();
-					}
-					
-					vIDList.append(vCurID);
-				} else throw new Exception("06; sCuLi,Pac");
-				
-				pCultureList.next();
+				if (vIDList.contains(Integer.valueOf(vCurID))) throw new Exception("02a; sCu,Pac");
+				vIDList.add(Integer.valueOf(vCurID));
 			}
 			
-			if (checkIfAssociatedCultureIDsExists(pCultureList, vIDList) == false) throw new Exception("02b; sCuLi,Pac");
-			
-			cultureList = pCultureList;
-		}else throw new Exception("04; sCuLi,Pac");
+			if (!checkIfAssociatedCultureIDsExists(pCultures, vIDList)) throw new Exception("02b; sCu,Pac");
+			else cultures = pCultures;
+		}else throw new Exception("04; sCu,Pac");
 	}
-	/**	Dh	07.03.2021
+	/**	Dh	12.08.2023
 	 * 
 	 * 	Setzt die RaceList und prueft, ob fuer alle in ihr enthaltenen RaceIDs eine ID existiert.
 	 * 		pRaceList darf nicht null sein und nur Objekte von Type Race enthalten.
 	 * 
-	 * @param pRaceList
+	 * @param pRaces
 	 * @throws Exception
 	 */
-	public void setRaceList(List pRaceList) throws Exception {
+	public void setRaces(ArrayList<Race> pRaces) throws Exception{
 		int vCurID;
-		Object vTemp = null;
-		List vIDList = new List();
+		ArrayList<Integer> vIDList = new ArrayList<Integer>();
 		
-		if (pRaceList != null) {
-			pRaceList.toFirst();
-			while(!pRaceList.isEnd()) {					// Erstellt eine ID List und checkt, ob diese bereits vorhanden ist.
-				vTemp = pRaceList.getCurrent();
+		if (pRaces != null) {
+			for (Race vCurRace : pRaces) {
+				vCurID = vCurRace.getId();
 				
-				if (vTemp instanceof Race) {
-					vCurID = ((Race) vTemp).getId();
-					
-					vIDList.toFirst();
-					while(!vIDList.isEnd()) {
-						if (((int)vIDList.getCurrent()) == vCurID) throw new Exception("02a; sRaLi,Pac");
-						
-						vIDList.next();
-					}
-					
-					vIDList.append(vCurID);
-				} else throw new Exception("06; sRaLi,Pac");
-				
-				pRaceList.next();
+				if (vIDList.contains( Integer.valueOf(vCurID) )) throw new Exception("02a; sRa,Pac");
+				vIDList.add(Integer.valueOf(vCurID));
 			}
 			
-			if (checkIfAssociatedRaceIDsExists(pRaceList, vIDList) == false) throw new Exception("02b; sRaLi,Pac");
-			
-			raceList = pRaceList;
-		}else throw new Exception("04; sRaLi,Pac");
+			if (!checkIfAssociatedRaceIDsExists(pRaces, vIDList)) throw new Exception("02b; sRa,Pac");
+			else races = pRaces;
+		}
 	}
 	
 	/**	Dh	14.03.2021
@@ -302,7 +234,7 @@ public class Pack extends IDElement {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	04.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Fuegt pCulture in die cultureList hinzu.
 	 * 		pCulture darf nicht null sein und ihre ID darf noch nicht in der Liste vorhanden sein.
@@ -310,33 +242,18 @@ public class Pack extends IDElement {
 	 * @param pCulture
 	 * @throws Exception
 	 */
-	public void addCulture(Culture pCulture) throws Exception{
-		int vCultureID;
-		Culture vCur;
-		
+	public void addCulture(Culture pCulture) throws Exception{		
 		if (pCulture != null) {
-			vCultureID = pCulture.getId();
-			
-			if (cultureList.getContentNumber() != 0) {
-				cultureList.toFirst();
-				while(!cultureList.isEnd()) {
-					vCur = (Culture)cultureList.getCurrent();
-					
-					if (vCur.getId() == pCulture.getId()) throw new Exception("02; aCu,Pac");
-					else if (vCultureID < vCur.getId()) {
-						cultureList.insert(pCulture);
-						cultureList.toLast();
-					}else if (cultureList.isLast()) {
-						cultureList.append(pCulture);
-						cultureList.toLast();
-					}
-					
-					cultureList.next();
-				}
-			} else cultureList.append(pCulture);
+			if (isIDInIDElementList(pCulture.getId(), cultures) == false) {
+				cultures.add(pCulture);
+				
+				cultures.sort((pCul1, pCul2) -> {
+					return (pCul1.getId() - pCul2.getId());
+				});
+			}else throw new Exception("02; aCu,Pac");
 		} else throw new Exception("04; aCu,Pac");
 	}
-	/**	Dh	04.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Fuegt pRace in die raceList hinzu.
 	 * 		pRace darf nicht null sein und ihre ID darf noch nicht in der Liste vorhanden sein.
@@ -345,33 +262,18 @@ public class Pack extends IDElement {
 	 * @throws Exception
 	 */
 	public void addRace(Race pRace) throws Exception{
-		int vRaceID;
-		Race vCur;
-		
 		if (pRace != null) {
-			vRaceID = pRace.getId();
-			
-			if (raceList.getContentNumber() != 0) {
-				raceList.toFirst();
-				while(!raceList.isEnd()) {
-					vCur = (Race)raceList.getCurrent();
-					
-					if (vCur.getId() == vRaceID) throw new Exception("02; aRa,Pac");
-					else if (vRaceID < vCur.getId()) {
-						raceList.insert(pRace);
-						raceList.toLast();
-					} else if (raceList.isLast()) {
-						raceList.append(pRace);
-						raceList.toLast();
-					}
-					
-					raceList.next();
-				}
-			} else raceList.append(pRace);
+			if (isIDInIDElementList(pRace.getId(), races) == false) {
+				races.add(pRace);
+				
+				races.sort((pRace1, pRace2) -> {
+					return (pRace1.getId() - pRace2.getId());
+				});
+			} else throw new Exception("02; aRa,Pac");
 		} else throw new Exception("04; aRa,Pac");
 	}
 	
-	/**	Dh	27.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Entfernt die der pCultureID entsprechenden Kultur aus der cultureList, und preuft, ob diese ID in
 	 * 		anderen originCultureLists vorkommt, falls ja werden diese entfernt und die wahrscheinlichkeiten auf eine
@@ -385,50 +287,37 @@ public class Pack extends IDElement {
 	 */
 	public void removeCulture(int pCultureID) throws Exception{
 		Culture vCurCult;
-		List vProbElementList;
+		ArrayList<ProbElement> vProbElementList;
 		ProbElement vCurProbEle, vTempProbEle;
 		
 		if (pCultureID >= 0) {
-			cultureList.toFirst();
-			while(!cultureList.isEnd()) {
-				vCurCult = (Culture) cultureList.getCurrent();
-				
-				if (vCurCult.getId() == pCultureID) cultureList.remove();
-				else {
-					vProbElementList = vCurCult.getOriginCultureList().getProbElementList();
+			for (int i=0; i<cultures.size(); i++) {
+				if (cultures.get(i).getId() == pCultureID) {
+					cultures.remove(i);
+					i--;
+				}else {
+					vCurCult = cultures.get(i);
 					
-					vProbElementList.toFirst();
-					while(!vProbElementList.isEnd()) {
-						vCurProbEle = (ProbElement)vProbElementList.getCurrent();
-						if ( vCurProbEle.getId() == pCultureID ) {
-							vProbElementList.remove();
-							vTempProbEle = (ProbElement)vProbElementList.getCurrent();
-							
-							if (vTempProbEle != null) vTempProbEle.setProbability(vTempProbEle.getProbability() + vCurProbEle.getProbability());
-							else throw new Exception("04; rCul,Pac");
-						}
+					vProbElementList = vCurCult.getOriginCultureList().getProbElements();
+					vCurProbEle = vCurCult.getOriginCultureList().getProbElement(pCultureID);
+					
+					if (vCurProbEle != null) {
+						vProbElementList.remove(vCurProbEle);
+						vTempProbEle = vProbElementList.get( vProbElementList.size()-1 );
 						
-						vProbElementList.next();
+						if (vTempProbEle != null) vTempProbEle.setProbability(vTempProbEle.getProbability() + vCurProbEle.getProbability());
 					}
 					
-					if ((vCurCult instanceof Subculture) && ( ((Subculture)vCurCult).getParentCulture().getId() == pCultureID )) {
+					if ((vCurCult instanceof Subculture) && ( ((Subculture)vCurCult).getParentID() == pCultureID )) {
 						vCurCult = transformSubcultureToCulture((Subculture)vCurCult);
 						
-						if (cultureList.isLast()) {
-							cultureList.remove();
-							cultureList.append(vCurCult);
-						}else {
-							cultureList.remove();
-							cultureList.insert(vCurCult);
-						}
+						cultures.set(i, vCurCult);
 					}
-					
-					cultureList.next();
 				}
 			}
 		}else throw new Exception("02; rCul,Pac");
 	}
-	/**	Dh	27.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Entfernt die der pRaceID entsprechenden Rasse aus der raceList, und preuft, ob diese ID in
 	 * 		anderen raceLists vorkommt, falls ja werden diese entfernt und die wahrscheinlichkeiten auf eine
@@ -442,55 +331,40 @@ public class Pack extends IDElement {
 	 */
 	public void removeRace(int pRaceID) throws Exception{
 		Race vCurRace;
-		List vProbElementList;
+		ArrayList<ProbElement> vProbElementList;
 		ProbElement vCurProbEle, vTempProbEle;
 		
 		if (pRaceID >= 0) {
-			cultureList.toFirst();
-			while(!cultureList.isEnd()) {
-				vProbElementList = ((Culture) cultureList.getCurrent()).getRaceList().getProbElementList();
+			for (Culture vCulture : cultures) {
+				vProbElementList = vCulture.getRaceList().getProbElements();
+				vCurProbEle = vCulture.getRaceList().getProbElement(pRaceID);
 				
-				vProbElementList.toFirst();
-				while(!vProbElementList.isEnd()) {
-					vCurProbEle = (ProbElement)vProbElementList.getCurrent();
+				if (vCurProbEle != null) {
+					vProbElementList.remove(vCurProbEle);
+					vTempProbEle = vProbElementList.get( vProbElementList.size()-1 );
 					
-					if (vCurProbEle.getId() == pRaceID) {
-						vProbElementList.remove();
-						vTempProbEle = (ProbElement)vProbElementList.getCurrent();
-						
-						if (vTempProbEle != null) vTempProbEle.setProbability(vTempProbEle.getProbability() + vCurProbEle.getProbability());
-						else throw new Exception("04; rRac,Pac");
-					}
-					
-					vProbElementList.next();
+					if (vTempProbEle != null) vTempProbEle.setProbability(vTempProbEle.getProbability() + vCurProbEle.getProbability());
 				}
-				
-				cultureList.next();
 			}
 			
-			raceList.toFirst();
-			while(!raceList.isEnd()) {
-				vCurRace = (Race) raceList.getCurrent();
-				
-				if (vCurRace.getId() == pRaceID) raceList.remove();
-				else if ((vCurRace instanceof Subrace) && ( ((Subrace)vCurRace).getParentRace().getId() == pRaceID )) {
-					vCurRace = transformSubraceToRace((Subrace)vCurRace);
+			for (int i=0; i<races.size(); i++) {
+				if (races.get(i).getId() == pRaceID) {
+					races.remove(i);
+					i--;
+				}else {
+					vCurRace = races.get(i);
 					
-					if (raceList.isLast()) {
-						raceList.remove();
-						raceList.append(vCurRace);
-					}else {
-							raceList.remove();
-						raceList.insert(vCurRace);
+					if ((vCurRace instanceof Subrace) && (((Subrace)vCurRace).getParentID() == pRaceID)) {
+						vCurRace = transformSubraceToRace((Subrace) vCurRace);
+						
+						races.set(i, vCurRace);
 					}
-					
-					raceList.next();
-				} else raceList.next();
+				}
 			}
 		}else throw new Exception("02; rRac,Pac");
 	}
 	
-	/**	Dh	05.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Wandelt das zur pSubcultureID gehoerenden Subculture Objekt in ein Culture Objekt um.
 	 * 		Die pSubcultureID muss groessergleich 0 sein und zu einem Subculture Objekt gehoehren.
@@ -502,31 +376,21 @@ public class Pack extends IDElement {
 		Culture vCur;
 		
 		if (pSubculutreID >= 0) {
-			cultureList.toFirst();
-			while(!cultureList.isEnd()) {
-				vCur = (Culture) cultureList.getCurrent();
+			for (int i=0; i<cultures.size(); i++) {
+				vCur = cultures.get(i);
 				
 				if (vCur.getId() == pSubculutreID) {
 					if (vCur instanceof Subculture) {
 						vCur = transformSubcultureToCulture((Subculture) vCur);
 						
-						if (cultureList.isLast()) {
-							cultureList.remove();
-							cultureList.append(vCur);
-						}else {
-							cultureList.remove();
-							cultureList.insert(vCur);
-						}
-						
-						cultureList.toLast();
+						cultures.set(i, vCur);
+						i = cultures.size();
 					} else throw new Exception("06; tSctC,Pac");
 				}
-				
-				cultureList.next();
 			}
 		}else throw new Exception("02; tSctC,Pac");
 	}
-	/**	Dh	05.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Wandelt das zur pSubraceID gehoerenden Subrace Objekt in ein Race Objekt um.
 	 * 		Die pSubraceID muss groessergleich 0 sein und zu einem Subrace Objekt gehoehren.
@@ -538,32 +402,22 @@ public class Pack extends IDElement {
 		Race vCur;
 		
 		if (pSubraceID >= 0) {
-			raceList.toFirst();
-			while(!raceList.isEnd()) {
-				vCur = (Race) raceList.getCurrent();
+			for (int i=0; i<races.size(); i++) {
+				vCur = races.get(i);
 				
 				if (vCur.getId() == pSubraceID) {
 					if (vCur instanceof Subrace) {
 						vCur = transformSubraceToRace((Subrace) vCur);
 						
-						if (raceList.isLast()) {
-							raceList.remove();
-							raceList.append(vCur);
-						}else {
-							raceList.remove();
-							raceList.insert(vCur);
-						}
-						
-						raceList.toLast();
+						races.set(i, vCur);
+						i = races.size();
 					} else throw new Exception("06; tSrtR,Pac");
 				}
-				
-				raceList.next();
 			}
 		}else throw new Exception("02; tSrtR,Pac");
 	}
 	//----
-	/**	Dh	05.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Wandelt das zur pCultureID gehoerenden Culture Objekt in ein Subculture Objekt um.
 	 * 		Die pCultureID muss groessergleich 0 sein und zu einem Culture Objekt gehoehren.
@@ -579,42 +433,27 @@ public class Pack extends IDElement {
 		vParCult = null;
 		
 		if ((pParentCultureID >= 0) && (pCultureID >= 0) && (pCultureID != pParentCultureID)) {
-			cultureList.toFirst();
-			while(!cultureList.isEnd() && (vParCult == null)) {
-				vParCult = (Culture) cultureList.getCurrent();
-				
-				if (vParCult.getId() != pParentCultureID) vParCult = null;
-				
-				cultureList.next();
+			for (int i=0; (i<cultures.size()) && (vParCult == null); i++) {
+				if (cultures.get(i).getId() == pParentCultureID) vParCult = cultures.get(i);
 			}
 			
 			if (vParCult != null) {
-				cultureList.toFirst();
-				while(!cultureList.isEnd()) {
-					vCur = (Culture) cultureList.getCurrent();
+				for (int i=0; i<cultures.size(); i++) {
+					vCur = cultures.get(i);
 					
 					if (vCur.getId() == pCultureID) {
 						if (!(vCur instanceof Subculture)) {
 							vCur = transformCultureToSubculture(vCur, vParCult);
 							
-							if (cultureList.isLast()) {
-								cultureList.remove();
-								cultureList.append(vCur);
-							}else {
-								cultureList.remove();
-								cultureList.insert(vCur);
-							}
-							
-							cultureList.toLast();
+							cultures.set(i, vCur);
+							i = cultures.size();
 						} else throw new Exception("06; tCtSc,Pac");
 					}
-					
-					cultureList.next();
 				}
 			} else throw new Exception("07; tCtSc,Pac");
 		}else throw new Exception("02; tCtSc,Pac");
 	}
-	/**	Dh	05.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Wandelt das zur pRaceID gehoerenden Race Objekt in ein Subrace Objekt um.
 	 * 		Die pRaceID muss groessergleich 0 sein und zu einem Race Objekt gehoehren.
@@ -630,37 +469,22 @@ public class Pack extends IDElement {
 		vParRace = null;
 		
 		if ((pParentRaceID >= 0) && (pRaceID >= 0) && (pRaceID != pParentRaceID)) {
-			raceList.toFirst();
-			while(!raceList.isEnd() && (vParRace == null)) {
-				vParRace = (Race) raceList.getCurrent();
-				
-				if (vParRace.getId() != pParentRaceID) vParRace = null;
-				
-				raceList.next();
+			for (int i=0; (i<races.size()) && (vParRace == null); i++) {
+				if (races.get(i).getId() == pParentRaceID) vParRace = races.get(i);
 			}
 			
 			if (vParRace != null) {
-				raceList.toFirst();
-				while(!raceList.isEnd()) {
-					vCur = (Race) raceList.getCurrent();
+				for (int i=0; i<races.size(); i++) {
+					vCur = races.get(i);
 					
 					if (vCur.getId() == pRaceID) {
 						if (!(vCur instanceof Subrace)) {
 							vCur = transformRaceToSubrace(vCur, vParRace);
 							
-							if (raceList.isLast()) {
-								raceList.remove();
-								raceList.append(vCur);
-							}else {
-								raceList.remove();
-								raceList.insert(vCur);
-							}
-							
-							raceList.toLast();
+							races.set(i, vCur);
+							i = races.size();
 						} else throw new Exception("06; tRtSr,Pac");
 					}
-					
-					raceList.next();
 				}
 			} else throw new Exception("07; tCtSc,Pac");
 		}else throw new Exception("02; tRtSr,Pac");
@@ -668,7 +492,7 @@ public class Pack extends IDElement {
 	
 	//----------------------------------------------------------------------------------------------------
 
-	/**	Dh	24.02.2021
+	/**	Dh	08.08.2023
 	 * 	
 	 * 	Erschafft aus einem Subculture Objekt ein vollwertiges Culture Objekt, anhand der parentCulture.
 	 * 		Die fehlenden Variablen werden von der parentCulture uebernommen.
@@ -685,19 +509,19 @@ public class Pack extends IDElement {
 				vRet.setId(pSubculture.getId());
 				vRet.setName(pSubculture.getName());
 				
-				if (pSubculture.getOriginCultureList().getProbElementList().getContentNumber() != 0)
+				if (pSubculture.getOriginCultureList().getProbElements().size() != 0)
 					vRet.setOriginCultureList(pSubculture.getOriginCultureList());
 				else vRet.setOriginCultureList(pSubculture.getParentCulture().getOriginCultureList());
-				if (pSubculture.getRaceList().getProbElementList().getContentNumber() != 0)
+				if (pSubculture.getRaceList().getProbElements().size() != 0)
 					vRet.setRaceList(pSubculture.getRaceList());
 				else vRet.setRaceList(pSubculture.getParentCulture().getRaceList());
-				if (pSubculture.getSexualityList().getProbElementList().getContentNumber() != 0)
+				if (pSubculture.getSexualityList().getProbElements().size() != 0)
 					vRet.setSexualityList(pSubculture.getSexualityList());
 				else vRet.setSexualityList(pSubculture.getParentCulture().getSexualityList());
-				if (pSubculture.getHairlengthList().getProbElementList().getContentNumber() != 0)
+				if (pSubculture.getHairlengthList().getProbElements().size() != 0)
 					vRet.setHairlengthList(pSubculture.getHairlengthList());
 				else vRet.setHairlengthList(pSubculture.getParentCulture().getHairlengthList());
-				if (pSubculture.getSoList().getProbElementList().getContentNumber() != 0)
+				if (pSubculture.getSoList().getProbElements().size() != 0)
 					vRet.setSoList(pSubculture.getSoList());
 				else vRet.setSoList(pSubculture.getParentCulture().getSoList());
 				
@@ -706,7 +530,7 @@ public class Pack extends IDElement {
 		
 		return vRet;
 	}
-	/**	Dh	12.03.2021
+	/**	Dh	08.08.2023
 	 * 	
 	 * 	Erschafft aus einem Subrace Objekt ein vollwertiges Race Objekt, anhand der parentRace.
 	 * 		Die fehlenden Variablen werden von der parentRace uebernommen.
@@ -733,16 +557,16 @@ public class Pack extends IDElement {
 					vRet.setWeight(pSubrace.getWeight());
 				else vRet.setWeight(pSubrace.getParentRace().getWeight());
 				
-				if (pSubrace.getSexList().getProbElementList().getContentNumber() != 0)
+				if (pSubrace.getSexList().getProbElements().size() != 0)
 					vRet.setSexList(pSubrace.getSexList());
 				else vRet.setSexList(pSubrace.getParentRace().getSexList());
-				if (pSubrace.getComplexionList().getProbElementList().getContentNumber() != 0)
+				if (pSubrace.getComplexionList().getProbElements().size() != 0)
 					vRet.setComplexionList(pSubrace.getComplexionList());
 				else vRet.setSexList(pSubrace.getParentRace().getSexList());
-				if (pSubrace.getHaircolorList().getProbElementList().getContentNumber() != 0)
+				if (pSubrace.getHaircolorList().getProbElements().size() != 0)
 					vRet.setHaircolorList(pSubrace.getHaircolorList());
 				else vRet.setHaircolorList(pSubrace.getParentRace().getHaircolorList());
-				if (pSubrace.getEyecolorList().getProbElementList().getContentNumber() != 0)
+				if (pSubrace.getEyecolorList().getProbElements().size() != 0)
 					vRet.setEyecolorList(pSubrace.getEyecolorList());
 				else vRet.setEyecolorList(pSubrace.getParentRace().getEyecolorList());
 			}catch(Exception ex) {throw ex;}
@@ -863,110 +687,74 @@ public class Pack extends IDElement {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	25.02.2021
+	/**	Dh	12.08.2023
 	 * 
-	 * @param pProbElementList
-	 * @return
-	 */
- 	private List extractIDsFromProbList(List pProbElementList) {
-		List vRet = new List();
-		
-		pProbElementList.toFirst();
-		while(!pProbElementList.isEnd()) {
-			vRet.append(((ProbElement)pProbElementList.getCurrent()).getId());
-			
-			pProbElementList.next();
-		}
-		
-		return vRet;
-	}
-	/**	Dh	25.02.2021
-	 * 
-	 * @param pToCheckIDs
+	 * @param pProbElement
 	 * @param pIDList
 	 * @return
 	 */
-	private boolean checkIfIDsAreCoveredInIDList(List pToCheckIDs, List pIDList) {
-		boolean vRet = false;
-		List vContainsIDList;
-		
-		pIDList.toFirst();
-		vContainsIDList = new List();
-		while(!pIDList.isEnd()) {		
-			pToCheckIDs.toFirst();
-			while(!pToCheckIDs.isEnd()) {
-				if (pIDList.getCurrent() == pToCheckIDs.getCurrent()) vContainsIDList.append(true);
-				
-				pToCheckIDs.next();
-			}
-			
-			pIDList.next();
-		}
-		
-		if (vContainsIDList.getContentNumber() == pToCheckIDs.getContentNumber()) vRet = true;
-		
-		return vRet;
+	private boolean checkIfIDElementIsInIDList(IDElement pIDElement, ArrayList<Integer> pIDList) {		
+		return pIDList.contains( Integer.valueOf( pIDElement.getId() ));
 	}
-	/**	Dh	25.02.2021
+	
+	/**	Dh	12.08.2023
 	 * 
 	 * @param pProbElementList
 	 * @param pIDList
 	 * @return
 	 */
-	private boolean checkIfProbListIDsAreInIDList(List pProbElementList, List pIDList) {
-		boolean vRet = false;
+	private boolean checkIfProbListIDsAreInIDList(ArrayList<ProbElement> pProbElementList, ArrayList<Integer> pIDList) {
+		boolean vRet = true;
 		
-		vRet = checkIfIDsAreCoveredInIDList(extractIDsFromProbList(pProbElementList), pIDList);
+		for (int i=0; (i<pProbElementList.size()) && (vRet == true); i++) {
+			if ( !pIDList.contains( Integer.valueOf( pProbElementList.get(i).getId() ) ) )  vRet = false;
+		}
 		
 		return vRet;
 	}
 	
-	/**	Dh	25.02.2021
+	/**	Dh	12.08.2023
 	 * 
 	 * @param pCultureList
 	 * @param pIDList
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean checkIfAssociatedCultureIDsExists(List pCultureList, List pIDList) throws Exception{
+	private boolean checkIfAssociatedCultureIDsExists(ArrayList<Culture> pCultureList, ArrayList<Integer> pIDList) throws Exception{
 		boolean vRet = true;
 		Culture vCurCult;
 		
-		pCultureList.toFirst();
-		while(!pCultureList.isEnd() && (vRet == true)) {
-			vCurCult = (Culture)pCultureList.getCurrent();
+		for (int i=0; (i<pCultureList.size()) && (vRet == true); i++) {
+			vCurCult = pCultureList.get(i);
 			
-			vRet = checkIfProbListIDsAreInIDList(vCurCult.getOriginCultureList().getProbElementList(), pIDList);
-			if ((vRet == true) && (vCurCult instanceof Subculture))
-				vRet = checkIfIDsAreCoveredInIDList(new List( (Object) ((Subculture)vCurCult).getParentCulture().getId() ), pIDList);
-			
-			pCultureList.next();
+			vRet = checkIfProbListIDsAreInIDList(vCurCult.getOriginCultureList().getProbElements(), pIDList);
+			if ((vRet == true) && (vCurCult instanceof Subculture)) {
+				vRet = checkIfIDElementIsInIDList(((Subculture)vCurCult).getParentCulture(), pIDList);
+			}
 		}
 		
 		return vRet;
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	12.08.2023
 	 * 
 	 * @param pRaceList
 	 * @param pIDList
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean checkIfAssociatedRaceIDsExists(List pRaceList, List pIDList) throws Exception{
+	private boolean checkIfAssociatedRaceIDsExists(ArrayList<Race> pRaceList, ArrayList<Integer> pIDList) throws Exception{
 		boolean vRet = true;
 		Race vCurRace;
 		
-		pRaceList.toFirst();
-		while(!pRaceList.isEnd() && (vRet == true)) {
-			vCurRace = (Race)pRaceList.getCurrent();
+		for (int i=0; (i<pRaceList.size()) && (vRet == true); i++) {
+			vCurRace = pRaceList.get(i);
 			
-			if (vCurRace instanceof Subrace)
-				vRet = checkIfIDsAreCoveredInIDList(new List( (Object) ((Subrace)vCurRace).getParentRace().getId() ), pIDList);
-			
-			pRaceList.next();
+			if (vCurRace instanceof Subrace) {
+				vRet = checkIfIDElementIsInIDList(((Subrace)vCurRace).getParentRace(), pIDList);
+			}
 		}
 		
 		return vRet;
 	}
-	
+		
 }

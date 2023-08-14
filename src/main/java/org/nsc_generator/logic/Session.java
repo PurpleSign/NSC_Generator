@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	10.03.2021
+/**	NSC_Generator v0.2		Dh	08.08.2023
  * 	
- * 	pLogic
+ * 	logic
  * 	  IDElement
  * 	    Session
  * 
@@ -16,27 +16,27 @@
  */
 package org.nsc_generator.logic;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.pack.Pack;
+
+import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "session")
 @XmlSeeAlso({NPC.class})
-@XmlType(propOrder = {"npcList", "currentNPCID"})
+//@XmlType(propOrder = {"npcList", "currentNPCID"})
 
 public class Session extends IDElement {
 	private Pack usedPack;
 	private NPC currentNPC;
 	
-	private List npcList;
+	private ArrayList<NPC> npcs;
 	
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 */
 	public Session() {
@@ -44,26 +44,19 @@ public class Session extends IDElement {
 		
 		usedPack = new Pack();
 		currentNPC = new NPC();
-		
-		npcList = new List();
+
+		npcs = new ArrayList<NPC>();
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPack
 	 */
 	public Session(int pID, String pName, Pack pPack) {
-		super(pID, pName);
-		
-		try {
-			setUsedPack(pPack);
-		} catch(Exception ex) {MainManager.handleException(ex);}
-		currentNPC = new NPC();
-		
-		npcList = new List();
+		this(pID, pName, pPack, new ArrayList<NPC>(), new NPC());
 	}
-	/**	Dh	07.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -71,15 +64,15 @@ public class Session extends IDElement {
 	 * @param pNPCList
 	 * @param pCurrentNPC
 	 */
-	public Session(int pID, String pName, Pack pPack, List pNPCList, NPC pCurrentNPC) {
+	public Session(int pID, String pName, Pack pPack, ArrayList<NPC> pNPCs, NPC pCurrentNPC) {
 		super(pID, pName);
 		
 		try {
 			setUsedPack(pPack);
 			setCurrentNPC(pCurrentNPC.getId());
 			
-			setNpcList(pNPCList);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+			setNpcs(pNPCs);
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------
@@ -128,17 +121,17 @@ public class Session extends IDElement {
 		return currentNPC;
 	}
 	
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @return
 	 */
-	public List getNpcList() {
-		return npcList;
+	public ArrayList<NPC> getNpcs(){
+		return npcs;
 	}
-
+	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	10.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * 	Moggelmethode zum laden des usedPack beim laden der Session.
 	 */
@@ -146,28 +139,23 @@ public class Session extends IDElement {
 		try {
 			if (pID >= 0) usedPack = DatabaseConnector.getPack(pID);
 			else usedPack = null;
-		}catch(Exception ex) {MainManager.handleException(ex);}
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pID
 	 */
 	public void setCurrentNPCID(int pID)  {
 		try {
 			if (pID >= 0) {
-				npcList.toFirst();
-				while(!npcList.isEnd() && (currentNPC == null)) {
-					currentNPC = (NPC) npcList.getCurrent();
-					
-					if (currentNPC.getId() != pID) currentNPC = null;
-					
-					npcList.next();
+				currentNPC = null;
+				for (int i=0; (i<npcs.size()) && (currentNPC == null); i++) {
+					if (npcs.get(i).getId() == pID) currentNPC = npcs.get(i);
 				}
 				
 				if (currentNPC == null) throw new Exception("02; sCNPCID,Se");
-			}
-			else currentNPC = null;
-		}catch(Exception ex) {MainManager.handleException(ex);}
+			}else currentNPC = null;
+		}catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 	/**	Dh	25.02.2021
@@ -181,23 +169,16 @@ public class Session extends IDElement {
 		if (pPack != null) usedPack = pPack;
 		else throw new Exception("04; sUP,Ses");
 	}
-	/**	Dh	08.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pNPC
 	 */
 	public void setCurrentNPC(int pCurrentNPCID) throws Exception{
-		NPC vCur;
-		
 		if (pCurrentNPCID >= 0) {
 			currentNPC = null;
-			npcList.toFirst();
 			
-			while(!npcList.isEnd() && (currentNPC == null)) {
-				vCur = (NPC)npcList.getCurrent();
-				
-				if (vCur.getId() == pCurrentNPCID) currentNPC = vCur;
-				
-				npcList.next();
+			for (int i=0; (i<npcs.size()) && (currentNPC == null); i++) {
+				if (npcs.get(i).getId() == pCurrentNPCID) currentNPC = npcs.get(i);
 			}
 			
 			if (currentNPC == null) throw new Exception("02b; sCNPC,Ses");
@@ -205,39 +186,27 @@ public class Session extends IDElement {
 		else throw new Exception("02; sCNPC,Ses");
 	}
 	
-	/**	Dh	10.03.2021
+	/**	Dh	08.08.2023
 	 * 
-	 * 	pNPCList darf nicht null sein und nur NPC Objekte enthalten, die keine redundanten IDs haben.
-	 * 
-	 * @param pNPCList
+	 * @param pNPCs
 	 * @throws Exception
 	 */
-	public void setNpcList(List pNPCList) throws Exception {
-		Object vCur;
-		List vIDList;
+	public void setNpcs(ArrayList<NPC> pNPCs) throws Exception {
+		ArrayList<NPC> vCheckList = new ArrayList<NPC>();
 		
-		if (pNPCList != null) {
-			vIDList = new List();
-			pNPCList.toFirst();
-			while(!pNPCList.isEnd()) {
-				vCur = pNPCList.getCurrent();
-				
-				if (vCur instanceof NPC) {
-					if (isIDInIDList( ((NPC)vCur).getId() , vIDList) == true) throw new Exception("02; sNPCL,Ses");
-					
-					vIDList.append( ((NPC)vCur).getId() );
-				}else throw new Exception("06; sNPCL,Ses");
-				
-				pNPCList.next();
+		if (pNPCs != null) {
+			for (NPC vCur : pNPCs) {
+				if (isIDInIDElementList(vCur.getId(), vCheckList) == true) throw new Exception("02; sNPC,Ses");
+				vCheckList.add(vCur);
 			}
 			
-			npcList = pNPCList;
-		}else throw new Exception("04; sNPCL,Ses");
+			npcs = pNPCs;
+		} else throw new Exception("04; sNPC,Ses");
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Fuegt einen NPC in die npcList ein.
 	 * 		pNPC darf nicht null sein, dessen ID muss groessergleich null sein und darf nocht nicht vorhanden sein.
@@ -248,19 +217,16 @@ public class Session extends IDElement {
 	public void addNPC(NPC pNPC) throws Exception{
 		if (pNPC != null) {
 			if (pNPC.getId() >= 0) {
-				npcList.toFirst();
-				while(!npcList.isEnd()) {
-					if ( ((NPC)npcList.getCurrent()).getId() == pNPC.getId() ) throw new Exception("02a; aNPC,Ses");
-					
-					npcList.next();
+				for (NPC vNPC : npcs) {
+					if (vNPC.getId() == pNPC.getId()) throw new Exception("02a; aNPC,Ses");
 				}
 				
-				npcList.append(pNPC);
+				npcs.add(pNPC);
 			} else throw new Exception("02b; aNPC,Ses");
 			
 		}else throw new Exception("04; aNPC,Ses");
 	}
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Entfernt ein NPC Objekt aus der npcList, zu der die uebergebene pNPCID gehoert.
 	 * 		pNPCID muss groessergleich 0 sein und muss zu einem Objekt der Liste gehoeren.
@@ -269,52 +235,23 @@ public class Session extends IDElement {
 	 * @throws Exception
 	 */
 	public void removeNPC(int pNPCID) throws Exception{
-		NPC vCur;
+		NPC vCur = null;
 		
 		if (pNPCID >= 0) {
-			npcList.toFirst();
-			while(!npcList.isEnd() && (pNPCID >= 0)) {
-				vCur = (NPC) npcList.getCurrent();
-				
-				if (vCur.getId() == pNPCID) {
-					npcList.remove();
-					pNPCID = -1;
-				}
-				
-				npcList.next();
+			for (int i=0; (i<npcs.size()) && (vCur == null); i++) {
+				if (npcs.get(i).getId() == pNPCID) npcs.remove(i);
 			}
-			
-			if (pNPCID >= 0) throw new Exception("07; rNPC,Ses");
 		}else throw new Exception("02; rNPC,Ses");
 	}
 	
-	/**	Dh	25.02.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Leert die npcList.
 	 */
 	public void removeAllNPC() {
-		npcList = new List();
+		npcs = new ArrayList<NPC>();
 	}
 	
-//--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	25.02.2021
-	 * 
-	 * @param pID
-	 * @param pIDList
-	 * @return
-	 */
-	private boolean isIDInIDList(int pID, List pIDList) {
-		boolean vRet = false;
-		
-		pIDList.toFirst();
-		while (!pIDList.isEnd() && (vRet == false)) {
-			if ( (int)pIDList.getCurrent() == pID ) vRet = true;
-			
-			pIDList.next();
-		}
-		
-		return vRet;
-	}
 	
 }

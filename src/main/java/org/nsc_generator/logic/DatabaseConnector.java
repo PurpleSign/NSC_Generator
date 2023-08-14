@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.2		Dh	14.08.2023
  * 	
- * 	pLogic
+ * 	logic
  * 	  DatabaseController
  * 
  * Exceptions:
@@ -22,12 +22,12 @@ package org.nsc_generator.logic;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.pack.Pack;
 import org.nsc_generator.logic.pack.Subculture;
 import org.nsc_generator.logic.pack.Subrace;
@@ -40,7 +40,8 @@ public abstract class DatabaseConnector {
 	
 	private static File systemFile;
 	
-	private static List packList, sessionList;
+	private static ArrayList<Pack> packs;
+	private static ArrayList<Session> sessions;
 	
 //--------------------------------------------------------------------------------------------------------
 	
@@ -48,7 +49,7 @@ public abstract class DatabaseConnector {
 	 * 
 	 * @throws Exception
 	 */
-	public static void initConnector() throws Exception{
+ 	public static void initConnector() throws Exception{
 		try { 
 			systemFile = getFileSystem();
 			
@@ -103,7 +104,7 @@ public abstract class DatabaseConnector {
 
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @return
@@ -113,13 +114,8 @@ public abstract class DatabaseConnector {
 		Pack vRet = null;
 		
 		if (pID >= 0) {
-			packList.toFirst();
-			while(!packList.isEnd() && (vRet == null)) {
-				vRet = (Pack) packList.getCurrent();
-				
-				if (vRet.getId() != pID) vRet = null;
-				
-				packList.next();
+			for (int i=0; (i<packs.size()) && (vRet == null); i++) {
+				if (packs.get(i).getId() == pID) vRet = packs.get(i);
 			}
 			
 			if (vRet == null) throw new Exception("02a; gPa,DaCon");
@@ -127,7 +123,7 @@ public abstract class DatabaseConnector {
 		
 		return vRet;
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @return
@@ -137,13 +133,8 @@ public abstract class DatabaseConnector {
 		Session vRet = null;
 		
 		if (pID >= 0) {
-			sessionList.toFirst();
-			while(!sessionList.isEnd() && (vRet == null)) {
-				vRet = (Session) sessionList.getCurrent();
-				
-				if (vRet.getId() != pID) vRet = null;
-				
-				sessionList.next();
+			for (int i=0; (i<sessions.size()) && (vRet == null); i++) {
+				if (sessions.get(i).getId() == pID) vRet = sessions.get(i);
 			}
 			
 			if (vRet == null) throw new Exception("02a; gSe,DaCon");
@@ -152,36 +143,36 @@ public abstract class DatabaseConnector {
 		return vRet;
 	}
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 */
-	public static List getPackList() {
-		return packList;
+	public static ArrayList<Pack> getPacks() {
+		return packs;
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 */
-	public static List getSessionList() {
-		return sessionList;
+	public static ArrayList<Session> getSessions() {
+		return sessions;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
  	public static Pack newPack() throws Exception{
-		Pack vRet = new Pack(genNewIDFromIDElementList(packList), "");
+		Pack vRet = new Pack(genNewIDFromIDElementList(packs), "");
 
 		addPack(vRet);
 		
 		return vRet;
 	}
- 	/**	Dh	11.03.2021
+ 	/**	Dh	14.08.2023
  	 * 
  	 * @param pName
  	 * @param pPackID
@@ -192,7 +183,7 @@ public abstract class DatabaseConnector {
 		Session vRet;
 		
 		if (doesPackExist(pPackID)) {
-			vRet = new Session(genNewIDFromIDElementList(sessionList), pName, getPack(pPackID));
+			vRet = new Session(genNewIDFromIDElementList(sessions), pName, getPack(pPackID));
 			addSession(vRet);
 		} else throw new Exception("02; nSe,DaCon");
 		
@@ -201,31 +192,35 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	19.04.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pPack
 	 * @throws Exception
 	 */
 	public static void addPack(Pack pPack) throws Exception{
 		if (pPack != null) {
-			if (!checkIfIDIsInList(pPack.getId(), packList)) {
-				packList.append(pPack);
+			if (!checkIfIDIsInList(pPack.getId(), packs)) {
+				packs.add(pPack);
 				
-				sortListByID(packList);
+				packs.sort((pPack1, pPack2) -> {
+					return pPack1.getId() - pPack2.getId();
+				});
 			} else throw new Exception("02; aPa,DaCon:"+pPack.getId());
 		} else throw new Exception("04; aPa,DaCon");
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pSession
 	 * @throws Exception
 	 */
 	public static void addSession(Session pSession) throws Exception{
 		if (pSession != null) {
-			if (!checkIfIDIsInList(pSession.getId(), sessionList)) {
-				sessionList.append(pSession);
+			if (!checkIfIDIsInList(pSession.getId(), sessions)) {
+				sessions.add(pSession);
 				
-				sortListByID(sessionList);
+				sessions.sort((pSession1, pSession2) -> {
+					return pSession1.getId() - pSession2.getId();
+				});
 			}
 			else throw new Exception("02; aSe,DaCon");
 		} else throw new Exception("04; aSe,DaCon");
@@ -233,54 +228,45 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @throws Exception
 	 */
 	public static void removePack(int pID) throws Exception{
-		Pack vCur;
-		
 		if (pID >= 0) {
-			packList.toFirst();
-			while(!packList.isEnd()) {
-				vCur = (Pack)packList.getCurrent();
-				
-				if (vCur.getId() == pID) {
-					packList.remove();
+			
+			for (int i=0; i<packs.size(); i++) {
+				if (packs.get(i).getId() == pID) {
+					packs.remove(i);
 					deletePack(pID);
+					
+					i = packs.size();
 				}
-				
-				packList.next();
 			}
 		}else throw new Exception("02; rPa,DaCon");
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @throws Exception
 	 */
 	public static void removeSession(int pID) throws Exception{
-		Session vCur;
-		
 		if (pID >= 0) {
-			sessionList.toFirst();
-			while(!sessionList.isEnd()) {
-				vCur = (Session)sessionList.getCurrent();
-				
-				if (vCur.getId() == pID) {
-					sessionList.remove();
+			for (int i=0; i<sessions.size(); i++) {
+				if (sessions.get(i).getId() == pID) {
+					sessions.remove(i);
 					deleteSession(pID);
+					
+					i = sessions.size();
 				}
-				
-				sessionList.next();
 			}
 		}else throw new Exception("02; rSe,DaCon");
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @throws Exception
@@ -289,26 +275,23 @@ public abstract class DatabaseConnector {
 		Pack vCur, vOldPack;
 		
 		if (pID >= 0) {
-			packList.toFirst();
-			while(!packList.isEnd()) {
-				vCur = (Pack)packList.getCurrent();
+			for (int i=0; i<packs.size(); i++) {
+				vCur = packs.get(i);
 				
 				if (vCur.getId() == pID) {
 					vOldPack = loadPack(pID);
 					
 					copyPack(vCur, vOldPack);
 					
-					packList.toLast();
+					i = packs.size();
 				}
-				
-				packList.next();
 			}
 		}else throw new Exception("02; rsPa,DaCon");
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @return
@@ -316,23 +299,16 @@ public abstract class DatabaseConnector {
 	 */
 	public static boolean doesPackExist(int pID) throws Exception{
 		boolean vRet = false;
-		Pack vCur;
 		
 		if (pID >= 0) {
-			packList.toFirst();
-			while(!packList.isEnd() && (vRet == false)) {
-				vCur = (Pack) packList.getCurrent();
-				
-				if (vCur.getId() == pID) vRet = true;
-				
-				packList.next();
+			for (int i=0; (i<packs.size()) && (vRet == false); i++) {
+				if (packs.get(i).getId() == pID) vRet = true;
 			}
-			
 		} else throw new Exception("02; dPaE,DaCon");
 		
 		return vRet;
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @return
@@ -340,18 +316,11 @@ public abstract class DatabaseConnector {
 	 */
 	public static boolean doesSessionExist(int pID) throws Exception{
 		boolean vRet = false;
-		Session vCur;
 		
 		if (pID >= 0) {
-			sessionList.toFirst();
-			while(!sessionList.isEnd() && (vRet == false)) {
-				vCur = (Session) sessionList.getCurrent();
-				
-				if (vCur.getId() == pID) vRet = true;
-				
-				sessionList.next();
+			for (int i=0; (i<sessions.size()) && (vRet == false); i++) {
+				if (sessions.get(i).getId() == pID) vRet = true;
 			}
-			
 		} else throw new Exception("02; dSeE,DaCon");
 		
 		return vRet;
@@ -455,7 +424,7 @@ public abstract class DatabaseConnector {
 		return vRet;
 	}
 	
-	/**	Dh	11.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @throws Exception
 	 */
@@ -464,7 +433,7 @@ public abstract class DatabaseConnector {
 		File vDirectory, vCurFile;
 		Object[] vPackFiles;
 		
-		packList = new List();
+		packs = new ArrayList<Pack>();
 		
 		vDirectory = new File(systemFile+packPath);
 		vPackFiles = Files.list(vDirectory.toPath()).toArray();
@@ -474,14 +443,16 @@ public abstract class DatabaseConnector {
 				vCurFile = ((Path)vPackFiles[i]).toFile();
 				
 				vPack = JAXB.unmarshal(vCurFile, Pack.class);
-				packList.append(vPack);
+				packs.add(vPack);
 			}
 			
-			sortListByID(packList);
-			setParentsForSubElementsInPackList(packList);
+			packs.sort((pPack1, pPack2) -> {
+				return pPack1.getId() - pPack2.getId();
+			});
+			setParentsForSubElementsInPackList(packs);
 		}
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @throws Exception
 	 */
@@ -490,7 +461,7 @@ public abstract class DatabaseConnector {
 		File vDirectory, vCurFile;
 		Object[] vSessionFiles;
 		
-		sessionList = new List();
+		sessions = new ArrayList<Session>();
 		
 		vDirectory = new File(systemFile+sessionPath);
 		vSessionFiles = Files.list(vDirectory.toPath()).toArray();
@@ -500,10 +471,12 @@ public abstract class DatabaseConnector {
 				vCurFile = ((Path)vSessionFiles[i]).toFile();
 				
 				vSession = JAXB.unmarshal(vCurFile, Session.class);
-				sessionList.append(vSession);
+				sessions.add(vSession);
 			}
 			
-			sortListByID(sessionList);
+			sessions.sort((pSession1, pSession2) -> {
+				return pSession1.getId() - pSession2.getId();
+			});
 		}
 	}
 	
@@ -558,7 +531,7 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	19.04.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pStage
 	 * @return
@@ -570,14 +543,14 @@ public abstract class DatabaseConnector {
 		if (pFile.exists()) {
 			vRet = JAXB.unmarshal(pFile, Pack.class);
 			
-			vRet.setId(genNewIDFromIDElementList(packList));
+			vRet.setId(genNewIDFromIDElementList(packs));
 			addPack(vRet);
 		}
 		else throw new Exception("21; iPa,DaCon");
 		
 		return vRet;
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pStage
 	 * @return
@@ -589,7 +562,7 @@ public abstract class DatabaseConnector {
 		if (pFile.exists()) {
 			vRet = JAXB.unmarshal(pFile, Session.class);
 			
-			vRet.setId(genNewIDFromIDElementList(sessionList));
+			vRet.setId(genNewIDFromIDElementList(sessions));
 			addSession(vRet);
 		}
 		else throw new Exception("21; iSe,DaCon");
@@ -702,25 +675,22 @@ public abstract class DatabaseConnector {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	04.03.2021
+	/**	Dh	13.08.2023
 	 * 
 	 * @param pIDElementList
 	 * @return
 	 * @throws Exception
 	 */
-	public static int genNewIDFromIDElementList(List pIDElementList) throws Exception {
+	public static int genNewIDFromIDElementList(ArrayList<? extends IDElement> pIDElementList) throws Exception {
 		int vRet = 0;
 		IDElement vCur;
 		
 		if (pIDElementList != null) {
-			pIDElementList.toFirst();
-			while(!pIDElementList.isEnd()) {
-				vCur = (IDElement) pIDElementList.getCurrent();
+			for (int i=0; i<pIDElementList.size(); i++) {
+				vCur = pIDElementList.get(i);
 				
 				if (vRet == vCur.getId()) vRet ++;
-				else pIDElementList.toLast();
-				
-				pIDElementList.next();
+				else i = pIDElementList.size();
 			}
 		}
 		
@@ -729,23 +699,20 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pID
 	 * @param pIDElementList
 	 * @return
 	 */
-	private static boolean checkIfIDIsInList(int pID, List pIDElementList) {
+	private static boolean checkIfIDIsInList(int pID, ArrayList<? extends IDElement> pIDElementList) {
 		boolean vRet = false;
 		IDElement vCur;
 		
-		pIDElementList.toFirst();
-		while(!pIDElementList.isEnd() && (vRet == false)) {
-			vCur = (IDElement)pIDElementList.getCurrent();
+		for (int i=0; (i<pIDElementList.size()) && (vRet == false); i++) {
+			vCur = pIDElementList.get(i);
 			
 			if (vCur.getId() == pID) vRet = true;
-			
-			pIDElementList.next();
 		}
 		
 		return vRet;
@@ -753,47 +720,33 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pPack
 	 * @throws Exception
 	 */
-	private static void setParentsForSubElementsInList(List pElementList, Pack pPack) throws Exception {
-		Object vCur;
-		
-		pElementList.toFirst();
-		while(!pElementList.isEnd()) {
-			vCur = pElementList.getCurrent();
-			
+	private static <T extends IDElement> void setParentsForSubElementsInList(ArrayList<T> pElementList, Pack pPack) throws Exception {
+		for (T vCur : pElementList) {
 			if (vCur instanceof Subrace) ((Subrace) vCur).setParentRace(pPack.getRace(((Subrace) vCur).getParentID()));
 			else if (vCur instanceof Subculture) ((Subculture) vCur).setParentCulture(pPack.getCulture(((Subculture) vCur).getParentID()));
-			
-			pElementList.next();
 		}
 	}
 	
-	/**	Dh	11.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pPackList
 	 * @throws Exception
 	 */
-	private static void setParentsForSubElementsInPackList(List pPackList) throws Exception {
-		Pack vCur;
-		
-		pPackList.toFirst();
-		while(!pPackList.isEnd()) {
-			vCur = (Pack) pPackList.getCurrent();
-			
-			setParentsForSubElementsInList(vCur.getCultureList().copyList(), vCur);
-			setParentsForSubElementsInList(vCur.getRaceList().copyList(), vCur);
-			
-			pPackList.next();
+	private static void setParentsForSubElementsInPackList(ArrayList<Pack> pPackList) throws Exception {
+		for (Pack vCur : pPackList) {
+			setParentsForSubElementsInList(vCur.getCultures(), vCur);
+			setParentsForSubElementsInList(vCur.getRaces(), vCur);
 		}
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	14.08.2023
 	 * 
 	 * @param pCopyPack
 	 * @param pOriginPack
@@ -802,66 +755,8 @@ public abstract class DatabaseConnector {
 	private static void copyPack(Pack pCopyPack, Pack pOriginPack) throws Exception {
 		pCopyPack.setName(pOriginPack.getName());
 		
-		pCopyPack.setRaceList(pOriginPack.getRaceList());
-		pCopyPack.setCultureList(pOriginPack.getCultureList());
-	}
-	
-	//----------------------------------------------------------------------------------------------------
-	
-	/**	Dh	11.03.2021
-	 * 
-	 * @param pIDElementList
-	 * @param pCur
-	 * @throws Exception
-	 */
-	private static void sortRecusivDown(List pIDElementList, IDElement pCur) throws Exception {
-		int vComparID = ((IDElement)pIDElementList.getCurrent()).getId();
-		
-		if ( vComparID > pCur.getId() ) {
-			if (!pIDElementList.isFirst()) {
-				pIDElementList.prior();
-				sortRecusivDown(pIDElementList, pCur);
-				pIDElementList.next();
-			} else pIDElementList.insert(pCur);
-		} else if (vComparID < pCur.getId()) {
-			pIDElementList.next();
-			pIDElementList.insert(pCur);
-			pIDElementList.prior();
-		} else throw new Exception("02; sRD,DaCon");
-	}
-	
-	/**	Dh	11.03.2021
-	 * 
-	 * @param pIDElementList
-	 * @throws Exception
-	 */
-	private static void sortListByID(List pIDElementList) throws Exception {
-		IDElement vCur;
-		int vOldID;
-		
-		if (pIDElementList != null) {
-			
-			vOldID = -1;
-			pIDElementList.toFirst();
-			while(!pIDElementList.isEnd()) {
-				vCur = (IDElement) pIDElementList.getCurrent();
-				
-				if (vOldID > vCur.getId()) {
-					if (pIDElementList.isLast()) {
-						pIDElementList.remove();
-						sortRecusivDown(pIDElementList, vCur);
-					}else {
-						pIDElementList.remove();
-						pIDElementList.prior();
-						sortRecusivDown(pIDElementList, vCur);
-					}
-					
-				}else if (vOldID < vCur.getId()) vOldID = vCur.getId();
-				else throw new Exception("02; sLBID,DaCon");
-				
-				pIDElementList.next();
-			}
-		}
+		pCopyPack.setRaces(pOriginPack.getRaces());
+		pCopyPack.setCultures(pOriginPack.getCultures());
 	}
 	
 }

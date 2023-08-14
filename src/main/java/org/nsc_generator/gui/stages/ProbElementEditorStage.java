@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	02.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI
+ * 	gui.stages
  * 	  EditorStage
  * 	    ProbElementEditorStage
  * 
@@ -19,7 +19,7 @@ package org.nsc_generator.gui.stages;
 
 import org.nsc_generator.gui.stageController.ParentProbElementEditorControllerInterface;
 import org.nsc_generator.gui.stageController.ProbElementEditorController;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 
 public class ProbElementEditorStage extends EditorStage {	
@@ -36,7 +36,7 @@ public class ProbElementEditorStage extends EditorStage {
 		init(pCaseNumber, pProbElementID);
 	}
 
-	/**	Dh	02.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pCaseNumber
 	 * @param pProbElementID
@@ -46,7 +46,7 @@ public class ProbElementEditorStage extends EditorStage {
 			ProbElementEditorController vController = (ProbElementEditorController) controller;
 			
 			vController.setUpTwo(pCaseNumber, pProbElementID);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 		
 	}
 		

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	18.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI
+ * 	gui.stages
  * 	  EditorStage
  * 	    PrioElementEditorStage
  * 
@@ -19,7 +19,7 @@ package org.nsc_generator.gui.stages;
 
 import org.nsc_generator.gui.stageController.ParentPrioElementEditorControllerInterface;
 import org.nsc_generator.gui.stageController.PrioElementEditorController;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 
 public class PrioElementEditorStage extends EditorStage {
@@ -39,7 +39,7 @@ public class PrioElementEditorStage extends EditorStage {
 		init(pCaseNumber, pPrioElementID);
 	}
 	
-	/**	Dh	18.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pCaseNumber
 	 * @param pPrioElementID
@@ -49,7 +49,7 @@ public class PrioElementEditorStage extends EditorStage {
 			PrioElementEditorController vController = (PrioElementEditorController) controller;
 			
 			vController.setUpTwo(pCaseNumber, pPrioElementID);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 		
 	}
 

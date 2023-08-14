@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	23.08.2022
+/**	NSC_Generator v0.2		Dh	08.08.2023
  * 	
- * 	pLogic.pPack
+ * 	logic.pack
  * 	  IDElement
  * 	    PrioList
  * 
@@ -17,15 +17,15 @@
 
 package org.nsc_generator.logic.pack;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
-import pDataStructures.List;
 import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 @XmlRootElement(name = "priolist")
 @XmlSeeAlso({PrioElement.class})
@@ -33,50 +33,39 @@ import org.nsc_generator.logic.MainManager;
 public class PrioList extends IDElement{
 	@XmlTransient
 	private int totalPriorityNumber;
-	private List prioElementList;
+	private ArrayList<PrioElement> prioElements;
 	
-	/**	Dh	23.08.2022
+	/**	Dh	08.08.2023
 	 * 
 	 */
 	public PrioList() {
-		prioElementList = new List();
-		totalPriorityNumber = 0;
-		
-		try {
-			super.setId(0);
-			super.setName("");
-		}catch(Exception ex) {MainManager.handleMessage(ex.getMessage());}
+		this(new ArrayList<PrioElement>());
 	}
-	/**	Dh	23.08.2022
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pPrioElementList
 	 */
-	public PrioList(List pPrioElementList) {
-		try {
-			super.setId(0);
-			super.setName("");
-			
-			setPrioElementList(pPrioElementList);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+	public PrioList(ArrayList<PrioElement> pPrioElements) {
+		this(0, "", pPrioElements);
 	}
-	/**	Dh	17.10.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPrioElementList
 	 */
-	public PrioList(int pID, String pName, List pPrioElementList) {
+	public PrioList(int pID, String pName, ArrayList<PrioElement> pPrioElements) {
 		try {
 			super.setId(pID);
 			super.setName(pName);
 			
-			setPrioElementList(pPrioElementList);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+			setPrioElements(pPrioElements);
+		} catch(Exception ex) {LogManager.handleException(ex);}
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	14.03.2021
+	/**	Dh	08.08.2023
 	 * 
 	 * 	pPrioElementID muss groessergleich 0.
 	 * 
@@ -88,58 +77,37 @@ public class PrioList extends IDElement{
 		PrioElement vRet = null;
 		
 		if (pPrioElementID >= 0) {
-			prioElementList.toFirst();
-			
-			while(!prioElementList.isEnd() && vRet == null) {
-				vRet = (PrioElement)prioElementList.getCurrent();
-				
-				if (vRet.getId() != pPrioElementID) vRet = null;
-				
-				prioElementList.next();
+			for (int i=0; (i < prioElements.size()) && (vRet == null); i++) {
+				if (prioElements.get(i).getId() == pPrioElementID) vRet = prioElements.get(i);
 			}
 		} else throw new Exception("02; gPrEl,PriLis");
 		
 		return vRet;
 	}
-	/**	Dh	14.03.2021
+	
+	/**	Dh	08.08.2023
 	 * 
 	 * @return
 	 */
-	public List getPrioElementList() {
-		return prioElementList;
+	public ArrayList<PrioElement> getPrioElements(){
+		return prioElements;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	18.03.2021
+	/**	Dh	08.08.2023
 	 * 
-	 * 	pPrioElementList darf nicht null sein und nur Objekte vom Typ PrioElement enthalten.
-	 * 
-	 * @param pPrioElementList
+	 * @param pPrioElements
 	 * @throws Exception
 	 */
-	public void setPrioElementList(List pPrioElementList) throws Exception {
-		Object vCur;
-		
-		if (pPrioElementList != null) {
-			totalPriorityNumber = 0;
-			pPrioElementList.toFirst();
-			
-			while(!pPrioElementList.isEnd()) {
-				vCur = pPrioElementList.getCurrent();
-				
-				if (vCur instanceof PrioElement) totalPriorityNumber += ((PrioElement)vCur).getPriority();
-				
-				pPrioElementList.next();
-			}
-			
-			prioElementList = pPrioElementList;
-		} else throw new Exception("04; sPrElLi,PribLi");
+	public void setPrioElements(ArrayList<PrioElement> pPrioElements) throws Exception {
+		if (pPrioElements != null) prioElements = pPrioElements;
+		else prioElements = new ArrayList<PrioElement>();
 	}
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	23.08.2022
+	/**	Dh	08.08.2023
 	 * 
 	 * 	Waehlt zufaellig anhand der entsprechenden Prioritaeten ein PrioElement
 	 * 		aus der pPrioElementList aus und gibt sie zurueck.
@@ -156,14 +124,11 @@ public class PrioList extends IDElement{
 			vCurPrioNumber = 0;
 			vPrioNumber = vRand.nextInt(totalPriorityNumber)+1;
 			
-			prioElementList.toFirst();
-			while(!prioElementList.isEnd() && (vRet == null)) {
-				vRet = (PrioElement) prioElementList.getCurrent();
+			for (int i=0; (i<prioElements.size()) && (vRet == null); i++) {
+				vRet = prioElements.get(i);
 				
 				vCurPrioNumber += vRet.getPriority();
 				if (vPrioNumber >  vCurPrioNumber) vRet = null;
-				
-				prioElementList.next();
 			}
 		}else vRet = new PrioElement(0, "", 0);
 		
@@ -171,5 +136,5 @@ public class PrioList extends IDElement{
 		
 		return vRet;
 	}
-	
+		
 }

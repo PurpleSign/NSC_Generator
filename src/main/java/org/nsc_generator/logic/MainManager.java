@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	19.04.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pLogic
+ * 	logic
  * 	  MainManager
  * 
  * Exceptions:
@@ -24,7 +24,7 @@ import org.nsc_generator.gui.stages.SessionManagerStage;
 import org.nsc_generator.logic.editors.SessionEditor;
 import org.nsc_generator.logic.editors.SessionManager;
 
-public class MainManager extends Application{
+public class MainManager extends Application implements MainManagerInterface{
 	private static Stage mainStage, primaryStage;
 	
 	/**	Dh	25.02.2021
@@ -35,7 +35,7 @@ public class MainManager extends Application{
 		launch(args);
 	}
 	
-	/**	Dh	11.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	@Override
@@ -43,10 +43,11 @@ public class MainManager extends Application{
 		primaryStage = pPrimaryStage;
 		
 		try {
+			LogManager.initLogManager(this);
 			DatabaseConnector.initConnector();
 			
 			mainStage = new SessionManagerStage(false, null, new SessionManager(null));
-		} catch (Exception ex) {MainManager.handleException(ex);}
+		} catch (Exception ex) {LogManager.handleException(ex);}
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -60,12 +61,13 @@ public class MainManager extends Application{
 		mainStage = new SessionEditorStage(pSessionEditor);
 	}
 	
-	/**	Dh	08.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
-	public static void closeApp() {
+	public void closeApp() {
 		mainStage.close();
-		//primaryStage.close();
+		primaryStage.close();
+		System.exit(0);
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -87,20 +89,20 @@ public class MainManager extends Application{
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	08.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param ex
 	 */
-	public static void handleException(Exception ex) {
+	public void handleException(Exception ex) {
 		new InfoStage(true, ex.getMessage());
 		System.out.println(ex.getCause() + " : " + ex.getMessage());
-		closeApp();
+		//closeApp();
 	}
-	/**	Dh	08.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pMessage
 	 */
-	public static void handleMessage(String pMessage) {
+	public void handleMessage(String pMessage) {
 		new InfoStage(false, pMessage);
 	}
 	

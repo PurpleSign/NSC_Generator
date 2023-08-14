@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	20.05.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pController
+ * 	gui.stageController
  * 	  EditorController
  * 	    ProbElementEditorController
  * 
@@ -22,7 +22,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.FloatStringConverter;
-import org.nsc_generator.logic.MainManager;
+
+import org.nsc_generator.gui.ParentControllerInterface;
+import org.nsc_generator.logic.LogManager;
 import org.nsc_generator.logic.editors.Editor;
 
 public class ProbElementEditorController extends EditorController{
@@ -46,7 +48,7 @@ public class ProbElementEditorController extends EditorController{
 	/**	Dh	20.05.2021
 	 * 
 	 */
-	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentStageControllerInterface pParentController, Editor pEditor) throws Exception {
+	public void setUp(boolean pIsEdit, boolean pIsMobile, ParentControllerInterface pParentController, Editor pEditor) throws Exception {
 		super.setUp(pIsEdit, pIsMobile, pParentController, pEditor);
 		
 		parentController = (ParentProbElementEditorControllerInterface)super.parentController;
@@ -84,7 +86,7 @@ public class ProbElementEditorController extends EditorController{
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	02.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 */
 	protected void apply() {
@@ -98,7 +100,7 @@ public class ProbElementEditorController extends EditorController{
 			try {
 				if (isEdit == true) this.parentController.setProbElement(caseNumber, probElemenID, vName, vProb);
 				else this.parentController.addProbElement(caseNumber, vName, vProb);
-			} catch(Exception ex) {MainManager.handleException(ex);}
+			} catch(Exception ex) {LogManager.handleException(ex);}
 			
 			this.parentController.closeChildStage();
 		}
@@ -115,7 +117,7 @@ public class ProbElementEditorController extends EditorController{
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	08.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @return
 	 */
@@ -124,15 +126,15 @@ public class ProbElementEditorController extends EditorController{
 		
 		if (tfName.getText().equals("")) {
 			vRet = false;
-			MainManager.handleMessage("Der Name fehlt.");
+			LogManager.handleMessage("Der Name fehlt.");
 		}
 		if (tfProb.getText().equals("")) {
 			vRet = false;
-			MainManager.handleMessage("Ein Wahrscheinlichkeitswert fehlt.");
+			LogManager.handleMessage("Ein Wahrscheinlichkeitswert fehlt.");
 		}
 		else if ((Double.parseDouble(tfProb.getText()) < 0) || (Double.parseDouble(tfProb.getText()) > 100)) {
 			vRet = false;
-			MainManager.handleMessage("Der Wahrscheinlichkeitswert liegt nicht zwischen 0 und 100.");
+			LogManager.handleMessage("Der Wahrscheinlichkeitswert liegt nicht zwischen 0 und 100.");
 		}
 		
 		return vRet;

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	15.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pTableElement
+ * 	gui.tableElements
  * 	  NameElement
  * 	    PrioElementTableElement
  * 
@@ -17,12 +17,12 @@
 
 package org.nsc_generator.gui.tableElements;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 public class PrioElementTableElement extends NameElement {
 	private int priority;
 	
-	/**	Dh	15.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -32,7 +32,7 @@ public class PrioElementTableElement extends NameElement {
 		super(pID, pName);
 		
 		try {setPriority(pPriority);}
-		catch(Exception ex) {MainManager.handleException(ex);}
+		catch(Exception ex) {LogManager.handleException(ex);}
 	}
 
 //--------------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
-/**	NSC_Generator v0.0		Dh	07.03.2021
+/**	NSC_Generator v0.2		Dh	07.08.2023
  * 	
- * 	pGUI.pTableElement
+ * 	gui.tableElements
  * 	  TableRowModel
  * 
  * Exceptions:
@@ -28,7 +28,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 import javafx.util.converter.NumberStringConverter;
 
-import org.nsc_generator.logic.MainManager;
+import org.nsc_generator.logic.LogManager;
 
 public class TableRowModel {
 	private int distroElementID;
@@ -46,7 +46,7 @@ public class TableRowModel {
 		idList = new int[0];
 		distroProbs = new double[0];
 	}
-	/**	Dh	06.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pID
 	 * @param pName
@@ -55,7 +55,7 @@ public class TableRowModel {
 		try{
 			setDistroElementID(pDistroElementID);
 			setDistroElementName(pName);
-		} catch(Exception ex) {MainManager.handleException(ex);}
+		} catch(Exception ex) {LogManager.handleException(ex);}
 		
 		idList = new int[pDistroNumber];
 		distroProbs = new double[pDistroNumber];
@@ -200,7 +200,7 @@ public class TableRowModel {
 		
 		return vRet;
 	}
-	/**	Dh	06.03.2021
+	/**	Dh	07.08.2023
 	 * 
 	 * @param pColumnID
 	 * @param pColumnName
@@ -218,7 +218,7 @@ public class TableRowModel {
 				
 				try {
 					vRet = new SimpleDoubleProperty( param.getValue().getDistroProb(pColumnID) );
-				} catch(Exception ex) {MainManager.handleException(ex);}
+				} catch(Exception ex) {LogManager.handleException(ex);}
 				
 				return vRet;
 			}
@@ -231,7 +231,7 @@ public class TableRowModel {
 				double vValue = (event.getNewValue() != null) ? event.getNewValue().doubleValue() : event.getOldValue().doubleValue();
 				
 				try {event.getTableView().getItems().get(event.getTablePosition().getRow()).setDistroProb(pColumnID, vValue);}
-				catch(Exception ex) {MainManager.handleException(ex);}
+				catch(Exception ex) {LogManager.handleException(ex);}
 				
 				event.getTableView().refresh();
 			}
