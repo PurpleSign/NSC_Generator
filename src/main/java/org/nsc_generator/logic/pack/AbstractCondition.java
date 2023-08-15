@@ -17,15 +17,13 @@
 
 package org.nsc_generator.logic.pack;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import org.nsc_generator.logic.IDElement;
 import org.nsc_generator.logic.LogManager;
 
-@XmlRootElement(name = "abstractCondition")
+//@XmlRootElement(name = "abstractCondition")
 //@XmlType(propOrder = {"cultureList", "raceList", "quirkList"})
-@XmlSeeAlso({ProbList.class, ProbElement.class, PrioList.class, PrioElement.class})
+//@XmlSeeAlso({ProbList.class, ProbElement.class, PrioList.class, PrioElement.class})
 
 public abstract class AbstractCondition extends IDElement {
 	private boolean negation;

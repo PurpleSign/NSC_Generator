@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	08.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  IDElement
@@ -27,12 +27,18 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.nsc_generator.logic.IDElement;
 import org.nsc_generator.logic.LogManager;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 @XmlRootElement(name = "priolist")
 @XmlSeeAlso({PrioElement.class})
+@JsonRootName(value = "priolist")
 
 public class PrioList extends IDElement{
 	@XmlTransient
 	private int totalPriorityNumber;
+	@JsonProperty("prioElements")
 	private ArrayList<PrioElement> prioElements;
 	
 	/**	Dh	08.08.2023

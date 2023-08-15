@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	07.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  GenElement
@@ -24,11 +24,24 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.nsc_generator.logic.LogManager;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 @XmlRootElement(name = "genelement")
 @XmlType(propOrder = {"number", "side", "offset"})
 
+@JsonRootName(value = "genelement")
+@JsonPropertyOrder({
+	"id", "name", "number", "side", "offset"
+})
 public class GenElement {
-	private int number, side, offset;
+	@JsonProperty("number")
+	private int number;
+	@JsonProperty("side")
+	private int side;
+	@JsonProperty("offset")
+	private int offset;
 	
 	/**	Dh	23.02.2021
 	 * 

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	07.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  IDElement
@@ -22,9 +22,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.nsc_generator.logic.IDElement;
 import org.nsc_generator.logic.LogManager;
 
-@XmlRootElement(name = "probelement")
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
+@XmlRootElement(name = "probelement")
+@JsonRootName(value = "probelements")
+@JsonPropertyOrder({
+	"id", "name", "probability"
+})
 public class ProbElement extends IDElement{
+	@JsonProperty("probability")
 	private double probability;
 	
 	/**	Dh	24.02.2021

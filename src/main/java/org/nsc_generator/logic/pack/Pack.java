@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	12.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  IDElement
@@ -20,19 +20,30 @@ package org.nsc_generator.logic.pack;
 import org.nsc_generator.logic.IDElement;
 import org.nsc_generator.logic.NPC;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "pack")
-//@XmlType(propOrder = {"cultureList", "raceList", "quirkList"})
+@XmlType(propOrder = {"cultures", "races", "quirkList"})
 @XmlSeeAlso({Culture.class, Subculture.class, Race.class, Subrace.class, ProbList.class, ProbElement.class, 
 			PrioList.class, PrioElement.class})
-
+@JsonRootName(value = "pack")
+@JsonPropertyOrder({
+	"id", "name", "cultures", "races", "quirkList"
+})
 public class Pack extends IDElement {
+	@JsonProperty("cultures")
 	private ArrayList<Culture> cultures;
+	@JsonProperty("races")
 	private ArrayList<Race>	races;
+	@JsonProperty("quirkList")
 	private PrioList quirkList;
 	
 	/**	Dh	08.08.2023

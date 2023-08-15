@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	07.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic
  * 	  IDElement
@@ -20,10 +20,44 @@ import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-import pDataStructures.List;
+import org.nsc_generator.logic.pack.Culture;
+import org.nsc_generator.logic.pack.GenElement;
+import org.nsc_generator.logic.pack.Pack;
+import org.nsc_generator.logic.pack.PrioElement;
+import org.nsc_generator.logic.pack.PrioList;
+import org.nsc_generator.logic.pack.ProbElement;
+import org.nsc_generator.logic.pack.ProbList;
+import org.nsc_generator.logic.pack.Race;
+import org.nsc_generator.logic.pack.Subculture;
+import org.nsc_generator.logic.pack.Subrace;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "_type")
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = GenElement.class, name = "_type"),
+  @JsonSubTypes.Type(value = PrioElement.class, name = "_type"),
+  @JsonSubTypes.Type(value = ProbElement.class, name = "_type"),
+  @JsonSubTypes.Type(value = PrioList.class, name = "_type"),
+  @JsonSubTypes.Type(value = ProbList.class, name = "_type"),
+  @JsonSubTypes.Type(value = Culture.class, name = "_type"),
+  @JsonSubTypes.Type(value = Subculture.class, name = "_type"),
+  @JsonSubTypes.Type(value = Race.class, name = "_type"),
+  @JsonSubTypes.Type(value = Subrace.class, name = "_type"),
+  @JsonSubTypes.Type(value = Pack.class, name = "_type"),
+  @JsonSubTypes.Type(value = NPC.class, name = "_type"),
+  @JsonSubTypes.Type(value = Session.class, name = "_type")
+})
+@JsonPropertyOrder({
+	"id", "name"
+})
 public abstract class IDElement {
+	@JsonProperty("id")
 	private int id;
+	@JsonProperty("name")
 	private String name;
 	
 	/**	Dh	24.02.2021
@@ -72,7 +106,7 @@ public abstract class IDElement {
 	 * @throws Exception
 	 */
 	public void setId(int pID) throws Exception{
-		if (pID >= 0) id = pID;
+		if (pID >= -1) id = pID;
 		else throw new Exception("02; sId,IDEle:"+id+","+name);
 	}
 	/**	Dh	24.02.2021
@@ -93,7 +127,7 @@ public abstract class IDElement {
 	 * @param pArrayList
 	 * @return
 	 */
-	protected <T> List convertArrayListToList(ArrayList<T> pArrayList) {
+	/*protected <T> List convertArrayListToList(ArrayList<T> pArrayList) {
 		List vRet = new List();
 		
 		if ((pArrayList != null) && (!pArrayList.isEmpty())) {
@@ -103,7 +137,7 @@ public abstract class IDElement {
 		}
 		
 		return vRet;
-	}
+	}*/
 	
 	/**	Dh	08.08.2023
 	 * 
@@ -111,7 +145,7 @@ public abstract class IDElement {
 	 * @param pList
 	 * @return
 	 */
-	protected <T> ArrayList<T> convertListToArrayList(List pList){
+	/*protected <T> ArrayList<T> convertListToArrayList(List pList){
 		ArrayList<T> vRet = new ArrayList<T>();
 		
 		if ((pList != null) && (!pList.isEmpty())) {
@@ -125,7 +159,7 @@ public abstract class IDElement {
 		}
 		
 		return vRet;
-	}
+	}*/
 	
 	//----------------------------------------------------------------------------------------------------
 	

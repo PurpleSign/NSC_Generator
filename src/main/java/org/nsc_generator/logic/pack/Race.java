@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	12.03.2021
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  IDElement
@@ -17,17 +17,38 @@
 
 package org.nsc_generator.logic.pack;
 
-import org.nsc_generator.logic.IDElement;
-import org.nsc_generator.logic.NPC;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import org.nsc_generator.logic.IDElement;
+import org.nsc_generator.logic.NPC;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 @XmlRootElement(name = "race")
 @XmlSeeAlso({Subrace.class, GenElement.class, ProbList.class, ProbElement.class})
-
+@JsonRootName(value = "race")
+@JsonPropertyOrder({
+	"id", "name", "age", "height", "weight", "sexList", "haircolorList", "eyecolorList", "complexionList"
+})
 public class Race extends IDElement {
-	protected GenElement age, height, weight;
-	protected ProbList sexList, haircolorList, eyecolorList, complexionList;
+	@JsonProperty("age")
+	protected GenElement age;
+	@JsonProperty("height")
+	protected GenElement height;
+	@JsonProperty("weight")
+	protected GenElement weight;
+	
+	@JsonProperty("sexList")
+	protected ProbList sexList;
+	@JsonProperty("haircolorList")
+	protected ProbList haircolorList;
+	@JsonProperty("eyecolorList")
+	protected ProbList eyecolorList;
+	@JsonProperty("complexionList")
+	protected ProbList complexionList;
 	
 	/**	Dh	12.03.2021
 	 * 

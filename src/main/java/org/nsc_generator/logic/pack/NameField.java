@@ -17,18 +17,14 @@
 
 package org.nsc_generator.logic.pack;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-
 import org.nsc_generator.logic.IDElement;
-import pDataStructures.List;
 
-@XmlRootElement(name = "nameField")
+//@XmlRootElement(name = "nameField")
 //@XmlType(propOrder = {"cultureList", "raceList", "quirkList"})
-@XmlSeeAlso({ProbList.class, ProbElement.class, PrioList.class, PrioElement.class})
+//@XmlSeeAlso({ProbList.class, ProbElement.class, PrioList.class, PrioElement.class})
 
 public class NameField extends IDElement {
-	private List nameListList, conditionList;
+	//private List nameListList, conditionList;
 	
 	
 	public NameField() {

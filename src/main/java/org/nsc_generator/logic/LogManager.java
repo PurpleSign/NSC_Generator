@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	07.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic
  * 	  LogManager
@@ -17,7 +17,7 @@
 package org.nsc_generator.logic;
 
 public abstract class LogManager {
-	private static double version = 0.2;
+	private static double version = 0.21;
 	private static MainManagerInterface mainManager;
 
 	/**	Dh	07.08.2023

@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.0		Dh	17.10.2021
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic
  * 	  IDElement
@@ -19,14 +19,66 @@ package org.nsc_generator.logic;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 @XmlRootElement(name = "non_player_character")
-//@XmlType(propOrder = {})
+@XmlType(propOrder = {})
+@JsonRootName(value = "non_player_character")
 
 public class NPC extends IDElement {
-	private int raceID, cultureID, sexID, soID, sexualityID, hairlenghtID, haircolorID, eyecolorID, complexionID, quirkID;
-	private int age, height, weight;
-	private String culture, race, sex, so, sexuality, hairlength, haircolor, eyecolor, complexion, quirk, note;
+	@JsonProperty("raceID")
+	private int raceID;
+	@JsonProperty("cultureID")
+	private int cultureID;
+	@JsonProperty("sexID")
+	private int sexID;
+	@JsonProperty("soID")
+	private int soID;
+	@JsonProperty("sexualityID")
+	private int sexualityID;
+	@JsonProperty("hairlengthID")
+	private int hairlenghtID;
+	@JsonProperty("haircolorID")
+	private int haircolorID;
+	@JsonProperty("eyecolorID")
+	private int eyecolorID;
+	@JsonProperty("complexionID")
+	private int complexionID;
+	@JsonProperty("quirkID")
+	private int quirkID;
+	
+	@JsonProperty("age")
+	private int age;
+	@JsonProperty("height")
+	private int height;
+	@JsonProperty("weight")
+	private int weight;
+	
+	@JsonProperty("culture")
+	private String culture;
+	@JsonProperty("race")
+	private String race;
+	@JsonProperty("sex")
+	private String sex;
+	@JsonProperty("so")
+	private String so;
+	@JsonProperty("sexuality")
+	private String sexuality;
+	@JsonProperty("hairlength")
+	private String hairlength;
+	@JsonProperty("haircolor")
+	private String haircolor;
+	@JsonProperty("eyecolor")
+	private String eyecolor;
+	@JsonProperty("complexion")
+	private String complexion;
+	@JsonProperty("quirk")
+	private String quirk;
+	@JsonProperty("note")
+	private String note;
 	
 	/**	Dh	17.10.2021
 	 * 

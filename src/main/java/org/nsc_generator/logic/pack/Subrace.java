@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	14.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  IDElement
@@ -24,10 +24,20 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.nsc_generator.logic.LogManager;
 
-@XmlRootElement(name = "subrace")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
+@XmlRootElement(name = "subrace")
+@JsonRootName(value = "subrace")
+@JsonPropertyOrder({
+	"id", "name", "parentID", "age", "height", "weight", "sexList", "haircolorList", "eyecolorList", "complexionList"
+})
 public class Subrace extends Race implements SubElement {
+	@JsonProperty("parentID")
 	private int parentID;
+	@JsonIgnore
 	private Race parentRace;
 
 	/**	Dh	11.03.2021

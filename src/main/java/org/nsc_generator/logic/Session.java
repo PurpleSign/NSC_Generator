@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	08.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic
  * 	  IDElement
@@ -18,6 +18,10 @@ package org.nsc_generator.logic;
 
 import org.nsc_generator.logic.pack.Pack;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -25,11 +29,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "session")
 @XmlSeeAlso({NPC.class})
-//@XmlType(propOrder = {"npcList", "currentNPCID"})
-
+@XmlType(propOrder = {"npcs", "currentNPCID"})
+@JsonRootName(value = "session")
+@JsonPropertyOrder({
+	"id", "name", "npcs", "currentNPCID"
+})
 public class Session extends IDElement {
 	private Pack usedPack;
 	private NPC currentNPC;
@@ -82,6 +90,7 @@ public class Session extends IDElement {
 	 * @return
 	 */
 	@XmlAttribute
+	@JsonProperty("packID")
 	public int getPackID() {
 		int vRet;
 		
@@ -95,6 +104,7 @@ public class Session extends IDElement {
 	 * @return
 	 */
 	@XmlElement(name = "currentNPCID")
+	@JsonProperty("currentNPCID")
 	public int getCurrentNPCID() {
 		int vRet;
 		

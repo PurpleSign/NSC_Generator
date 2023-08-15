@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	14.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  * 	  IDElement
@@ -25,11 +25,22 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.nsc_generator.logic.LogManager;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 @XmlRootElement(name = "subculture")
 @XmlSeeAlso({ProbList.class, ProbElement.class})
 
+@JsonRootName(value = "subculture")
+@JsonPropertyOrder({
+	"id", "name", "parentID", "originCultureList", "raceList", "sexualityList", "hairlengthList", "soList"
+})
 public class Subculture extends Culture implements SubElement{
+	@JsonProperty("parentID")
 	private int parentID;
+	@JsonIgnore
 	private Culture parentCulture;
 	
 	/**	Dh	11.03.2021

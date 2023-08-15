@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	14.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic
  * 	  DatabaseController
@@ -20,17 +20,19 @@
 package org.nsc_generator.logic;
 
 import java.io.File;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 import org.nsc_generator.logic.pack.Pack;
 import org.nsc_generator.logic.pack.Subculture;
 import org.nsc_generator.logic.pack.Subrace;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public abstract class DatabaseConnector {
 	private static String gamePath = "/NSC_Generator";
@@ -328,13 +330,15 @@ public abstract class DatabaseConnector {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	10.03.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pPack
 	 * @throws Exception
 	 */
 	public static void savePack(Pack pPack) throws Exception {
-		File vFile;
+		saveObjectAsXML(systemFile+packPath+pPack.getName()+"_"+pPack.getId()+".pac", pPack);
+		
+		/*File vFile;
 		JAXBContext jc;
 		Marshaller marschaller;
 		
@@ -355,15 +359,17 @@ public abstract class DatabaseConnector {
 				
 			    marschaller.marshal(pPack, vFile);
 			} else throw new Exception("02; sPa,DaCon");
-		} else throw new Exception("04; sPa,DaCon");
+		} else throw new Exception("04; sPa,DaCon");*/
 	}
-	/**	Dh	11.03.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pSession
 	 * @throws Exception
 	 */
 	public static void saveSession(Session pSession) throws Exception {
-		File vFile;
+		saveObjectAsXML(systemFile+sessionPath+pSession.getName()+"_"+pSession.getId()+".ses", pSession);
+		
+		/*File vFile;
 		JAXBContext jc;
 		Marshaller marschaller;
 		
@@ -384,12 +390,12 @@ public abstract class DatabaseConnector {
 				
 			    marschaller.marshal(pSession, vFile);
 			} else throw new Exception("02; sSe,DaCon");
-		} else throw new Exception("04; sSe,DaCon");
+		} else throw new Exception("04; sSe,DaCon");*/
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	09.03.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pName
 	 * @return
@@ -397,16 +403,17 @@ public abstract class DatabaseConnector {
 	 */
 	public static Pack loadPack(int pID) throws Exception{
 		Pack vRet;
-		File vFile;
-		
-		vFile = new File(systemFile+packPath+getPack(pID).getName()+"_"+pID+".pac");
-		
-		if (vFile.exists()) vRet = JAXB.unmarshal(vFile, Pack.class);
-		else throw new Exception("21; lPa,DaCon");
+//		File vFile;
+//		
+//		vFile = new File(systemFile+packPath+getPack(pID).getName()+"_"+pID+".pac");
+//		
+//		if (vFile.exists()) vRet = JAXB.unmarshal(vFile, Pack.class);
+//		else throw new Exception("21; lPa,DaCon");
+		vRet = loadObjectFromXML(systemFile+packPath+getPack(pID).getName()+"_"+pID+".pac", Pack.class);
 		
 		return vRet;
 	}
-	/**	Dh	10.03.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pName
 	 * @return
@@ -414,17 +421,18 @@ public abstract class DatabaseConnector {
 	 */
 	public static Session loadSession(int pID) throws Exception{
 		Session vRet;
-		File vFile;
-		
-		vFile = new File(systemFile+sessionPath+getSession(pID)+"_"+pID+".ses");
-		
-		if (vFile.exists()) vRet = JAXB.unmarshal(vFile, Session.class);
-		else throw new Exception("21; lSe,DaCon");
+//		File vFile;
+//		
+//		vFile = new File(systemFile+sessionPath+getSession(pID)+"_"+pID+".ses");
+//		
+//		if (vFile.exists()) vRet = JAXB.unmarshal(vFile, Session.class);
+//		else throw new Exception("21; lSe,DaCon");
+		vRet = loadObjectFromXML(systemFile+sessionPath+getSession(pID)+"_"+pID+".ses", Session.class);
 		
 		return vRet;
 	}
 	
-	/**	Dh	14.08.2023
+	/**	Dh	15.08.2023
 	 * 
 	 * @throws Exception
 	 */
@@ -442,7 +450,8 @@ public abstract class DatabaseConnector {
 			for (int i=0; i<vPackFiles.length; i++) {
 				vCurFile = ((Path)vPackFiles[i]).toFile();
 				
-				vPack = JAXB.unmarshal(vCurFile, Pack.class);
+				//vPack = JAXB.unmarshal(vCurFile, Pack.class);
+				vPack = loadObjectFromXML(vCurFile.getAbsolutePath(), Pack.class);
 				packs.add(vPack);
 			}
 			
@@ -452,7 +461,7 @@ public abstract class DatabaseConnector {
 			setParentsForSubElementsInPackList(packs);
 		}
 	}
-	/**	Dh	14.08.2023
+	/**	Dh	15.08.2023
 	 * 
 	 * @throws Exception
 	 */
@@ -470,7 +479,8 @@ public abstract class DatabaseConnector {
 			for (int i=0; i<vSessionFiles.length; i++) {
 				vCurFile = ((Path)vSessionFiles[i]).toFile();
 				
-				vSession = JAXB.unmarshal(vCurFile, Session.class);
+//				vSession = JAXB.unmarshal(vCurFile, Session.class);
+				vSession = loadObjectFromXML(vCurFile.getAbsolutePath(), Session.class);
 				sessions.add(vSession);
 			}
 			
@@ -531,7 +541,7 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	14.08.2023
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pStage
 	 * @return
@@ -541,7 +551,8 @@ public abstract class DatabaseConnector {
 		Pack vRet;
 		
 		if (pFile.exists()) {
-			vRet = JAXB.unmarshal(pFile, Pack.class);
+			//vRet = JAXB.unmarshal(pFile, Pack.class);
+			vRet = loadObjectFromXML(pFile.getAbsolutePath(), Pack.class);
 			
 			vRet.setId(genNewIDFromIDElementList(packs));
 			addPack(vRet);
@@ -550,7 +561,7 @@ public abstract class DatabaseConnector {
 		
 		return vRet;
 	}
-	/**	Dh	14.08.2023
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pStage
 	 * @return
@@ -560,7 +571,8 @@ public abstract class DatabaseConnector {
 		Session vRet;
 		
 		if (pFile.exists()) {
-			vRet = JAXB.unmarshal(pFile, Session.class);
+			//vRet = JAXB.unmarshal(pFile, Session.class);
+			vRet = loadObjectFromXML(pFile.getAbsolutePath(), Session.class);
 			
 			vRet.setId(genNewIDFromIDElementList(sessions));
 			addSession(vRet);
@@ -569,7 +581,7 @@ public abstract class DatabaseConnector {
 		
 		return vRet;
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pFile
 	 * @return
@@ -578,7 +590,7 @@ public abstract class DatabaseConnector {
 	public static NPC importNPC(File pFile) throws Exception{
 		NPC vRet;
 		
-		if (pFile.exists()) vRet = JAXB.unmarshal(pFile, NPC.class);
+		if (pFile.exists()) vRet = loadObjectFromXML(pFile.getAbsolutePath(), NPC.class);//vRet = JAXB.unmarshal(pFile, NPC.class);
 		else throw new Exception("21; iNPC,DaCon");
 		
 		return vRet;
@@ -586,14 +598,22 @@ public abstract class DatabaseConnector {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	19.04.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pPackID
 	 * @param pSaveFile
 	 * @throws Exception
 	 */
 	public static void exportPack(int pPackID, File pSaveFile) throws Exception {
-		JAXBContext jc;
+		Pack vPack = getPack(pPackID);
+		
+		if ((vPack != null) && (pSaveFile != null)) {
+			if (!vPack.getName().equals("")) {	
+				saveObjectAsXML(pSaveFile.getAbsolutePath(), vPack);
+			}else throw new Exception("02; ePa,DaCon");
+		} else throw new Exception("04; ePa,DaCon");
+		
+		/*JAXBContext jc;
 		Marshaller marschaller;
 		
 		Pack vPack = getPack(pPackID);
@@ -612,9 +632,9 @@ public abstract class DatabaseConnector {
 				
 			    marschaller.marshal(vPack, pSaveFile);
 			} else throw new Exception("02; ePa,DaCon");
-		} else throw new Exception("04; ePa,DaCon");
+		} else throw new Exception("04; ePa,DaCon");*/
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pPackID
 	 * @param pSaveFile
@@ -622,6 +642,21 @@ public abstract class DatabaseConnector {
 	 */
 	public static void exportSession(int pSessionID, File pSaveFile) throws Exception {
 		int vCurPackID;
+		
+		Session vSession = getSession(pSessionID);
+		
+		if ((vSession != null) && (pSaveFile != null)) {
+			if (!vSession.getName().equals("")) {
+				vCurPackID = vSession.getPackID();
+				vSession.setPackID(-1);
+				
+				saveObjectAsXML(pSaveFile.getAbsolutePath(), vSession);
+				
+				vSession.setPackID(vCurPackID);
+			} else throw new Exception("02; eSe,DaCon");
+		}else throw new Exception("04; eSe,DaCon");
+		
+		/*int vCurPackID;
 		JAXBContext jc;
 		Marshaller marschaller;
 		
@@ -644,16 +679,18 @@ public abstract class DatabaseConnector {
 			    marschaller.marshal(vSession, pSaveFile);
 			    vSession.setPackID(vCurPackID);
 			} else throw new Exception("02; eSe,DaCon");
-		} else throw new Exception("04; eSe,DaCon");
+		} else throw new Exception("04; eSe,DaCon");*/
 	}
-	/**	Dh	19.04.2021
+	/**	Dh	15.08.2023
 	 * 
 	 * @param pNPC
 	 * @param pSaveFile
 	 * @throws Exception
 	 */
 	public static void exportNPC(NPC pNPC, File pSaveFile) throws Exception {
-		JAXBContext jc;
+		saveObjectAsXML(pSaveFile.getAbsolutePath(), pNPC);
+		
+		/*JAXBContext jc;
 		Marshaller marschaller;
 		
 		if ((pNPC != null) && (pSaveFile != null)) {
@@ -670,10 +707,63 @@ public abstract class DatabaseConnector {
 				
 				marschaller.marshal(pNPC, pSaveFile);
 			} else throw new Exception("02; eNPC,DaCon");
-		} else throw new Exception("04; eNPC,DaCon");
+		} else throw new Exception("04; eNPC,DaCon");*/
 	}
 	
 //--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	15.08.2023
+	 * 
+	 * @param <T>
+	 * @param pFilePath
+	 * @param pClass
+	 * @return
+	 * @throws Exception
+	 */
+	private static <T> T loadObjectFromXML(String pFilePath, Class<T> pClass) throws Exception {
+		T vRet = null;
+		String vXMLText;
+		File vFile;
+		ObjectMapper vObjectMapper;
+		
+		vFile = new File(pFilePath);
+				
+		if (vFile.exists()) {
+			vXMLText = Files.readString(vFile.toPath(), Charset.forName("UTF-8"));  // ISO-8859-1 UTF-8
+			vObjectMapper = new XmlMapper();
+			
+			vRet = vObjectMapper.readValue(vXMLText, pClass);
+		} else throw new Exception("21; lOfXML,DaCon");
+		
+		return vRet;
+	}
+	/**	Dh	15.08.2023
+	 * 
+	 * @param pFilePath
+	 * @param pObject
+	 * @throws Exception
+	 */
+	private static void saveObjectAsXML(String pFilePath, Object pObject) throws Exception {
+		String vXMLText;
+		File vFile;
+		ObjectMapper vObjectMapper;
+		
+		if (pObject != null) {
+			if (!pFilePath.equals("")) {
+				vFile = new File(pFilePath);
+				
+				vObjectMapper = new XmlMapper();
+				
+				vXMLText = vObjectMapper.writeValueAsString(pObject);
+				
+				if (!vFile.exists()) vFile.createNewFile();
+				
+				Files.write(vFile.toPath(), vXMLText.getBytes("UTF-8"));
+			} else throw new Exception("02; sOaXML,DaM");
+		} else throw new Exception("04; sOaXML,DaM");
+	}
+	
+	//----------------------------------------------------------------------------------------------------
 	
 	/**	Dh	13.08.2023
 	 * 

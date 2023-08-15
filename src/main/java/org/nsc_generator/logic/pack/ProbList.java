@@ -1,4 +1,4 @@
-/**	NSC_Generator v0.2		Dh	08.08.2023
+/**	NSC_Generator v0.21		Dh	15.08.2023
  * 	
  * 	logic.pack
  *    IDElement
@@ -20,6 +20,9 @@ package org.nsc_generator.logic.pack;
 import org.nsc_generator.logic.IDElement;
 import org.nsc_generator.logic.LogManager;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -28,8 +31,9 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 
 @XmlRootElement(name = "problist")
 @XmlSeeAlso({ProbElement.class})
-
+@JsonRootName(value = "problist")
 public class ProbList extends IDElement {
+	@JsonProperty("probElements")
 	private ArrayList<ProbElement> probElements;
 	
 	/**	Dh	08.08.2023
